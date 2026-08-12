@@ -1,0 +1,28 @@
+# Docker Compose skeleton — service definitions only, no build logic yet.
+version: "3.9"
+
+services:
+  frontend:
+    build: ../../apps/frontend
+    ports:
+      - "5173:5173"
+
+  backend:
+    build: ../../apps/backend
+    ports:
+      - "8000:8000"
+
+  chatbot-service:
+    build: ../../apps/chatbot-service
+    ports:
+      - "8001:8001"
+
+  voice-agent-service:
+    build: ../../apps/voice-agent-service
+    ports:
+      - "8002:8002"
+
+  automation-service:
+    build: ../../apps/automation-service
+    ports:
+      - "8003:8003"

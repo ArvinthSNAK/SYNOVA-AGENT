@@ -1,0 +1,29 @@
+# Environment
+.env
+.env.local
+*.env
+
+# Node / Bun
+node_modules/
+bun.lockb
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Playwright
+apps/automation-service/app/artifacts/screenshots/*
+apps/automation-service/app/artifacts/logs/*
+!apps/automation-service/app/artifacts/screenshots/.gitkeep
+!apps/automation-service/app/artifacts/logs/.gitkeep
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
