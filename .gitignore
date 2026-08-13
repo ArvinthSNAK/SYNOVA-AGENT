@@ -27,3 +27,8 @@ apps/automation-service/app/artifacts/logs/*
 .vscode/
 .idea/
 .DS_Store
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
