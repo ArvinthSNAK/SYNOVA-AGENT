@@ -32,3 +32,5 @@ apps/automation-service/app/artifacts/logs/*
 *.db
 *.sqlite
 *.sqlite3
+
+uploads/

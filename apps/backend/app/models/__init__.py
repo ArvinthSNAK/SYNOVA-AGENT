@@ -7,6 +7,7 @@ from .pricing_rule_model import PricingRule
 from .pricing_factor_model import PricingFactor
 from .quote_model import Quote
 from .quote_item_model import QuoteItem
+from .document_model import Document
 from .extracted_policy_data_model import ExtractedPolicyData
 from .policy_version_model import PolicyVersion
 from .notification_model import Notification
@@ -21,6 +22,7 @@ __all__ = [
 	"PricingFactor",
 	"Quote",
 	"QuoteItem",
+	"Document",
 	"ExtractedPolicyData",
 	"PolicyVersion",
 	"Notification",
