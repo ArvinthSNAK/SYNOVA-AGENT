@@ -1,0 +1,115 @@
+/* Dashboard.css */
+
+/* Layout */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+/* Main area shifts right of sidebar on desktop */
+.dashboard-main {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollable content area */
+.dashboard-content {
+  flex: 1;
+  padding: var(--space-3) var(--space-4) var(--space-8);
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Top primary actions bar placed right below welcome greeting */
+.dashboard-top-actions {
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+/* 2-column grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.dashboard-col-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.dashboard-col-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-2));
+}
+
+/* Section wrapper */
+.dashboard-section {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+/* Responsive — tablet */
+@media (max-width: 1023px) {
+  .dashboard-main {
+    margin-left: 0;
+  }
+
+  .dashboard-content {
+    padding: var(--space-3);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-col-side {
+    position: static;
+  }
+}
+
+/* Responsive — mobile */
+@media (max-width: 767px) {
+  .dashboard-content {
+    padding: var(--space-2);
+    padding-bottom: 120px;
+  }
+
+  .dashboard-top-actions {
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-2);
+  }
+
+  .dashboard-grid {
+    gap: var(--space-2);
+  }
+
+  .dashboard-col-main {
+    gap: var(--space-2);
+  }
+
+  .dashboard-col-side {
+    gap: var(--space-2);
+  }
+
+  .dashboard-section {
+    padding: var(--space-2);
+  }
+}
