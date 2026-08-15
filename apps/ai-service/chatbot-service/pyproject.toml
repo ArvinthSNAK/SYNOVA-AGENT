@@ -1,5 +1,0 @@
-[project]
-name = "chatbot-service"
-version = "0.0.1"
-description = "Structure-only scaffold — no implementation yet."
-requires-python = ">=3.11"
