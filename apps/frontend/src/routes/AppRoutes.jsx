@@ -65,10 +65,12 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      
+
+      {/* Journey 2 — New Auto Insurance */}
       <Route path="/new-insurance" element={<NewInsurance />} />
       <Route path="/new-insurance/quotes" element={<QuoteResults />} />
-      
+
+      {/* Journey 3 — Renewal */}
       <Route path="/renewal" element={<RenewalPage />} />
       <Route path="/renewal/quotes" element={<RenewalPage />} />
 
