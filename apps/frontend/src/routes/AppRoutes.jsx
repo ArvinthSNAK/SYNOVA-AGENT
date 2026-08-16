@@ -1,6 +1,10 @@
 import React from 'react';
 import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import Dashboard from '../features/dashboard/Dashboard.jsx';
+import LandingPage from '../pages/LandingPage.jsx';
+import SignInPage from '../pages/SignInPage.jsx';
+import SignUpPage from '../pages/SignUpPage.jsx';
+import AdminDashboardPage from '../pages/admin/AdminDashboardPage.jsx';
 
 function PlaceholderPage({ title, description, backTo = '/dashboard' }) {
   return (
@@ -59,7 +63,11 @@ function PlaceholderPage({ title, description, backTo = '/dashboard' }) {
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/landing" element={<LandingPage />} />
+      <Route path="/signin" element={<SignInPage />} />
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/admin" element={<AdminDashboardPage />} />
       <Route path="/dashboard" element={<Dashboard />} />
       
       <Route
@@ -132,7 +140,8 @@ export default function AppRoutes() {
         }
       />
 
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
+
