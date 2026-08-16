@@ -1,0 +1,68 @@
+/* WelcomeSection.css */
+.welcome-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3) 0 var(--space-2);
+  animation: fadeInUp 0.35s ease-out both;
+}
+
+.welcome-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.welcome-greeting {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+}
+
+.welcome-message {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+}
+
+.welcome-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.welcome-status--active {
+  background: var(--color-success-tint);
+  color: var(--color-success);
+  border: 1px solid rgba(47, 163, 107, 0.2);
+}
+
+.welcome-status--inactive {
+  background: var(--color-error-tint);
+  color: var(--color-error);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.welcome-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .welcome-greeting {
+    font-size: var(--text-2xl);
+  }
+
+  .welcome-message {
+    font-size: var(--text-sm);
+  }
+}
