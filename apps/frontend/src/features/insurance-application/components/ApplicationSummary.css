@@ -1,0 +1,263 @@
+/* ApplicationSummary.css */
+
+.appsumm {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Header */
+.appsumm-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+}
+
+.appsumm-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.appsumm-type-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.appsumm-status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-warning);
+  background: var(--color-warning-tint);
+  border: 1px solid rgba(224, 163, 62, 0.2);
+  border-radius: var(--radius-full);
+  padding: 2px 8px;
+}
+
+.appsumm-id {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 0.04em;
+}
+
+/* Cards */
+.appsumm-card {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.appsumm-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: background var(--transition-fast);
+}
+
+.appsumm-card-header:hover {
+  background: var(--color-surface-alt);
+}
+
+.appsumm-card-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.appsumm-card-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.appsumm-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.appsumm-card-body {
+  padding: 0 18px 14px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+/* Field rows */
+.appsumm-field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.appsumm-field-row:last-child {
+  border-bottom: none;
+}
+
+.appsumm-field-label {
+  font-size: 12px;
+  color: var(--color-text-subtle);
+  flex-shrink: 0;
+}
+
+.appsumm-field-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.appsumm-field-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  text-align: right;
+}
+
+.appsumm-field-value--empty {
+  color: var(--color-text-subtle);
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Field status */
+.appsumm-field-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.appsumm-field-status--complete {
+  color: var(--color-success);
+}
+
+.appsumm-field-status--required {
+  color: var(--color-text-subtle);
+}
+
+/* Coverage */
+.appsumm-coverage-type {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  padding: 4px 0 8px;
+}
+
+.appsumm-check {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+.appsumm-addons {
+  border-top: 1px solid var(--color-border);
+  padding-top: 8px;
+}
+
+.appsumm-addons-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.appsumm-addon-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  padding: 3px 0;
+}
+
+.appsumm-empty-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-subtle);
+  padding: 4px 0;
+}
+
+/* Premium */
+.appsumm-premium {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-primary-tint);
+}
+
+.appsumm-premium-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.appsumm-premium-note {
+  color: var(--color-text-subtle);
+}
+
+.appsumm-premium-amount {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.appsumm-premium-period {
+  font-size: 12px;
+  color: var(--color-text-subtle);
+  margin-bottom: 8px;
+}
+
+.appsumm-premium-disclaimer {
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  line-height: 1.4;
+}
+
+/* Security notice */
+.appsumm-security {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 18px;
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  margin-top: auto;
+}
+
+.appsumm-security svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}

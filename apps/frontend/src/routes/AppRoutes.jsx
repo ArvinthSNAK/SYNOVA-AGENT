@@ -1,6 +1,10 @@
 import React from 'react';
 import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import Dashboard from '../features/dashboard/Dashboard.jsx';
+import NewInsurance from '../features/insurance-application/components/NewInsurance.jsx';
+import QuoteResults from '../features/insurance-application/components/QuoteResults.jsx';
+import RenewalPage from '../features/insurance-renewal/components/RenewalPage.jsx';
+import '../features/insurance-application/components/QuoteResults.css';
 
 function PlaceholderPage({ title, description, backTo = '/dashboard' }) {
   return (
@@ -62,25 +66,11 @@ export default function AppRoutes() {
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="/dashboard" element={<Dashboard />} />
       
-      <Route
-        path="/new-insurance"
-        element={
-          <PlaceholderPage
-            title="Start New Insurance Application"
-            description="Euler will guide you through comparing and selecting the best auto insurance policy for your vehicle."
-          />
-        }
-      />
+      <Route path="/new-insurance" element={<NewInsurance />} />
+      <Route path="/new-insurance/quotes" element={<QuoteResults />} />
       
-      <Route
-        path="/renewal"
-        element={
-          <PlaceholderPage
-            title="Policy Renewal"
-            description="Renew your ICICI Lombard Comprehensive Policy AUTO-123456 instantly with pre-filled vehicle details."
-          />
-        }
-      />
+      <Route path="/renewal" element={<RenewalPage />} />
+      <Route path="/renewal/quotes" element={<RenewalPage />} />
 
       <Route
         path="/policies"
