@@ -1,4 +1,5 @@
 /* SYNOVA — Global Design System */
+@import './theme.css';
 
 /* Design Tokens */
 :root {
