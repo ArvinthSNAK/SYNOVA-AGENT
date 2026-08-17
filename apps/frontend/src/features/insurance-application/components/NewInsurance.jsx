@@ -8,7 +8,6 @@ import useInsuranceApplication from '../hooks/useInsuranceApplication.js';
 import InsuranceStepper from './InsuranceStepper.jsx';
 import EulerWorkspace from './EulerWorkspace.jsx';
 import VehicleInformation from './VehicleInformation.jsx';
-import CoverageSelection from './CoverageSelection.jsx';
 import ApplicationReview from './ApplicationReview.jsx';
 import QuotePreparation from './QuotePreparation.jsx';
 import ResumeDraft from './ResumeDraft.jsx';
@@ -17,7 +16,6 @@ import './EulerWorkspace.css';
 import './EulerInput.css';
 import './VehicleInformation.css';
 import './VehicleDocumentUpload.css';
-import './CoverageSelection.css';
 import './ApplicationReview.css';
 import './QuotePreparation.css';
 import './NewInsurance.css';
@@ -28,7 +26,7 @@ export default function NewInsurance() {
   const app = useInsuranceApplication();
   const { state, draftAvailable, vehicleComplete, estimatedPremium } = app;
 
-  // ─── Step content for the right (action) panel ────────────────────────────
+  // ─── Step content for the action panel ────────────────────────────────────
   const renderActionPanel = () => {
     switch (state.currentStep) {
       case 1:
@@ -47,32 +45,18 @@ export default function NewInsurance() {
         );
       case 2:
         return (
-          <CoverageSelection
-            coverageType={state.coverage.type}
-            selectedAddons={state.coverage.addons}
-            onSelectCoverage={app.setCoverageType}
-            onToggleAddon={app.toggleAddon}
-            onContinue={app.nextStep}
-            onBack={app.prevStep}
-            vehicle={state.vehicle}
-          />
-        );
-      case 3:
-        return (
           <ApplicationReview
             vehicle={state.vehicle}
-            coverage={state.coverage}
             applicationId={state.applicationId}
             estimatedPremium={estimatedPremium}
             userConfirmed={state.userConfirmed}
             onConfirmChange={app.setUserConfirmed}
             onGetQuotes={() => { app.nextStep(); app.submitForQuotes(); }}
             onEditVehicle={() => app.goToStep(1)}
-            onEditCoverage={() => app.goToStep(2)}
             onBack={app.prevStep}
           />
         );
-      case 4:
+      case 3:
         return (
           <QuotePreparation
             quoteState={state.quote}
@@ -84,13 +68,12 @@ export default function NewInsurance() {
     }
   };
 
-  // ─── Euler panel visibility ───────────────────────────────────────────────
-  // Hide main Euler panel on steps 3 and 4 (review + quote)
-  const showEuler = state.currentStep <= 2;
+  // Euler panel is active during vehicle information collection
+  const showEuler = state.currentStep === 1;
 
   return (
     <div className="ins-layout">
-      {/* Sidebar (reused from Dashboard) */}
+      {/* Sidebar */}
       <DashboardSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main content */}
@@ -135,7 +118,7 @@ export default function NewInsurance() {
           <div className="ins-page-header-inner">
             <h1 className="ins-page-title">Get your auto insurance</h1>
             <p className="ins-page-sub">
-              Tell Euler about your vehicle and coverage needs. We'll prepare your application for you.
+              Provide your vehicle details manually or upload your RC document. Euler will prepare your application.
             </p>
           </div>
         </div>
@@ -147,7 +130,7 @@ export default function NewInsurance() {
           </div>
         )}
 
-        {/* Workspace: Form LEFT · Euler RIGHT (1/3) */}
+        {/* Workspace: Form LEFT · Euler RIGHT */}
         <div className={`ins-workspace${showEuler ? ' ins-workspace--split' : ' ins-workspace--single'}`}>
           {/* LEFT: Action / form panel */}
           <div className={`ins-action-col${!showEuler ? ' ins-action-col--full' : ''}`}>
@@ -156,15 +139,17 @@ export default function NewInsurance() {
             </div>
           </div>
 
-          {/* RIGHT: Euler assistant (1/3 width, steps 1–2 only) */}
+          {/* RIGHT: Euler assistant */}
           {showEuler && (
             <div className="ins-euler-col">
               <EulerWorkspace
                 conversation={state.eulerConversation}
                 inputMode={state.inputMode}
                 extractionStatus={state.extraction.status}
+                documentExtractionStatus={state.documentExtraction?.status}
                 onQuickAction={app.setInputMode}
                 onSendMessage={app.sendEulerMessage}
+                onDocumentUpload={app.handleDocumentUpload}
                 currentStep={state.currentStep}
               />
             </div>

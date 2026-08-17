@@ -9,12 +9,18 @@ import {
   HelpCircle,
   LogOut,
   X,
+  Wallet,
+  FilePlus,
+  RefreshCcw,
 } from 'lucide-react';
 import './DashboardSidebar.css';
 
 const navItems = [
   { to: '/dashboard', icon: Home, label: 'Overview', end: true },
+  { to: '/wallet', icon: Wallet, label: 'Wallet' },
   { to: '/policies', icon: ShieldCheck, label: 'Policies' },
+  { to: '/new-insurance', icon: FilePlus, label: 'New Insurance' },
+  { to: '/renewal', icon: RefreshCcw, label: 'Renewal' },
   { to: '/applications', icon: ClipboardList, label: 'Applications' },
   { to: '/documents', icon: FolderOpen, label: 'Documents' },
 ];

@@ -9,6 +9,9 @@ import {
   Copy,
   Check,
   Car,
+  CheckCircle2,
+  Clock,
+  CheckCheck,
 } from 'lucide-react';
 import {
   dashboardData,
@@ -21,13 +24,13 @@ import {
 } from '../data/dashboardData.js';
 import './InsuranceHero.css';
 
-const { policy, vehicle, user } = dashboardData;
+const { policy, vehicle } = dashboardData;
 
 const statusLabels = {
-  safe: 'Well covered',
+  safe: 'Active & Protected',
   normal: 'Active',
-  warning: 'Renew soon',
-  danger: 'Expiring soon',
+  warning: 'Renewal Due Soon',
+  danger: 'Expiring Urgently',
 };
 
 const statusColors = {
@@ -54,18 +57,41 @@ export default function InsuranceHero() {
 
   const barColor = statusColors[expiryLevel];
 
+  // Lifecycle Timeline Steps
+  const timelineSteps = [
+    { id: 'purchased', label: 'Policy Issued', date: '25 Sep 2025', state: 'done' },
+    { id: 'active', label: 'Coverage Active', date: 'KA-01-XX-0000', state: 'done' },
+    { id: 'renewal', label: 'Renewal Due', date: 'In 43 Days', state: 'current' },
+    { id: 'renewed', label: 'NCB 25% Ready', date: '25 Sep 2026', state: 'upcoming' },
+  ];
+
   return (
-    <section className="insurance-hero" aria-label="Active insurance policy">
-      {/* Policy Header */}
-      <div className="hero-header">
-        <div className="hero-header-left">
-          <div className="hero-insurer-badge">
-            <ShieldCheck size={15} aria-hidden="true" />
+    <section className="insurance-hero-container" aria-label="Active Auto Insurance">
+      {/* Top Banner / Card Head */}
+      <div className="hero-head-row">
+        <div className="hero-insurer-info">
+          <div className="hero-carrier-badge">
+            <ShieldCheck size={16} aria-hidden="true" />
             <span>{policy.insurer}</span>
           </div>
-          <h2 className="hero-policy-type">{policy.type}</h2>
+          <div>
+            <h2 className="hero-policy-title">{policy.type}</h2>
+            <div className="hero-policy-number-row">
+              <span className="hero-policy-number mono">{policy.id}</span>
+              <button
+                className="hero-copy-btn"
+                onClick={handleCopyPolicy}
+                aria-label="Copy policy number"
+                title="Copy policy number"
+              >
+                {copied ? <Check size={13} aria-hidden="true" /> : <Copy size={13} aria-hidden="true" />}
+                {copied && <span className="hero-copied-label">Copied</span>}
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="hero-status-badge">
+
+        <div className="hero-status-pill">
           <span
             className="hero-status-dot"
             style={{ background: statusColors[expiryLevel] }}
@@ -77,150 +103,118 @@ export default function InsuranceHero() {
         </div>
       </div>
 
-      {/* Vehicle Info */}
-      <div className="hero-vehicle">
-        <div className="hero-vehicle-visual" aria-hidden="true">
-          <div className="hero-vehicle-icon-wrap">
-            <Car size={36} strokeWidth={1.5} />
+      {/* Main Grid: Vehicle Details + Financial Highlights */}
+      <div className="hero-main-details-grid">
+        {/* Vehicle Showcase */}
+        <div className="hero-vehicle-card">
+          <div className="hero-vehicle-avatar">
+            <Car size={32} strokeWidth={1.5} />
           </div>
-          <div className="hero-vehicle-glow" />
-        </div>
-        <div className="hero-vehicle-info">
-          <div className="hero-vehicle-name">
-            {vehicle.make} {vehicle.model}
-          </div>
-          <div className="hero-vehicle-reg">{vehicle.registration}</div>
           <div className="hero-vehicle-meta">
-            <span>{vehicle.fuel}</span>
-            <span className="hero-meta-dot" aria-hidden="true">·</span>
-            <span>{vehicle.year}</span>
-            <span className="hero-meta-dot" aria-hidden="true">·</span>
-            <span>{vehicle.seats} Seats</span>
+            <h3 className="hero-vehicle-title">{vehicle.make} {vehicle.model}</h3>
+            <span className="hero-vehicle-reg mono">{vehicle.registration}</span>
+            <div className="hero-vehicle-specs">
+              <span>{vehicle.variant}</span>
+              <span>·</span>
+              <span>{vehicle.fuel}</span>
+              <span>·</span>
+              <span>{vehicle.year}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Financial Highlights */}
+        <div className="hero-stats-quad">
+          <div className="hero-stat-cell">
+            <span className="hero-stat-label">Annual Premium</span>
+            <span className="hero-stat-val hero-stat-val--premium mono">{formatINR(policy.premium)}</span>
+          </div>
+
+          <div className="hero-stat-cell">
+            <span className="hero-stat-label">Vehicle IDV</span>
+            <span className="hero-stat-val mono">{formatINRShort(policy.idv)}</span>
+          </div>
+
+          <div className="hero-stat-cell">
+            <span className="hero-stat-label">No Claim Bonus</span>
+            <span className="hero-stat-val">{policy.ncb}%</span>
+          </div>
+
+          <div className="hero-stat-cell">
+            <span className="hero-stat-label">Deductible</span>
+            <span className="hero-stat-val mono">{formatINR(policy.deductible)}</span>
           </div>
         </div>
       </div>
 
-      {/* Policy Grid */}
-      <div className="hero-policy-grid">
-        <div className="hero-policy-field">
-          <div className="hero-field-label">Policy Number</div>
-          <div className="hero-field-value hero-field-mono">
-            {policy.id}
-            <button
-              className="hero-copy-btn"
-              onClick={handleCopyPolicy}
-              aria-label="Copy policy number"
-              title="Copy policy number"
-            >
-              {copied ? (
-                <Check size={13} aria-hidden="true" />
-              ) : (
-                <Copy size={13} aria-hidden="true" />
-              )}
-              {copied && <span className="hero-copied-label">Copied</span>}
-            </button>
-          </div>
+      {/* Policy Timeline */}
+      <div className="hero-timeline-section">
+        <div className="hero-timeline-head">
+          <span className="hero-timeline-label">Policy Lifecycle & Coverage Term</span>
+          <span className="hero-timeline-days" style={{ color: barColor }}>
+            <Calendar size={13} aria-hidden="true" />
+            {daysRemaining} Days Until Renewal
+          </span>
         </div>
 
-        <div className="hero-policy-field">
-          <div className="hero-field-label">Policy Period</div>
-          <div className="hero-field-value">
-            {formatDate(policy.startDate)} — {formatDate(policy.expiryDate)}
-          </div>
-        </div>
-
-        <div className="hero-policy-field">
-          <div className="hero-field-label">Annual Premium</div>
-          <div className="hero-field-value hero-field-highlight">
-            {formatINR(policy.premium)}
-          </div>
-        </div>
-
-        <div className="hero-policy-field">
-          <div className="hero-field-label">IDV</div>
-          <div className="hero-field-value">{formatINRShort(policy.idv)}</div>
-        </div>
-
-        <div className="hero-policy-field">
-          <div className="hero-field-label">NCB</div>
-          <div className="hero-field-value">{policy.ncb}%</div>
-        </div>
-
-        <div className="hero-policy-field">
-          <div className="hero-field-label">Deductible</div>
-          <div className="hero-field-value">{formatINR(policy.deductible)}</div>
-        </div>
-      </div>
-
-      {/* Policy Validity Bar */}
-      <div className="hero-validity">
-        <div className="hero-validity-header">
-          <div className="hero-validity-label">
-            <Calendar size={14} aria-hidden="true" />
-            <span>Policy validity</span>
-          </div>
-          <div
-            className="hero-validity-days"
-            style={{ color: barColor }}
-            aria-label={`${daysRemaining} days remaining`}
-          >
-            {daysRemaining} days remaining
-          </div>
-        </div>
-
+        {/* Visual Progress Bar */}
         <div
-          className="hero-validity-track"
+          className="hero-timeline-track"
           role="progressbar"
           aria-valuenow={progressPercent}
           aria-valuemin={0}
           aria-valuemax={100}
-          aria-label={`Policy ${progressPercent}% through its term`}
+          aria-label={`Policy term progress: ${progressPercent}%`}
         >
           <div
-            className="hero-validity-bar"
-            style={{
-              width: `${progressPercent}%`,
-              background: barColor,
-            }}
+            className="hero-timeline-fill"
+            style={{ width: `${progressPercent}%`, background: barColor }}
           />
         </div>
 
-        <div className="hero-validity-dates">
-          <span>{formatDate(policy.startDate)}</span>
-          <span>{formatDate(policy.expiryDate)}</span>
+        {/* Milestone Steps */}
+        <div className="hero-milestone-grid">
+          {timelineSteps.map((step) => (
+            <div
+              key={step.id}
+              className={`hero-milestone hero-milestone--${step.state}`}
+            >
+              <div className="hero-milestone-dot">
+                {step.state === 'done' && <CheckCheck size={11} />}
+                {step.state === 'current' && <Clock size={11} />}
+                {step.state === 'upcoming' && <span className="hero-milestone-inner-dot" />}
+              </div>
+              <span className="hero-milestone-title">{step.label}</span>
+              <span className="hero-milestone-sub">{step.date}</span>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Actions */}
-      <div className="hero-actions">
+      <div className="hero-cta-footer">
         <button
-          className="hero-btn hero-btn--primary"
-          onClick={() => navigate('/policies')}
-          aria-label="View full policy details"
-        >
-          <Eye size={16} aria-hidden="true" />
-          View Policy
-        </button>
-        <button
-          className="hero-btn hero-btn--accent"
+          className="hero-cta-btn hero-cta-btn--accent"
           onClick={() => navigate('/renewal')}
-          aria-label="Renew your insurance policy"
         >
-          <RefreshCcw size={16} aria-hidden="true" />
-          Renew Policy
+          <RefreshCcw size={15} aria-hidden="true" />
+          <span>Renew with ICICI Lombard</span>
         </button>
+
         <button
-          className="hero-btn hero-btn--ghost"
-          onClick={() => {
-            const link = document.createElement('a');
-            link.href = '#';
-            link.download = `${policy.id}-certificate.pdf`;
-            alert('Policy document download initiated.');
-          }}
-          aria-label="Download policy document"
+          className="hero-cta-btn hero-cta-btn--secondary"
+          onClick={() => navigate('/policies')}
         >
-          <Download size={16} aria-hidden="true" />
-          Download
+          <Eye size={15} aria-hidden="true" />
+          <span>View Policy Schedule</span>
+        </button>
+
+        <button
+          className="hero-cta-btn hero-cta-btn--ghost"
+          onClick={() => alert(`Downloading ${policy.id}-policy-certificate.pdf`)}
+        >
+          <Download size={15} aria-hidden="true" />
+          <span>Download PDF</span>
         </button>
       </div>
     </section>

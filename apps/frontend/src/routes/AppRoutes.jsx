@@ -15,6 +15,7 @@ import { usersByCompany, recentApplications, overviewStats } from '../features/a
 
 // User Dashboard & Journeys
 import Dashboard from '../features/dashboard/Dashboard.jsx';
+import WalletPage from '../features/wallet/components/WalletPage.jsx';
 import NewInsurance from '../features/insurance-application/components/NewInsurance.jsx';
 import QuoteResults from '../features/insurance-application/components/QuoteResults.jsx';
 import RenewalPage from '../features/insurance-renewal/components/RenewalPage.jsx';
@@ -263,6 +264,7 @@ export default function AppRoutes() {
 
       {/* ─── User Portal (Journey 1, 2, 3) ──────────────────── */}
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/wallet" element={<WalletPage />} />
 
       {/* Journey 2: New Auto Insurance */}
       <Route path="/new-insurance" element={<NewInsurance />} />

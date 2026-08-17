@@ -1,8 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Mic, MicOff } from 'lucide-react';
+import { Send, Mic, MicOff, Plus, FileText, ShieldCheck, Car, Image as ImageIcon, File } from 'lucide-react';
+import './EulerInput.css';
+
+const attachmentOptions = [
+  { id: 'vehicle-doc', icon: Car, label: 'Vehicle Document (RC)' },
+  { id: 'insurance-policy', icon: ShieldCheck, label: 'Insurance Policy' },
+  { id: 'rc', icon: FileText, label: 'Registration Certificate' },
+  { id: 'image', icon: ImageIcon, label: 'Upload Image (PNG, JPG)' },
+  { id: 'pdf', icon: File, label: 'Upload PDF' },
+];
 
 // ─── Voice state manager ──────────────────────────────────────────────────────
-// Structured so real Web Speech API / backend STT can be connected later.
 function useVoiceInput(onTranscript) {
   const [voiceState, setVoiceState] = useState('idle'); // idle | listening | processing | completed
   const recognitionRef = useRef(null);
@@ -85,9 +93,11 @@ function voiceStateLabel(state) {
 }
 
 // ─── EulerInput component ─────────────────────────────────────────────────────
-export default function EulerInput({ onSend, disabled, placeholder }) {
+export default function EulerInput({ onSend, onDocumentUpload, disabled, placeholder }) {
   const [value, setValue] = useState('');
+  const [showAttachMenu, setShowAttachMenu] = useState(false);
   const inputRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const { voiceState, toggle: toggleVoice } = useVoiceInput((transcript) => {
     setValue(transcript);
@@ -109,8 +119,24 @@ export default function EulerInput({ onSend, disabled, placeholder }) {
     }
   };
 
+  const handleAttachmentClick = () => {
+    setShowAttachMenu(false);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileSelected = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (onDocumentUpload) {
+      onDocumentUpload(file);
+    }
+    // reset file input
+    e.target.value = '';
+  };
+
   return (
     <div className="euler-input-wrap">
+      {/* Voice status banner */}
       {isListening && (
         <div className="euler-voice-banner" aria-live="polite">
           <div className="euler-voice-waveform" aria-hidden="true">
@@ -121,7 +147,51 @@ export default function EulerInput({ onSend, disabled, placeholder }) {
           <span>{voiceStateLabel(voiceState)}</span>
         </div>
       )}
+
+      {/* Attachment popover menu */}
+      {showAttachMenu && (
+        <div className="euler-attach-popup" role="menu" aria-label="Upload document options">
+          <div className="euler-attach-popup-header">Upload Document to Euler</div>
+          {attachmentOptions.map((opt) => {
+            const Icon = opt.icon;
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                className="euler-attach-popup-item"
+                role="menuitem"
+                onClick={handleAttachmentClick}
+              >
+                <Icon size={15} />
+                <span>{opt.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="sr-only"
+        accept=".pdf,.png,.jpg,.jpeg"
+        onChange={handleFileSelected}
+        aria-hidden="true"
+      />
+
       <div className="euler-input-row">
+        {/* + Attachment Button */}
+        <button
+          className={`euler-input-btn euler-input-btn--plus${showAttachMenu ? ' euler-input-btn--plus-active' : ''}`}
+          onClick={() => setShowAttachMenu(!showAttachMenu)}
+          aria-label="Upload document to Euler"
+          title="Upload document"
+          type="button"
+        >
+          <Plus size={18} />
+        </button>
+
         <input
           ref={inputRef}
           type="text"
@@ -133,6 +203,7 @@ export default function EulerInput({ onSend, disabled, placeholder }) {
           disabled={disabled || isListening}
           aria-label="Message to Euler"
         />
+
         <button
           className={`euler-input-btn euler-input-btn--voice${isListening ? ' euler-input-btn--active' : ''}`}
           onClick={toggleVoice}
@@ -142,6 +213,7 @@ export default function EulerInput({ onSend, disabled, placeholder }) {
         >
           {isListening ? <MicOff size={15} /> : <Mic size={15} />}
         </button>
+
         <button
           className="euler-input-btn euler-input-btn--send"
           onClick={handleSend}

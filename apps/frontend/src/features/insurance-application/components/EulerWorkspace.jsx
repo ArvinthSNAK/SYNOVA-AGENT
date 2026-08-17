@@ -1,10 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Sparkles, Check, AlertCircle, ChevronRight, FileText, Keyboard, Mic } from 'lucide-react';
+import React, { useRef, useEffect } from 'react';
+import { Sparkles, Check, FileText, Keyboard, Mic, RefreshCw } from 'lucide-react';
 import EulerInput from './EulerInput.jsx';
 
 // ─── Individual message renderer ──────────────────────────────────────────────
 function EulerMessage({ msg, onQuickAction }) {
   const renderText = (content) => {
+    if (!content) return null;
     return content.split('\n').map((line, i) => {
       if (!line.trim()) return <br key={i} />;
       // Bold: **text**
@@ -99,7 +100,7 @@ function EulerMessage({ msg, onQuickAction }) {
               ) : null)}
             </div>
             <p className="euler-extraction-note">
-              Review the details on the right and edit if needed.
+              Review the details on the left and edit if needed.
             </p>
           </div>
         </div>
@@ -128,8 +129,10 @@ export default function EulerWorkspace({
   conversation,
   inputMode,
   extractionStatus,
+  documentExtractionStatus,
   onQuickAction,
   onSendMessage,
+  onDocumentUpload,
   currentStep,
 }) {
   const endRef = useRef(null);
@@ -137,6 +140,8 @@ export default function EulerWorkspace({
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [conversation]);
+
+  const isDocProcessing = documentExtractionStatus === 'uploading' || documentExtractionStatus === 'processing';
 
   return (
     <div className="euler-workspace" aria-label="Euler Insurance Assistant">
@@ -183,6 +188,17 @@ export default function EulerWorkspace({
           </div>
         )}
 
+        {isDocProcessing && (
+          <div className="euler-processing-banner" aria-live="polite">
+            <RefreshCw size={14} className="euler-spin" />
+            <span>
+              {documentExtractionStatus === 'uploading'
+                ? 'Uploading document to Euler OCR pipeline...'
+                : 'Extracting vehicle details from document...'}
+            </span>
+          </div>
+        )}
+
         <div ref={endRef} />
       </div>
 
@@ -193,19 +209,20 @@ export default function EulerWorkspace({
           <span>
             {inputMode === 'manual'
               ? 'Fill in your vehicle details in the form on the left.'
-              : 'Upload your vehicle document on the left.'}
+              : 'Upload your vehicle document on the left or click + below.'}
           </span>
         </div>
       )}
 
-      {/* Chat input — always visible */}
+      {/* Chat input with + document upload button */}
       <EulerInput
         onSend={onSendMessage}
-        disabled={extractionStatus === 'processing'}
+        onDocumentUpload={onDocumentUpload}
+        disabled={extractionStatus === 'processing' || isDocProcessing}
         placeholder={
           inputMode === 'euler'
             ? 'Tell Euler about your vehicle...'
-            : 'Ask Euler a question...'
+            : 'Ask Euler or attach a document...'
         }
       />
     </div>

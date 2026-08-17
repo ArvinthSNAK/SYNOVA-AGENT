@@ -12,6 +12,7 @@ import ApplicationTimeline from './components/ApplicationTimeline.jsx';
 import ClaimsSummary from './components/ClaimsSummary.jsx';
 import DocumentsSummary from './components/DocumentsSummary.jsx';
 import RecentActivity from './components/RecentActivity.jsx';
+import UpcomingActions from './components/UpcomingActions.jsx';
 import EulerLauncher from './components/EulerLauncher.jsx';
 import './Dashboard.css';
 
@@ -69,6 +70,11 @@ export default function Dashboard() {
 
             {/* Sidebar column */}
             <div className="dashboard-col-side">
+              {/* Upcoming Actions */}
+              <section className="dashboard-section">
+                <UpcomingActions />
+              </section>
+
               {/* Renewal Section */}
               <RenewalSection />
 
