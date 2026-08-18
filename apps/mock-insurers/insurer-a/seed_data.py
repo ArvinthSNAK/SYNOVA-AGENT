@@ -73,6 +73,9 @@ try:
         addons = [
             AddOn(product_id=product.id, name="Zero Depreciation", premium_flat_amount=1500.0, active=True),
             AddOn(product_id=product.id, name="Engine Protection", premium_flat_amount=800.0, active=True),
+            AddOn(product_id=product.id, name="Roadside Assistance", premium_flat_amount=500.0, active=True),
+            AddOn(product_id=product.id, name="Return to Invoice", premium_flat_amount=650.0, active=True),
+            AddOn(product_id=product.id, name="Personal Accident Cover", premium_flat_amount=300.0, active=True),
         ]
         db.add_all(addons)
 

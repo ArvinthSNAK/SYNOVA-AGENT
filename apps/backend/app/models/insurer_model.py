@@ -8,6 +8,7 @@ class Insurer(Base, TimestampMixin):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
+    code = Column(String(50), unique=True, nullable=True)
     description = Column(Text)
     active = Column(Boolean, default=True, nullable=False)
 
