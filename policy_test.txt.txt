@@ -1,0 +1,5 @@
+Policy Number: B-POLICY-002
+Insurer Name: Mock Insurer B
+Policy Type: Family Health Protect
+Premium: 20000
+Status: active
