@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import Button from '../components/common/Button';
@@ -13,52 +14,71 @@ import {
   ShieldIcon,
   ArrowRightIcon,
 } from '../components/common/icons';
-import { Sparkles, MessageSquare, ArrowRight, ShieldCheck, Car, RefreshCcw } from 'lucide-react';
+import { Sparkles, MessageSquare, ArrowRight, ShieldCheck, Car, RefreshCcw, Zap, CheckCircle2 } from 'lucide-react';
 import './LandingPage.css';
 
 const INSURERS = ['ICICI Lombard', 'ACKO', 'Tata AIG', 'HDFC ERGO', 'Bajaj Allianz'];
 
 const STEPS = [
   {
-    title: 'Login & pick a journey',
-    desc: 'Choose New Insurance or Renewal for your vehicle in seconds.',
+    title: 'Pick a journey or ask Euler',
+    desc: 'Choose New Insurance or Renewal for your car in seconds with AI assistance.',
   },
   {
-    title: 'Fill with Euler or upload RC',
-    desc: 'New business: Euler auto-extracts your vehicle specs. Renewals: upload policy documents for instant recognition.',
+    title: 'Auto-fill specs with 1-click OCR',
+    desc: 'Euler auto-extracts registration, model, and fuel details directly from RC or policy PDF.',
   },
   {
-    title: 'Auto-fill across 5 carriers',
-    desc: 'Vehicle specifications flow straight into ICICI Lombard, ACKO, Tata AIG and more — zero repetitive typing.',
+    title: 'Simultaneous 5-carrier quoting',
+    desc: 'Vehicle specifications flow across ICICI, ACKO, Tata AIG, and HDFC ERGO simultaneously.',
   },
   {
-    title: 'Compare & bind policy',
-    desc: 'Quotes ranked by premium, IDV, NCB, and add-on coverage side by side in a unified InsurTech workspace.',
+    title: 'Compare, bind & save 20%+',
+    desc: 'Ranked quotes by premium, IDV, NCB, and add-on protection in a single glass workspace.',
   },
 ];
 
 const FEATURES = [
   {
     icon: <SparkleIcon />,
-    title: 'Euler AI Assistant',
-    desc: 'A real-time voice and conversational copilot that fills auto insurance applications step by step.',
+    title: 'Euler AI Voice & Chat Copilot',
+    desc: 'Real-time conversational intelligence guiding auto insurance discovery and policy renewals.',
   },
   {
     icon: <UploadIcon />,
-    title: 'Intelligent Document OCR',
-    desc: 'Upload vehicle RC, Aadhaar, or existing policy PDFs — details are extracted in under 2 seconds.',
+    title: 'Instant Document OCR',
+    desc: 'Upload vehicle RC, Aadhaar, or policy certificates — specifications extracted in under 2 seconds.',
   },
   {
     icon: <LayersIcon />,
     title: 'Multi-Carrier Quoting',
-    desc: 'One single request submitted across all connected insurance carriers simultaneously.',
+    desc: 'A single unified request dispatched across India\'s leading auto insurers simultaneously.',
   },
   {
     icon: <ShieldIcon />,
-    title: 'Insurance Wallet',
-    desc: 'Consolidate all personal and third-party motor insurance policies into one unified dashboard.',
+    title: 'Centralized Policy Vault',
+    desc: 'Store, track and manage all active, expired and third-party motor policies in one dashboard.',
   },
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export default function LandingPage() {
   const [eulerOpen, setEulerOpen] = useState(false);
@@ -76,12 +96,22 @@ export default function LandingPage() {
       <section className="hero">
         <HeroBackground />
         <div className="container hero-content">
-          <span className="hero-badge center-out">
-            <span className="dot" />
-            Next-Gen AI Auto Insurance Platform
-          </span>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <span className="hero-badge center-out">
+              <span className="dot" />
+              Next-Gen AI Auto Insurance Platform
+            </span>
+          </motion.div>
 
-          <h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             <TextReveal
               as="span"
               lines={[
@@ -91,74 +121,102 @@ export default function LandingPage() {
                 'The best quote, every time.',
               ]}
             />
-          </h1>
+          </motion.h1>
 
-          <p className="hero-subtext">
-            Meet Synova — your intelligent insurance assistant for comparing, managing, and renewing auto insurance across India’s leading carriers.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="hero-subtext"
+          >
+            Meet Synova — your intelligent AI insurance copilot for comparing, managing, and renewing auto insurance across India’s leading carriers.
+          </motion.p>
 
-          <div className="hero-cta">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            className="hero-cta"
+          >
             <Button as={Link} to="/signup" variant="accent">
-              Get Started <ArrowRightIcon width={18} height={18} />
+              Get Started Free <ArrowRightIcon width={18} height={18} />
             </Button>
-            <Button as={Link} to="/signin" variant="secondary">
-              Explore Insurance
+            <Button as={Link} to="/dashboard" variant="secondary">
+              Open Dashboard
             </Button>
-          </div>
+          </motion.div>
 
           {/* ─── Centered Glass Euler Assistant in Hero ───────────────────────── */}
           {!eulerDocked && (
-            <div className="hero-euler-centerpiece center-out" style={{ animationDelay: '0.2s' }}>
-              <div className="hero-euler-glass-card">
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="hero-euler-centerpiece center-out"
+            >
+              <div className="hero-euler-glass-card glow-border">
                 <div className="hero-euler-head">
-                  <div className="hero-euler-sparkle-avatar">
+                  <div className="hero-euler-sparkle-avatar glow-pulse">
                     <Sparkles size={20} />
                   </div>
                   <div>
-                    <span className="hero-euler-tag">✦ Talk to Euler</span>
-                    <h3 className="hero-euler-prompt">"How can I help with your car insurance?"</h3>
+                    <span className="hero-euler-tag">✦ Talk to Euler AI</span>
+                    <h3 className="hero-euler-prompt">"How can I help with your car insurance today?"</h3>
                   </div>
                 </div>
 
                 <div className="hero-euler-quick-options">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                     className="hero-euler-chip"
                     onClick={handleStartEuler}
                   >
                     <Car size={13} />
                     <span>Get New Auto Insurance</span>
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                     className="hero-euler-chip"
                     onClick={handleStartEuler}
                   >
                     <RefreshCcw size={13} />
                     <span>Renew Existing Policy</span>
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                     className="hero-euler-chip"
                     onClick={handleStartEuler}
                   >
                     <ShieldCheck size={13} />
                     <span>Explain My Coverage</span>
-                  </button>
+                  </motion.button>
                 </div>
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                   className="hero-euler-start-btn"
                   onClick={handleStartEuler}
                   aria-label="Start conversation with Euler"
                 >
                   <MessageSquare size={16} />
-                  <span>Start Chat with Euler</span>
+                  <span>Start Live Session with Euler</span>
                   <ArrowRight size={14} />
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* Hero Visual Mock Application */}
-          <div className="hero-visual center-out" style={{ animationDelay: '0.35s' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="hero-visual center-out"
+          >
             <div className="hero-visual-inner">
               <div className="browser-bar">
                 <span className="browser-dot" />
@@ -211,19 +269,26 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Insurers strip */}
       <section className="trusted-strip">
         <div className="container">
-          <div className="trusted-label">Live API & Quoting automation across</div>
+          <div className="trusted-label">Live Quoting & Policy Automation Across</div>
           <div className="trusted-logos">
-            {INSURERS.map((name) => (
-              <span key={name} className="trusted-logo">
+            {INSURERS.map((name, i) => (
+              <motion.span
+                key={name}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="trusted-logo"
+              >
                 {name}
-              </span>
+              </motion.span>
             ))}
           </div>
         </div>
@@ -233,19 +298,30 @@ export default function LandingPage() {
       <section className="section" id="how-it-works">
         <div className="container">
           <div className="section-head">
-            <span className="section-eyebrow">How it works</span>
+            <span className="section-eyebrow">How It Works</span>
             <h2>From vehicle details to bound policy in 4 steps</h2>
             <p>Built for effortless auto insurance discovery, backed by real-time carrier integrations.</p>
           </div>
-          <div className="steps-grid">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            className="steps-grid"
+          >
             {STEPS.map((step, i) => (
-              <div className="step-card hover-lift" key={step.title}>
+              <motion.div
+                variants={itemVariants}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="step-card glass-card-interactive"
+                key={step.title}
+              >
                 <div className="step-number">{i + 1}</div>
                 <h3>{step.title}</h3>
                 <p>{step.desc}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -257,22 +333,39 @@ export default function LandingPage() {
             <h2>Everything you need to manage auto insurance</h2>
             <p>No more switching between carrier portals or repeating vehicle data.</p>
           </div>
-          <div className="feature-grid">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            className="feature-grid"
+          >
             {FEATURES.map((f) => (
-              <div className="feature-card hover-lift" key={f.title}>
+              <motion.div
+                variants={itemVariants}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="feature-card glass-card-interactive"
+                key={f.title}
+              >
                 <div className="feature-icon">{f.icon}</div>
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Stats */}
       <section className="section" id="insurers">
         <div className="container">
-          <div className="stats-band">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="stats-band glass-panel"
+          >
             <div>
               <div className="stat-value">5+</div>
               <div className="stat-label">Insurance carriers</div>
@@ -289,14 +382,20 @@ export default function LandingPage() {
               <div className="stat-value">₹4,200</div>
               <div className="stat-label">Avg. annual savings</div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="section" id="pricing">
         <div className="container">
-          <div className="cta-banner">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="cta-banner glass-panel-dark glow-border"
+          >
             <div>
               <h2>Ready to compare your car insurance?</h2>
               <p>Create your free account and see quotes from India's top insurers in minutes.</p>
@@ -304,7 +403,7 @@ export default function LandingPage() {
             <Button as={Link} to="/signup" variant="accent">
               Get Started Free
             </Button>
-          </div>
+          </motion.div>
         </div>
       </section>
 

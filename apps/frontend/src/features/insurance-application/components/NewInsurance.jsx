@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Home, ChevronRight, Menu } from 'lucide-react';
-
-import DashboardSidebar from '../../dashboard/components/DashboardSidebar.jsx';
-
+import React from 'react';
+import UserNavbar from '../../../components/layout/UserNavbar.jsx';
 import useInsuranceApplication from '../hooks/useInsuranceApplication.js';
 import InsuranceStepper from './InsuranceStepper.jsx';
 import EulerWorkspace from './EulerWorkspace.jsx';
@@ -21,8 +17,6 @@ import './QuotePreparation.css';
 import './NewInsurance.css';
 
 export default function NewInsurance() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
   const app = useInsuranceApplication();
   const { state, draftAvailable, vehicleComplete, estimatedPremium } = app;
 
@@ -72,54 +66,27 @@ export default function NewInsurance() {
   const showEuler = state.currentStep === 1;
 
   return (
-    <div className="ins-layout">
-      {/* Sidebar */}
-      <DashboardSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <div className="ins-layout mesh-ambient-bg">
+      {/* Top Glass Navbar with Overview, Wallet, Policies, Applications */}
+      <UserNavbar />
 
       {/* Main content */}
       <div className="ins-main">
-        {/* Top navigation bar */}
-        <header className="ins-topbar" role="banner">
-          <div className="ins-topbar-left">
-            <button
-              className="ins-menu-btn"
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              aria-label="Toggle navigation menu"
-              type="button"
-            >
-              <Menu size={20} />
-            </button>
-
-            {/* Breadcrumb */}
-            <nav className="ins-breadcrumb" aria-label="Breadcrumb">
-              <Link to="/dashboard" className="ins-breadcrumb-item">
-                <Home size={13} aria-hidden="true" />
-                <span>Dashboard</span>
-              </Link>
-              <ChevronRight size={12} className="ins-breadcrumb-sep" aria-hidden="true" />
-              <span className="ins-breadcrumb-item ins-breadcrumb-item--current" aria-current="page">
-                New Insurance
-              </span>
-            </nav>
-          </div>
-
-          <div className="ins-topbar-center">
-            <InsuranceStepper
-              currentStep={state.currentStep}
-              onStepClick={app.goToStep}
-            />
-          </div>
-
-          <div className="ins-topbar-right" />
-        </header>
-
-        {/* Page header */}
+        {/* Unified Page Header containing Title, Subtitle, and Embedded Stepper */}
         <div className="ins-page-header">
           <div className="ins-page-header-inner">
-            <h1 className="ins-page-title">Get your auto insurance</h1>
-            <p className="ins-page-sub">
-              Provide your vehicle details manually or upload your RC document. Euler will prepare your application.
-            </p>
+            <div className="ins-page-header-text">
+              <h1 className="ins-page-title">Get your auto insurance</h1>
+              <p className="ins-page-sub">
+                Provide your vehicle details manually or upload your RC document. Euler will prepare your application.
+              </p>
+            </div>
+            <div className="ins-page-header-stepper">
+              <InsuranceStepper
+                currentStep={state.currentStep}
+                onStepClick={app.goToStep}
+              />
+            </div>
           </div>
         </div>
 

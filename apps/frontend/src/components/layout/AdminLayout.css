@@ -1,14 +1,45 @@
 .admin-shell {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  background: var(--color-surface-alt);
+  background: radial-gradient(circle at 12% 12%, rgba(228,242,242,0.65) 0%, transparent 40%),
+              radial-gradient(circle at 88% 88%, rgba(251,237,232,0.45) 0%, transparent 45%),
+              var(--color-surface-alt);
 }
 
 .admin-main {
   flex: 1;
-  min-width: 0;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 32px 80px;
+  box-sizing: border-box;
+}
+
+.admin-page-hero {
+  margin-bottom: 24px;
+}
+
+.admin-page-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.admin-page-subtitle {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
 }
 
 .admin-content {
-  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .admin-main { padding: 16px 16px 60px; }
+  .admin-page-title { font-size: 20px; }
 }

@@ -135,3 +135,73 @@ input, textarea, select {
   animation: shimmer 1.5s infinite;
   border-radius: var(--radius-sm);
 }
+
+/* ─── Glassmorphism & Modern UI Classes (ReactBits / 21st.dev inspired) ─── */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(226, 236, 236, 0.85);
+  box-shadow: 0 10px 30px -5px rgba(15, 110, 110, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+}
+
+.glass-panel-dark {
+  background: rgba(11, 79, 82, 0.92);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  box-shadow: 0 20px 40px -10px rgba(11, 79, 82, 0.35);
+}
+
+.glass-card-interactive {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 236, 236, 0.9);
+  border-radius: var(--radius-lg);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px -2px rgba(15, 110, 110, 0.04);
+}
+
+.glass-card-interactive:hover {
+  transform: translateY(-3px) scale(1.006);
+  border-color: rgba(15, 110, 110, 0.35);
+  box-shadow: 0 16px 36px -8px rgba(15, 110, 110, 0.12), 0 0 0 1px rgba(15, 110, 110, 0.12) inset;
+}
+
+.glow-border {
+  position: relative;
+}
+
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(15, 110, 110, 0.4), rgba(208, 106, 78, 0.3), rgba(15, 110, 110, 0.05));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.glow-pulse {
+  animation: glowPulse 3s infinite ease-in-out;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px -3px rgba(15, 110, 110, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 25px 2px rgba(15, 110, 110, 0.45);
+  }
+}
+
+.mesh-ambient-bg {
+  background: radial-gradient(circle at 10% 20%, rgba(228, 242, 242, 0.7) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(251, 237, 232, 0.6) 0%, transparent 45%),
+              var(--color-surface-alt);
+}
+

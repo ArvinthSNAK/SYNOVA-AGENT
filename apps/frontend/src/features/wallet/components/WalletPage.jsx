@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { Home, ChevronRight, Menu, Wallet as WalletIcon } from 'lucide-react';
-import DashboardSidebar from '../../dashboard/components/DashboardSidebar.jsx';
-import DashboardHeader from '../../dashboard/components/DashboardHeader.jsx';
+import { Wallet as WalletIcon } from 'lucide-react';
+import UserNavbar from '../../../components/layout/UserNavbar.jsx';
 import EulerLauncher from '../../dashboard/components/EulerLauncher.jsx';
 import WalletSummary from './WalletSummary.jsx';
 import WalletFilters from './WalletFilters.jsx';
@@ -13,7 +11,6 @@ import { fetchWalletOverview, fetchWalletPolicies, searchWalletPolicies } from '
 import './WalletPage.css';
 
 export default function WalletPage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [overview, setOverview] = useState(null);
   const [policies, setPolicies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,82 +68,79 @@ export default function WalletPage() {
   }, []);
 
   return (
-    <div className="dashboard-layout">
-      <DashboardSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <div className="dashboard-layout mesh-ambient-bg">
+      {/* Top Glass Navbar with Overview, Wallet, Policies, Applications */}
+      <UserNavbar />
 
-      <div className="dashboard-main">
-        <DashboardHeader onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
-
-        <main className="wallet-content" id="main-content" tabIndex={-1}>
-          {/* Page header */}
-          <div className="wallet-header">
-            <div className="wallet-header-top">
-              <div className="wallet-icon-wrap" aria-hidden="true">
-                <WalletIcon size={22} />
-              </div>
-              <div>
-                <h1 className="wallet-title">Insurance Wallet</h1>
-                <p className="wallet-subtitle">All your insurance policies, in one place.</p>
-              </div>
+      <main className="wallet-content" id="main-content" tabIndex={-1}>
+        {/* Page header */}
+        <div className="wallet-header">
+          <div className="wallet-header-top">
+            <div className="wallet-icon-wrap" aria-hidden="true">
+              <WalletIcon size={22} />
             </div>
-            {overview && (
-              <div className="wallet-phone">
-                <span className="wallet-phone-label">Account</span>
-                <span className="wallet-phone-value mono">{overview.user.maskedPhone}</span>
-              </div>
-            )}
+            <div>
+              <h1 className="wallet-title">Insurance Wallet</h1>
+              <p className="wallet-subtitle">All your insurance policies and active coverage, in one place.</p>
+            </div>
           </div>
+          {overview && (
+            <div className="wallet-phone">
+              <span className="wallet-phone-label">Account</span>
+              <span className="wallet-phone-value mono">{overview.user.maskedPhone}</span>
+            </div>
+          )}
+        </div>
 
-          {/* Summary cards */}
-          {overview && <WalletSummary summary={overview.summary} />}
+        {/* Summary cards */}
+        {overview && <WalletSummary summary={overview.summary} />}
 
-          {/* Filter + Search bar */}
-          <div className="wallet-controls">
-            <WalletFilters active={activeFilter} onChange={handleFilterChange} />
-            <WalletSearch value={searchQuery} onChange={handleSearch} />
-          </div>
+        {/* Filter + Search bar */}
+        <div className="wallet-controls">
+          <WalletFilters active={activeFilter} onChange={handleFilterChange} />
+          <WalletSearch value={searchQuery} onChange={handleSearch} />
+        </div>
 
-          {/* Policy list */}
-          <section className="wallet-policies" aria-label="Insurance policies">
-            {loading && (
-              <div className="wallet-loading">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="wallet-skeleton-card skeleton" />
-                ))}
-              </div>
-            )}
+        {/* Policy list */}
+        <section className="wallet-policies" aria-label="Insurance policies">
+          {loading && (
+            <div className="wallet-loading">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="wallet-skeleton-card skeleton" />
+              ))}
+            </div>
+          )}
 
-            {error && (
-              <div className="wallet-error" role="alert">
-                <p>{error}</p>
-                <button className="wallet-retry-btn" onClick={() => window.location.reload()}>
-                  Try Again
-                </button>
-              </div>
-            )}
+          {error && (
+            <div className="wallet-error" role="alert">
+              <p>{error}</p>
+              <button className="wallet-retry-btn" onClick={() => window.location.reload()}>
+                Try Again
+              </button>
+            </div>
+          )}
 
-            {!loading && !error && policies.length === 0 && (
-              <div className="wallet-empty">
-                <WalletIcon size={40} strokeWidth={1.2} />
-                <h3>No policies found</h3>
-                <p>
-                  {searchQuery
-                    ? `No results for "${searchQuery}". Try a different search.`
-                    : 'No policies match the selected filter.'}
-                </p>
-              </div>
-            )}
+          {!loading && !error && policies.length === 0 && (
+            <div className="wallet-empty">
+              <WalletIcon size={40} strokeWidth={1.2} />
+              <h3>No policies found</h3>
+              <p>
+                {searchQuery
+                  ? `No results for "${searchQuery}". Try a different search.`
+                  : 'No policies match the selected filter.'}
+              </p>
+            </div>
+          )}
 
-            {!loading && !error && policies.map((policy) => (
-              <WalletPolicyCard
-                key={policy.id}
-                policy={policy}
-                onViewDetails={() => handleViewDetails(policy)}
-              />
-            ))}
-          </section>
-        </main>
-      </div>
+          {!loading && !error && policies.map((policy) => (
+            <WalletPolicyCard
+              key={policy.id}
+              policy={policy}
+              onViewDetails={() => handleViewDetails(policy)}
+            />
+          ))}
+        </section>
+      </main>
 
       {/* Policy details drawer */}
       <PolicyDetailsDrawer

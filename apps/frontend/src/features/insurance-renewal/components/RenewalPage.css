@@ -3,30 +3,59 @@
 /* ─── Layout ──────────────────────────────────────────────────────────────── */
 .rnw-layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  background: var(--color-background);
+  width: 100%;
+  background: radial-gradient(circle at 10% 20%, rgba(251, 237, 232, 0.75) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(254, 246, 232, 0.6) 0%, transparent 45%),
+              #fdfaf9;
 }
 
 .rnw-main {
-  margin-left: var(--sidebar-width);
+  /* Scope theme tokens to warm terracotta / coral accent strictly for Renewal page content */
+  --color-primary: #D06A4E;
+  --color-primary-hover: #B85838;
+  --color-primary-deep: #A8482E;
+  --color-primary-tint: #FBEDE8;
+  --color-border-strong: rgba(208, 106, 78, 0.35);
+  --color-link: #D06A4E;
+  --color-accent: #0F6E6E;
+  --color-accent-tint: #E4F2F2;
+
+  margin-left: 0;
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  box-sizing: border-box;
 }
+
+.rnw-stepper-container {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0 8px;
+}
+
 
 /* ─── Topbar ─────────────────────────────────────────────────────────────── */
 .rnw-topbar {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--color-background);
-  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(226, 236, 236, 0.9);
   height: var(--header-height);
   display: flex;
   align-items: center;
   padding: 0 24px;
   gap: 16px;
+  box-shadow: 0 4px 20px -4px rgba(15, 110, 110, 0.04);
 }
 
 .rnw-topbar-left {
@@ -83,16 +112,34 @@
 }
 .rnw-breadcrumb-sep { color: var(--color-text-subtle); }
 
-/* ─── Page header ────────────────────────────────────────────────────────── */
+/* ─── Page header with Embedded Stepper ───────────────────────────────── */
 .rnw-page-header {
-  border-bottom: 1px solid var(--color-border);
-  padding: 20px 24px 18px;
-  background: var(--color-surface-alt);
+  border: 1px solid rgba(226, 236, 236, 0.95);
+  padding: 22px 28px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-radius: var(--radius-xl);
+  margin-top: 16px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 20px -4px rgba(15, 110, 110, 0.05);
 }
 .rnw-page-header-inner {
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.rnw-page-header-text {
+  flex: 1;
+  min-width: 280px;
+}
+.rnw-page-header-stepper {
+  flex-shrink: 0;
 }
 .rnw-page-title {
   font-size: 20px;
@@ -101,7 +148,7 @@
   margin-bottom: 4px;
 }
 .rnw-page-sub {
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--color-text-muted);
 }
 

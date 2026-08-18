@@ -119,13 +119,34 @@ export const overviewStats = {
   approvalRate: 88,
 };
 
+/* Company-wise customer breakdown for the Customers page chart */
 export const usersByCompany = [
-  { label: 'Apex Insurance Brokers', value: 34, total: 128 },
-  { label: 'Shield Financial Services', value: 27, total: 128 },
-  { label: 'Trustline Advisors', value: 21, total: 128 },
-  { label: 'Bharat Insurance Hub', value: 18, total: 128 },
-  { label: 'SecureNet Brokers', value: 15, total: 128 },
-  { label: 'Prime Cover Agency', value: 13, total: 128 },
+  { label: 'Apex Insurance Brokers',   name: 'Apex Insurance Brokers',   value: 2840, policies: 2110, renewals: 680, claims: 124, growth: '+14%', color: '#0F6E6E' },
+  { label: 'Shield Financial Services', name: 'Shield Financial Services', value: 2390, policies: 1780, renewals: 540, claims: 98,  growth: '+9%',  color: '#2563EB' },
+  { label: 'Trustline Advisors',        name: 'Trustline Advisors',        value: 1960, policies: 1400, renewals: 420, claims: 72,  growth: '+11%', color: '#D06A4E' },
+  { label: 'Bharat Insurance Hub',      name: 'Bharat Insurance Hub',      value: 1680, policies: 1200, renewals: 360, claims: 61,  growth: '+6%',  color: '#8B5CF6' },
+  { label: 'SecureNet Brokers',         name: 'SecureNet Brokers',         value: 1420, policies: 980,  renewals: 290, claims: 48,  growth: '+18%', color: '#059669' },
+  { label: 'Prime Cover Agency',        name: 'Prime Cover Agency',        value: 1190, policies: 860,  renewals: 240, claims: 39,  growth: '+7%',  color: '#F59E0B' },
+  { label: 'SafeGuard Direct',          name: 'SafeGuard Direct',          value: 740,  policies: 520,  renewals: 148, claims: 22,  growth: '+22%', color: '#EC4899' },
+  { label: 'VehicleShield Co',          name: 'VehicleShield Co',          value: 262,  policies: 182,  renewals: 54,  claims: 8,   growth: '+31%', color: '#14B8A6' },
+];
+
+/* Admin Renewals mock */
+export const adminRenewalsData = [
+  { id: 'RNW-101', customer: 'Naresh Kumar',   vehicle: 'Hyundai Creta',   provider: 'ICICI Lombard', premium: 18450, dueDate: '2026-09-25', ncb: '20%', status: 'Due Soon' },
+  { id: 'RNW-102', customer: 'Ramesh Kannan',  vehicle: 'Maruti Brezza',   provider: 'TATA AIG',      premium: 16240, dueDate: '2026-09-02', ncb: '25%', status: 'Overdue'  },
+  { id: 'RNW-103', customer: 'Divya Shankar',  vehicle: 'Honda City',      provider: 'ACKO',          premium: 15980, dueDate: '2026-10-18', ncb: '20%', status: 'Upcoming' },
+  { id: 'RNW-104', customer: 'Arjun Mehta',    vehicle: 'Tata Nexon EV',   provider: 'Synova Direct', premium: 21500, dueDate: '2026-11-04', ncb: '35%', status: 'Upcoming' },
+  { id: 'RNW-105', customer: 'Suresh Iyer',    vehicle: 'Mahindra XUV700', provider: 'HDFC ERGO',     premium: 24800, dueDate: '2026-12-15', ncb: '30%', status: 'Upcoming' },
+];
+
+/* Admin Claims mock */
+export const adminClaimsData = [
+  { id: 'CLM-201', customer: 'Priya Raman',   vehicle: 'Toyota Innova',   type: 'Own Damage',    amount: 62000, provider: 'ICICI Lombard', filed: '2026-08-01', status: 'Under Review' },
+  { id: 'CLM-202', customer: 'Karthik Rao',   vehicle: 'Maruti Swift',    type: 'Third Party',   amount: 28500, provider: 'TATA AIG',      filed: '2026-07-28', status: 'Approved'    },
+  { id: 'CLM-203', customer: 'Meena Pillai',  vehicle: 'Honda Amaze',     type: 'Theft',         amount: 145000,provider: 'ACKO',          filed: '2026-07-20', status: 'Under Review' },
+  { id: 'CLM-204', customer: 'Rajesh Nair',   vehicle: 'Kia Carens',      type: 'Own Damage',    amount: 41200, provider: 'HDFC ERGO',     filed: '2026-08-05', status: 'Settled'     },
+  { id: 'CLM-205', customer: 'Sunita Devi',   vehicle: 'Hyundai i20',     type: 'Third Party',   amount: 18600, provider: 'ICICI Lombard', filed: '2026-08-10', status: 'Pending Docs'},
 ];
 
 export const recentApplications = [
@@ -133,3 +154,4 @@ export const recentApplications = [
   { id: 'APP-3020', applicant: 'Divya Shankar', company: 'Shield Financial', type: 'New', insurer: 'ICICI Lombard', status: 'Pending', date: '2026-08-12' },
   { id: 'APP-3019', applicant: 'Arjun Mehta', company: 'Trustline Advisors', type: 'Renewal', insurer: 'ACKO', status: 'Approved', date: '2026-08-11' },
 ];
+

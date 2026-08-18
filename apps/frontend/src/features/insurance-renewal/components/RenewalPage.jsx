@@ -7,7 +7,7 @@ import {
   RefreshCw, ExternalLink, Shield, Star, Loader
 } from 'lucide-react';
 
-import DashboardSidebar from '../../dashboard/components/DashboardSidebar.jsx';
+import UserNavbar from '../../../components/layout/UserNavbar.jsx';
 import useRenewalApplication from '../hooks/useRenewalApplication.js';
 import {
   renewalAddonOptions,
@@ -1045,39 +1045,23 @@ export default function RenewalPage() {
   };
 
   return (
-    <div className="rnw-layout">
-      <DashboardSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <div className="rnw-layout mesh-ambient-bg">
+      {/* Top Glass Navbar with Overview, Wallet, Policies, Applications */}
+      <UserNavbar />
 
       <div className="rnw-main">
-        {/* Topbar */}
-        <header className="rnw-topbar">
-          <div className="rnw-topbar-left">
-            <button className="rnw-menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Toggle menu">
-              <Menu size={20} />
-            </button>
-            <nav className="rnw-breadcrumb" aria-label="Breadcrumb">
-              <Link to="/dashboard" className="rnw-breadcrumb-item">
-                <Home size={13} /> <span>Dashboard</span>
-              </Link>
-              <ChevronRight size={12} className="rnw-breadcrumb-sep" />
-              <span className="rnw-breadcrumb-item rnw-breadcrumb-item--current" aria-current="page">Renew Insurance</span>
-            </nav>
-          </div>
-
-          <div className="rnw-topbar-center">
-            <RenewalStepper currentStep={state.currentStep} onStepClick={app.goToStep} />
-          </div>
-
-          <div className="rnw-topbar-right" />
-        </header>
-
-        {/* Page header */}
+        {/* Unified Page Header with Embedded RenewalStepper */}
         <div className="rnw-page-header">
           <div className="rnw-page-header-inner">
-            <h1 className="rnw-page-title">Renew your auto insurance</h1>
-            <p className="rnw-page-sub">
-              Upload your existing policy and we'll prepare your renewal application automatically.
-            </p>
+            <div className="rnw-page-header-text">
+              <h1 className="rnw-page-title">Renew your auto insurance</h1>
+              <p className="rnw-page-sub">
+                Upload your existing policy and we'll prepare your renewal application automatically.
+              </p>
+            </div>
+            <div className="rnw-page-header-stepper">
+              <RenewalStepper currentStep={state.currentStep} onStepClick={app.goToStep} />
+            </div>
           </div>
         </div>
 
@@ -1133,3 +1117,4 @@ export default function RenewalPage() {
     </div>
   );
 }
+

@@ -1,10 +1,22 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, RefreshCcw, Wallet, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import {
+  ShieldCheck,
+  RefreshCcw,
+  Wallet,
+  Sparkles,
+  ArrowRight,
+  CheckCircle2,
+  FilePlus,
+  Car,
+  Activity,
+  Zap
+} from 'lucide-react';
 import { dashboardData, formatINR } from '../data/dashboardData.js';
 import './WelcomeSection.css';
 
-const { user, policy } = dashboardData;
+const { user, policy, vehicle } = dashboardData;
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -13,70 +25,125 @@ function getGreeting() {
   return 'Good evening';
 }
 
-export default function WelcomeSection() {
+export default function WelcomeSection({ onOpenEuler }) {
   const navigate = useNavigate();
 
   return (
-    <div className="welcome-hero-banner">
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="welcome-hero-banner glass-panel"
+    >
       <div className="welcome-hero-main">
+        {/* Top greeting row */}
         <div className="welcome-hero-greeting-row">
-          <div>
-            <h1 className="welcome-hero-title">
-              {getGreeting()}, {user.name}
-            </h1>
-            <p className="welcome-hero-subtitle">
-              Here’s your insurance overview across all registered vehicles.
-            </p>
-          </div>
-          <div className="welcome-hero-status-pill">
-            <CheckCircle2 size={16} className="welcome-hero-status-icon" aria-hidden="true" />
-            <span>Your insurance is up to date</span>
-          </div>
-        </div>
-
-        {/* Insurance at a Glance KPI band */}
-        <div className="welcome-glance-grid">
-          <div className="welcome-glance-card">
-            <div className="welcome-glance-val">2</div>
-            <div className="welcome-glance-lbl">Active Policies</div>
+          <div className="welcome-user-info">
+            <div className="welcome-avatar-pill">
+              <span className="welcome-avatar-letter">{user.name.charAt(0)}</span>
+              <span className="welcome-online-pulse" />
+            </div>
+            <div>
+              <h1 className="welcome-hero-title">
+                {getGreeting()}, <span className="welcome-title-accent">{user.name}</span>
+              </h1>
+              <p className="welcome-hero-subtitle">
+                Unified auto insurance command center & AI policy manager.
+              </p>
+            </div>
           </div>
 
-          <div className="welcome-glance-card welcome-glance-card--highlight">
-            <div className="welcome-glance-val">1</div>
-            <div className="welcome-glance-lbl">Renewal in 43 Days</div>
-          </div>
+          <div className="welcome-hero-badges">
+            <div className="welcome-vehicle-chip">
+              <Car size={15} className="welcome-chip-icon" />
+              <span>{vehicle.make} {vehicle.model}</span>
+              <span className="welcome-reg-tag mono">{vehicle.registration}</span>
+            </div>
 
-          <div className="welcome-glance-card">
-            <div className="welcome-glance-val mono">{formatINR(policy.premium)}</div>
-            <div className="welcome-glance-lbl">Annual Premium</div>
-          </div>
-
-          <div className="welcome-glance-card">
-            <div className="welcome-glance-val">0</div>
-            <div className="welcome-glance-lbl">Claims this Year</div>
+            <div className="welcome-hero-status-pill">
+              <CheckCircle2 size={15} className="welcome-hero-status-icon" aria-hidden="true" />
+              <span>Coverage Active</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Contextual Action Strip */}
-      <div className="welcome-hero-actions">
-        <button
-          className="welcome-action-cta welcome-action-cta--accent"
-          onClick={() => navigate('/renewal')}
-        >
-          <RefreshCcw size={16} aria-hidden="true" />
-          <span>Renew ICICI Lombard</span>
-          <ArrowRight size={14} aria-hidden="true" />
-        </button>
+        {/* Quick Action Bento Grid */}
+        <div className="welcome-bento-actions">
+          {/* Action 1: New Insurance */}
+          <motion.button
+            whileHover={{ y: -3, scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            className="welcome-bento-card welcome-bento-card--primary"
+            onClick={() => navigate('/new-insurance')}
+          >
+            <div className="welcome-bento-icon-wrap welcome-bento-icon--primary">
+              <FilePlus size={18} />
+            </div>
+            <div className="welcome-bento-info">
+              <span className="welcome-bento-title">Get New Insurance</span>
+              <span className="welcome-bento-desc">Instant quotes from 5 top carriers</span>
+            </div>
+            <ArrowRight size={14} className="welcome-bento-arrow" />
+          </motion.button>
 
-        <button
-          className="welcome-action-cta welcome-action-cta--secondary"
-          onClick={() => navigate('/wallet')}
-        >
-          <Wallet size={16} aria-hidden="true" />
-          <span>View Wallet (3 Policies)</span>
-        </button>
+          {/* Action 2: Renew ICICI */}
+          <motion.button
+            whileHover={{ y: -3, scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            className="welcome-bento-card welcome-bento-card--accent"
+            onClick={() => navigate('/renewal')}
+          >
+            <div className="welcome-bento-icon-wrap welcome-bento-icon--accent">
+              <RefreshCcw size={18} />
+            </div>
+            <div className="welcome-bento-info">
+              <span className="welcome-bento-title">Renew with ICICI</span>
+              <span className="welcome-bento-desc">Preserve 20% NCB · Due in 43d</span>
+            </div>
+            <ArrowRight size={14} className="welcome-bento-arrow" />
+          </motion.button>
+
+          {/* Action 3: Insurance Wallet */}
+          <motion.button
+            whileHover={{ y: -3, scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            className="welcome-bento-card welcome-bento-card--neutral"
+            onClick={() => navigate('/wallet')}
+          >
+            <div className="welcome-bento-icon-wrap welcome-bento-icon--teal">
+              <Wallet size={18} />
+            </div>
+            <div className="welcome-bento-info">
+              <span className="welcome-bento-title">Policy Vault</span>
+              <span className="welcome-bento-desc">3 vehicle policies stored</span>
+            </div>
+            <ArrowRight size={14} className="welcome-bento-arrow" />
+          </motion.button>
+
+          {/* Action 4: Euler AI Assistant */}
+          <motion.button
+            whileHover={{ y: -3, scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            className="welcome-bento-card welcome-bento-card--ai"
+            onClick={() => {
+              if (onOpenEuler) onOpenEuler();
+              else {
+                const btn = document.querySelector('.euler-launcher-btn');
+                if (btn) btn.click();
+              }
+            }}
+          >
+            <div className="welcome-bento-icon-wrap welcome-bento-icon--sparkle">
+              <Sparkles size={18} />
+            </div>
+            <div className="welcome-bento-info">
+              <span className="welcome-bento-title">Ask Euler Copilot</span>
+              <span className="welcome-bento-desc">AI coverage & claims advisor</span>
+            </div>
+            <Zap size={14} className="welcome-bento-arrow" />
+          </motion.button>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

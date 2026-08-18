@@ -10,7 +10,6 @@ import {
   RefreshCcw,
   FileText,
   Circle,
-  Plus,
   Upload,
   Camera,
   File,
@@ -438,51 +437,13 @@ export default function EulerChat({ open, onClose }) {
         })}
       </div>
 
-      {/* Attachment menu */}
-      {showAttachMenu && (
-        <div className="euler-attach-menu" role="menu" aria-label="Upload options">
-          {attachmentOptions.map((opt) => {
-            const Icon = opt.icon;
-            return (
-              <button
-                key={opt.id}
-                className="euler-attach-option"
-                role="menuitem"
-                onClick={() => handleAttachment(opt)}
-              >
-                <Icon size={15} />
-                {opt.label}
-              </button>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Hidden file input */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        className="sr-only"
-        accept=".pdf,.png,.jpg,.jpeg"
-        onChange={handleFileChange}
-        aria-hidden="true"
-      />
-
       {/* Input */}
       <div className="euler-chat-input-wrap">
-        <button
-          className="euler-chat-plus"
-          onClick={() => setShowAttachMenu(!showAttachMenu)}
-          aria-label="Attach document"
-          title="Upload document"
-        >
-          <Plus size={18} />
-        </button>
         <input
           ref={inputRef}
           type="text"
           className="euler-chat-input"
-          placeholder={voiceState === VOICE_STATES.LISTENING ? "Listening..." : "Ask Euler..."}
+          placeholder={voiceState === VOICE_STATES.LISTENING ? "Listening..." : "Ask Euler anything..."}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
