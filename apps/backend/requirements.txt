@@ -11,4 +11,8 @@ easyocr
 python-multipart
 httpx
 python-jose[cryptography]
-passlib[bcrypt]
+bcrypt
+
+bcrypt
+python-jose[cryptography]
+email-validator
