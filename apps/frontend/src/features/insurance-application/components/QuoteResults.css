@@ -33,38 +33,28 @@
 .qr-cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 16px;
 }
 
 .qr-card {
   position: relative;
-  border: 1px solid rgba(226, 236, 236, 0.9);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  padding: 20px;
+  background: var(--color-background);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 18px -4px rgba(15, 110, 110, 0.05);
+  gap: 14px;
+  transition: box-shadow var(--transition-base);
+  animation: fadeInUp 0.25s ease-out;
 }
 
 .qr-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 36px -8px rgba(15, 110, 110, 0.12);
-  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
 }
 
 .qr-card--recommended {
   border-color: var(--color-primary);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, var(--color-primary-tint) 100%);
-  box-shadow: 0 8px 30px -4px rgba(15, 110, 110, 0.15);
-}
-
-.qr-card--recommended:hover {
-  box-shadow: 0 20px 45px -8px rgba(15, 110, 110, 0.22);
 }
 
 .qr-card-best-badge {

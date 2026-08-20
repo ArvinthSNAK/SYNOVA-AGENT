@@ -1,9 +1,14 @@
-import React from 'react';
-import UserNavbar from '../../../components/layout/UserNavbar.jsx';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Home, ChevronRight, Menu } from 'lucide-react';
+
+import DashboardSidebar from '../../dashboard/components/DashboardSidebar.jsx';
+
 import useInsuranceApplication from '../hooks/useInsuranceApplication.js';
 import InsuranceStepper from './InsuranceStepper.jsx';
 import EulerWorkspace from './EulerWorkspace.jsx';
 import VehicleInformation from './VehicleInformation.jsx';
+import CoverageSelection from './CoverageSelection.jsx';
 import ApplicationReview from './ApplicationReview.jsx';
 import QuotePreparation from './QuotePreparation.jsx';
 import ResumeDraft from './ResumeDraft.jsx';
@@ -12,15 +17,18 @@ import './EulerWorkspace.css';
 import './EulerInput.css';
 import './VehicleInformation.css';
 import './VehicleDocumentUpload.css';
+import './CoverageSelection.css';
 import './ApplicationReview.css';
 import './QuotePreparation.css';
 import './NewInsurance.css';
 
 export default function NewInsurance() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const app = useInsuranceApplication();
   const { state, draftAvailable, vehicleComplete, estimatedPremium } = app;
 
-  // ─── Step content for the action panel ────────────────────────────────────
+  // ─── Step content for the right (action) panel ────────────────────────────
   const renderActionPanel = () => {
     switch (state.currentStep) {
       case 1:
@@ -39,18 +47,32 @@ export default function NewInsurance() {
         );
       case 2:
         return (
+          <CoverageSelection
+            coverageType={state.coverage.type}
+            selectedAddons={state.coverage.addons}
+            onSelectCoverage={app.setCoverageType}
+            onToggleAddon={app.toggleAddon}
+            onContinue={app.nextStep}
+            onBack={app.prevStep}
+            vehicle={state.vehicle}
+          />
+        );
+      case 3:
+        return (
           <ApplicationReview
             vehicle={state.vehicle}
+            coverage={state.coverage}
             applicationId={state.applicationId}
             estimatedPremium={estimatedPremium}
             userConfirmed={state.userConfirmed}
             onConfirmChange={app.setUserConfirmed}
             onGetQuotes={() => { app.nextStep(); app.submitForQuotes(); }}
             onEditVehicle={() => app.goToStep(1)}
+            onEditCoverage={() => app.goToStep(2)}
             onBack={app.prevStep}
           />
         );
-      case 3:
+      case 4:
         return (
           <QuotePreparation
             quoteState={state.quote}
@@ -62,31 +84,59 @@ export default function NewInsurance() {
     }
   };
 
-  // Euler panel is active during vehicle information collection
-  const showEuler = state.currentStep === 1;
+  // ─── Euler panel visibility ───────────────────────────────────────────────
+  // Hide main Euler panel on steps 3 and 4 (review + quote)
+  const showEuler = state.currentStep <= 2;
 
   return (
-    <div className="ins-layout mesh-ambient-bg">
-      {/* Top Glass Navbar with Overview, Wallet, Policies, Applications */}
-      <UserNavbar />
+    <div className="ins-layout">
+      {/* Sidebar (reused from Dashboard) */}
+      <DashboardSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main content */}
       <div className="ins-main">
-        {/* Unified Page Header containing Title, Subtitle, and Embedded Stepper */}
+        {/* Top navigation bar */}
+        <header className="ins-topbar" role="banner">
+          <div className="ins-topbar-left">
+            <button
+              className="ins-menu-btn"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              aria-label="Toggle navigation menu"
+              type="button"
+            >
+              <Menu size={20} />
+            </button>
+
+            {/* Breadcrumb */}
+            <nav className="ins-breadcrumb" aria-label="Breadcrumb">
+              <Link to="/dashboard" className="ins-breadcrumb-item">
+                <Home size={13} aria-hidden="true" />
+                <span>Dashboard</span>
+              </Link>
+              <ChevronRight size={12} className="ins-breadcrumb-sep" aria-hidden="true" />
+              <span className="ins-breadcrumb-item ins-breadcrumb-item--current" aria-current="page">
+                New Insurance
+              </span>
+            </nav>
+          </div>
+
+          <div className="ins-topbar-center">
+            <InsuranceStepper
+              currentStep={state.currentStep}
+              onStepClick={app.goToStep}
+            />
+          </div>
+
+          <div className="ins-topbar-right" />
+        </header>
+
+        {/* Page header */}
         <div className="ins-page-header">
           <div className="ins-page-header-inner">
-            <div className="ins-page-header-text">
-              <h1 className="ins-page-title">Get your auto insurance</h1>
-              <p className="ins-page-sub">
-                Provide your vehicle details manually or upload your RC document. Euler will prepare your application.
-              </p>
-            </div>
-            <div className="ins-page-header-stepper">
-              <InsuranceStepper
-                currentStep={state.currentStep}
-                onStepClick={app.goToStep}
-              />
-            </div>
+            <h1 className="ins-page-title">Get your auto insurance</h1>
+            <p className="ins-page-sub">
+              Tell Euler about your vehicle and coverage needs. We'll prepare your application for you.
+            </p>
           </div>
         </div>
 
@@ -97,7 +147,7 @@ export default function NewInsurance() {
           </div>
         )}
 
-        {/* Workspace: Form LEFT · Euler RIGHT */}
+        {/* Workspace: Form LEFT · Euler RIGHT (1/3) */}
         <div className={`ins-workspace${showEuler ? ' ins-workspace--split' : ' ins-workspace--single'}`}>
           {/* LEFT: Action / form panel */}
           <div className={`ins-action-col${!showEuler ? ' ins-action-col--full' : ''}`}>
@@ -106,17 +156,15 @@ export default function NewInsurance() {
             </div>
           </div>
 
-          {/* RIGHT: Euler assistant */}
+          {/* RIGHT: Euler assistant (1/3 width, steps 1–2 only) */}
           {showEuler && (
             <div className="ins-euler-col">
               <EulerWorkspace
                 conversation={state.eulerConversation}
                 inputMode={state.inputMode}
                 extractionStatus={state.extraction.status}
-                documentExtractionStatus={state.documentExtraction?.status}
                 onQuickAction={app.setInputMode}
                 onSendMessage={app.sendEulerMessage}
-                onDocumentUpload={app.handleDocumentUpload}
                 currentStep={state.currentStep}
               />
             </div>

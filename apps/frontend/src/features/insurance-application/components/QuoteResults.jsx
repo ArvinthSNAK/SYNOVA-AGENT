@@ -1,7 +1,8 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { ShieldCheck, Star, ArrowLeft, CheckCircle } from 'lucide-react';
-import UserNavbar from '../../../components/layout/UserNavbar.jsx';
+import DashboardSidebar from '../../dashboard/components/DashboardSidebar.jsx';
+import { useState } from 'react';
 
 function formatINR(amount) {
   return new Intl.NumberFormat('en-IN', {
@@ -55,45 +56,55 @@ function QuoteCard({ quote, isRecommended }) {
 
 export default function QuoteResults() {
   const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const results = location.state?.results || [];
 
   const sortedResults = [...results].sort((a, b) => (b.isRecommended ? 1 : 0) - (a.isRecommended ? 1 : 0));
 
   return (
-    <div className="ins-layout mesh-ambient-bg">
-      {/* Top Glass Navbar with Overview, Wallet, Policies, Applications */}
-      <UserNavbar />
-
+    <div className="ins-layout">
+      <DashboardSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="ins-main">
-        <div className="ins-page-header" style={{ padding: '20px 0 10px' }}>
-          <div className="ins-page-header-inner">
-            <Link to="/new-insurance" className="qr-back-link" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 10, fontSize: 13, color: 'var(--color-primary)' }}>
-              <ArrowLeft size={14} /> Back to Application
+        <header className="ins-topbar">
+          <div className="ins-topbar-left">
+            <Link to="/new-insurance" className="qr-back-link">
+              <ArrowLeft size={16} /> New Insurance
             </Link>
-            <h1 className="ins-page-title">Compare live insurance quotes</h1>
+          </div>
+          <div className="ins-topbar-center">
+            <span className="qr-topbar-title">Quote Comparison</span>
+          </div>
+          <div className="ins-topbar-right" />
+        </header>
+
+        <div className="ins-page-header">
+          <div className="ins-page-header-inner">
+            <h1 className="ins-page-title">Compare your quotes</h1>
             <p className="ins-page-sub">
-              Euler retrieved quotes from multiple IRDAI-licensed carriers in real time. Select your preferred coverage.
+              {results.length > 0
+                ? `We found ${results.length} quotes for your vehicle. The best match is highlighted.`
+                : 'Quote results will appear here once comparison is complete.'}
             </p>
           </div>
         </div>
 
-        <div className="qr-content" style={{ marginTop: 20 }}>
-          {sortedResults.length === 0 ? (
-            <div className="qr-empty">
-              <ShieldCheck size={48} strokeWidth={1} />
-              <h3>No quotes available</h3>
-              <p>Please return to the application and submit your details to fetch real-time carrier quotes.</p>
-              <Link to="/new-insurance" className="qr-retry-btn">
-                Start New Application
+        <div className="qr-workspace">
+          {results.length === 0 ? (
+            <div className="ins-quotes-placeholder">
+              <ShieldCheck size={40} color="var(--color-primary)" />
+              <h2>Quote results will appear here</h2>
+              <p>This page receives quote data from the Playwright comparison engine.</p>
+              <Link to="/new-insurance" className="vi-btn vi-btn--primary" style={{ textDecoration: 'none' }}>
+                ← Start Application
               </Link>
             </div>
           ) : (
-            <div className="qr-grid">
-              {sortedResults.map((q) => (
+            <div className="qr-cards-grid">
+              {sortedResults.map((quote) => (
                 <QuoteCard
-                  key={q.quoteId}
-                  quote={q}
-                  isRecommended={q.isRecommended}
+                  key={quote.providerId}
+                  quote={quote}
+                  isRecommended={quote.isRecommended}
                 />
               ))}
             </div>

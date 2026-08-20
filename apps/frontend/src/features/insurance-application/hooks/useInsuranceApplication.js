@@ -150,7 +150,7 @@ export default function useInsuranceApplication() {
 
   const nextStep = useCallback(() => {
     setState((prev) => {
-      if (prev.currentStep >= 3) return prev;
+      if (prev.currentStep >= 4) return prev;
       const nextStepNum = prev.currentStep + 1;
       const newConversation = [...prev.eulerConversation];
       if (eulerStepContextMessages[nextStepNum]) {

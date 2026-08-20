@@ -4,8 +4,9 @@ import './InsuranceStepper.css';
 
 const STEPS = [
   { num: '01', label: 'Vehicle' },
-  { num: '02', label: 'Review' },
-  { num: '03', label: 'Compare Quotes' },
+  { num: '02', label: 'Coverage' },
+  { num: '03', label: 'Review' },
+  { num: '04', label: 'Compare Quotes' },
 ];
 
 export default function InsuranceStepper({ currentStep, onStepClick }) {

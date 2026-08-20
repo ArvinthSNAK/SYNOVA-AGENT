@@ -1,5 +1,6 @@
 import React from 'react';
 import { Edit2, Check, ChevronRight, User, Car, Shield, FileText } from 'lucide-react';
+import { coverageOptions, addonOptions } from '../data/insuranceMockData.js';
 import './ApplicationReview.css';
 
 function ReviewSection({ icon: Icon, title, onEdit, children }) {
@@ -12,16 +13,14 @@ function ReviewSection({ icon: Icon, title, onEdit, children }) {
           </div>
           <h3 className="review-section-title">{title}</h3>
         </div>
-        {onEdit && (
-          <button
-            className="review-edit-btn"
-            onClick={onEdit}
-            aria-label={`Edit ${title}`}
-            type="button"
-          >
-            <Edit2 size={12} /> Edit
-          </button>
-        )}
+        <button
+          className="review-edit-btn"
+          onClick={onEdit}
+          aria-label={`Edit ${title}`}
+          type="button"
+        >
+          <Edit2 size={12} /> Edit
+        </button>
       </div>
       <div className="review-section-body">{children}</div>
     </div>
@@ -41,25 +40,35 @@ function ReviewRow({ label, value, highlight }) {
 
 export default function ApplicationReview({
   vehicle,
+  coverage,
   applicationId,
   estimatedPremium,
   userConfirmed,
   onConfirmChange,
   onGetQuotes,
   onEditVehicle,
+  onEditCoverage,
   onBack,
 }) {
+  const selectedCoverage = coverageOptions.find((c) => c.id === coverage.type);
+  const selectedAddons = addonOptions.filter((a) => coverage.addons.includes(a.id));
+
+  const formatINR = (amount) =>
+    new Intl.NumberFormat('en-IN', {
+      style: 'currency', currency: 'INR', maximumFractionDigits: 0,
+    }).format(amount);
+
   return (
     <div className="review-panel">
       <div className="review-header">
         <h2 className="review-title">Review Application</h2>
         <p className="review-sub">
-          Confirm your information before retrieving live quotes from connected carriers.
+          Confirm everything looks right. You can edit any section before getting quotes.
         </p>
       </div>
 
-      {/* Customer / Personal Information */}
-      <ReviewSection icon={User} title="Customer Information">
+      {/* Personal Information */}
+      <ReviewSection icon={User} title="Personal Information" onEdit={() => {}}>
         <ReviewRow label="Name" value="Naresh Kumar" />
         <ReviewRow label="Email" value="naresh.kumar@email.com" />
         <ReviewRow label="Phone" value="+91 98765 43210" />
@@ -77,12 +86,32 @@ export default function ApplicationReview({
         <ReviewRow label="Ownership" value={vehicle.ownershipType} />
       </ReviewSection>
 
-      {/* Carrier Quoting Notice */}
-      <ReviewSection icon={Shield} title="Multi-Insurer Quoting">
-        <div style={{ padding: '4px 0', fontSize: '13px', color: 'var(--color-text-muted)', lineHeight: '1.5' }}>
-          Quotes will be fetched in real time from <strong>ICICI Lombard, TATA AIG, ACKO, HDFC ERGO</strong>, and <strong>Bajaj Allianz</strong> with full coverage tier comparisons (Comprehensive, Third-Party, and Add-ons).
-        </div>
+      {/* Coverage */}
+      <ReviewSection icon={Shield} title="Coverage" onEdit={onEditCoverage}>
+        <ReviewRow label="Coverage Type" value={selectedCoverage?.label} highlight />
+        {selectedAddons.length > 0 ? (
+          <div className="review-addons">
+            <span className="review-addons-label">Add-ons</span>
+            {selectedAddons.map((a) => (
+              <div key={a.id} className="review-addon-item">
+                <Check size={11} className="review-addon-check" aria-hidden="true" />
+                {a.label}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <ReviewRow label="Add-ons" value="None selected" />
+        )}
       </ReviewSection>
+
+      {/* Estimated premium */}
+      {estimatedPremium && (
+        <div className="review-premium">
+          <div className="review-premium-label">Estimated Premium</div>
+          <div className="review-premium-amount">{formatINR(estimatedPremium)}</div>
+          <div className="review-premium-note">per year · estimate only, final premium varies by insurer</div>
+        </div>
+      )}
 
       {/* Confirmation */}
       <div className="review-confirm-wrap">
@@ -98,7 +127,7 @@ export default function ApplicationReview({
             {userConfirmed && <Check size={11} />}
           </span>
           <span>
-            I confirm that the vehicle details are accurate and authorize Synova to request quotes from partner insurers.
+            I confirm that the information provided is accurate and I authorize Synova to use it for insurance comparison.
           </span>
         </label>
       </div>
