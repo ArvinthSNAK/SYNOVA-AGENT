@@ -1,7 +1,5 @@
-"""
-Automation service entrypoint — structure only.
-No Playwright automation logic implemented yet.
-"""
 from fastapi import FastAPI
+from app.api.routes import router
 
 app = FastAPI(title="AI Insurance Agent - Automation Service")
+app.include_router(router)
