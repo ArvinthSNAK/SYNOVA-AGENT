@@ -1,0 +1,473 @@
+/* ═══════════════════════════════════════════════════════════
+   Modern Glass DashboardWorkspace Styles
+   ═══════════════════════════════════════════════════════════ */
+
+.dashboard-workspace-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── Euler Insight Dark Glass Capsule ────────────────────── */
+.euler-insight-capsule {
+  border-radius: var(--radius-xl);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.euler-insight-capsule::after {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(94, 234, 212, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.euler-capsule-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.euler-capsule-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(94, 234, 212, 0.2);
+  color: #5eead4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.euler-capsule-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #5eead4;
+}
+
+.euler-capsule-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.euler-capsule-text {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.45;
+}
+
+.euler-capsule-prompts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.euler-capsule-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.euler-capsule-chip:hover {
+  background: rgba(94, 234, 212, 0.18);
+  border-color: rgba(94, 234, 212, 0.4);
+  color: #5eead4;
+}
+
+.euler-chip-zap {
+  color: #5eead4;
+  flex-shrink: 0;
+}
+
+/* ─── Interactive Multi-Tab Workspace Card ─────────────────── */
+.workspace-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(226, 236, 236, 0.95);
+  border-radius: var(--radius-xl);
+  padding: 18px 20px;
+  box-shadow: 0 10px 30px -4px rgba(15, 110, 110, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.workspace-header {
+  border-bottom: 1px solid rgba(226, 236, 236, 0.7);
+  padding-bottom: 12px;
+}
+
+.workspace-nav-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+}
+
+.workspace-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.workspace-tab-btn:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface-alt);
+}
+
+.workspace-tab-btn--active {
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.workspace-tab-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+/* ─── Body & Tabs Content ─────────────────────────────────── */
+.workspace-content-body {
+  min-height: 200px;
+}
+
+/* 1. Applications Tab */
+.workspace-app-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(228, 242, 242, 0.6) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-card);
+  margin-bottom: 14px;
+}
+
+.workspace-app-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.workspace-app-id {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-subtle);
+}
+
+.workspace-app-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.workspace-app-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.workspace-app-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.workspace-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.workspace-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+}
+
+.workspace-step-icon-wrap {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.workspace-step--completed .workspace-step-icon-wrap {
+  color: var(--color-success);
+}
+
+.workspace-step--current .workspace-step-icon-wrap {
+  color: var(--color-warning);
+}
+
+.workspace-step--pending .workspace-step-icon-wrap {
+  color: var(--color-text-subtle);
+}
+
+.workspace-step-line {
+  position: absolute;
+  top: 22px;
+  left: 10px;
+  width: 2px;
+  height: 16px;
+  background: var(--color-border);
+}
+
+.workspace-step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+}
+
+.workspace-step-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.workspace-step-time {
+  font-size: 11px;
+  color: var(--color-text-subtle);
+}
+
+.workspace-step-live-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--color-warning-tint);
+  color: var(--color-warning);
+}
+
+/* 2. Documents Tab */
+.workspace-docs-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.workspace-doc-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  gap: 10px;
+  transition: all 0.18s ease;
+}
+
+.workspace-doc-item:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-alt);
+}
+
+.workspace-doc-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.workspace-doc-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.workspace-doc-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.workspace-doc-meta {
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  display: flex;
+  gap: 4px;
+}
+
+.workspace-doc-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.workspace-doc-btn:hover {
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* 3. Claims Tab */
+.workspace-claims-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  background: var(--color-success-tint);
+  border: 1px solid rgba(47, 163, 107, 0.25);
+  border-radius: var(--radius-card);
+  margin-bottom: 12px;
+}
+
+.workspace-claims-badge {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+.workspace-claims-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.workspace-claims-sub {
+  font-size: 12px;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  margin-top: 3px;
+}
+
+.workspace-claims-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.workspace-claim-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  background: #ffffff;
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.workspace-claim-cta:hover {
+  background: var(--color-primary-tint);
+  border-color: var(--color-primary);
+}
+
+/* 4. Activity Tab */
+.workspace-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.workspace-activity-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(226, 236, 236, 0.6);
+}
+
+.workspace-activity-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.workspace-activity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.workspace-activity-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.workspace-activity-detail {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.workspace-activity-date {
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  white-space: nowrap;
+}

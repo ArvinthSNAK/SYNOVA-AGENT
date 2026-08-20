@@ -1,0 +1,89 @@
+/* RingChart.css — BkLit Ring Chart styling */
+
+.bklit-ring-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.bklit-ring-svg {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  overflow: visible;
+}
+
+.bklit-ring-center-val {
+  font-size: 22px;
+  font-weight: 800;
+  fill: var(--color-text-primary);
+  font-family: var(--font-body);
+  letter-spacing: -0.02em;
+}
+
+.bklit-ring-center-label {
+  font-size: 11px;
+  font-weight: 600;
+  fill: var(--color-text-muted);
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.bklit-ring-legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.bklit-ring-legend-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 6px rgba(15, 110, 110, 0.03);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bklit-ring-legend-card:hover,
+.bklit-ring-legend-card--active {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow: 0 6px 18px rgba(15, 110, 110, 0.08);
+}
+
+.bklit-ring-legend-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bklit-ring-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.bklit-ring-legend-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.bklit-ring-legend-sub {
+  font-size: 11px;
+  color: var(--color-text-subtle);
+}
+
+.bklit-ring-legend-val {
+  font-size: 13px;
+  font-weight: 800;
+}
