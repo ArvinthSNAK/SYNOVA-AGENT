@@ -1,57 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SafeGuard Motors - Quote</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDFC Ergo General Insurance - Motor Shield Quote</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: #eee; padding: 30px; }
-        h1 { color: #e94560; }
-        form { background: #16213e; padding: 24px; border-radius: 10px; max-width: 500px; }
-        label { display: block; margin-top: 14px; color: #a8d8ea; font-size: 0.9em; }
-        input, select { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; background: #0f3460; color: #eee; border: 1px solid #444; border-radius: 4px; }
-        button { margin-top: 18px; background: #e94560; color: white; padding: 10px 28px; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; }
-        .error { color: #ff6b6b; }
+        :root {
+            --hdfc-red: #E31837;
+            --hdfc-slate: #1E293B;
+            --bg-gray: #F8FAFC;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-gray);
+            margin: 0;
+            padding: 0;
+            color: #334155;
+        }
+        .header {
+            background-color: var(--hdfc-slate);
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid var(--hdfc-red);
+        }
+        .logo-box {
+            background-color: var(--hdfc-red);
+            color: white;
+            font-weight: 800;
+            font-size: 20px;
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+        .container {
+            max-width: 580px;
+            margin: 40px auto;
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border: 1px solid #E2E8F0;
+        }
+        h2 {
+            color: var(--hdfc-slate);
+            margin-top: 0;
+            font-size: 22px;
+            border-bottom: 2px solid var(--hdfc-red);
+            padding-bottom: 8px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #475569;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .btn-submit {
+            width: 100%;
+            background-color: var(--hdfc-red);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background-color: #c4122d;
+        }
     </style>
 </head>
 <body>
-    <h1>SafeGuard Motors — Get Your Quote</h1>
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="logo-box">HDFC ERGO</div>
+            <span style="font-size: 14px;">Motor Shield Insurance</span>
+        </div>
+        <span style="font-size: 12px; opacity: 0.8;">Instant Online Quote</span>
+    </div>
 
-    {% if error %}
-        <p class="error">Error: {{ error }}</p>
-    {% endif %}
+    <div class="container">
+        <h2>Motor Insurance Quote Calculator</h2>
 
-    <form method="post" action="/quote">
-        <label>Customer Name</label>
-        <input type="text" name="customer_name" required>
+        {% if error %}
+            <div style="color: red; margin-bottom: 15px;"><strong>Error:</strong> {{ error }}</div>
+        {% endif %}
 
-        <label>Vehicle Registration</label>
-        <input type="text" name="vehicle_registration" required>
+        <form method="post" action="/quote">
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" name="customer_name" required>
+            </div>
 
-        <label>Product</label>
-        <select name="product_id" required>
-            {% for product in products %}
-                <option value="{{ product.id }}">{{ product.name }}</option>
-            {% endfor %}
-        </select>
+            <div class="form-group">
+                <label>Vehicle Registration Number</label>
+                <input type="text" name="vehicle_registration" required>
+            </div>
 
-        <label>IDV (₹)</label>
-        <input type="number" name="idv" step="0.01" required>
+            <div class="form-group">
+                <label>Select Product Plan</label>
+                <select name="product_id" required>
+                    {% for product in products %}
+                        <option value="{{ product.id }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label>Vehicle Age (years)</label>
-        <input type="number" name="vehicle_age_years" value="0">
+            <div class="form-group">
+                <label>Insured Declared Value - IDV (₹)</label>
+                <input type="number" name="idv" step="0.01" required>
+            </div>
 
-        <label>NCB (%)</label>
-        <input type="number" name="ncb_percent" step="0.01" value="0">
+            <div class="form-group">
+                <label>Vehicle Age (Years)</label>
+                <input type="number" name="vehicle_age_years" value="2" required>
+            </div>
 
-        <label>Engine Capacity (cc)</label>
-        <input type="number" name="engine_capacity_cc" value="1200">
+            <div class="form-group">
+                <label>No Claim Bonus (%)</label>
+                <input type="number" name="ncb_percent" step="0.01" value="20" required>
+            </div>
 
-        <label>Anti-Theft Device Installed?</label>
-        <select name="has_anti_theft">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-        </select>
+            <div class="form-group">
+                <label>Engine Capacity (CC)</label>
+                <input type="number" name="engine_capacity_cc" value="1497" required>
+            </div>
 
-        <button type="submit">Get Quote</button>
-    </form>
+            <div class="form-group">
+                <label>Has Anti-Theft Device Installed?</label>
+                <select name="has_anti_theft">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit">Calculate HDFC Ergo Premium</button>
+        </form>
+    </div>
 </body>
 </html>

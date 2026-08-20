@@ -1,51 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mock Insurer C - Get a Quote</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TATA AIG Insurance - Auto Protect Quote</title>
     <style>
-        body { font-family: Georgia, serif; background: #f5f0e8; padding: 30px; }
-        h1 { color: #2c5f2d; }
-        form { background: #fff; padding: 20px; border-radius: 8px; max-width: 500px; }
-        label { font-weight: bold; display: block; margin-top: 12px; }
-        input, select { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; }
-        button { margin-top: 16px; background: #2c5f2d; color: white; padding: 10px 24px; border: none; cursor: pointer; }
-        .error { color: red; font-weight: bold; }
+        :root {
+            --tata-blue: #002664;
+            --tata-red: #D32F2F;
+            --bg-gray: #F0F4F8;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-gray);
+            margin: 0;
+            padding: 0;
+            color: #1A202C;
+        }
+        .header {
+            background-color: var(--tata-blue);
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid var(--tata-red);
+        }
+        .logo-box {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+        .container {
+            max-width: 580px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,38,100,0.1);
+        }
+        h2 {
+            color: var(--tata-blue);
+            margin-top: 0;
+            font-size: 22px;
+            border-left: 4px solid var(--tata-red);
+            padding-left: 10px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #2D3748;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #CBD5E0;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn-submit {
+            width: 100%;
+            background-color: var(--tata-blue);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background-color: #001A47;
+        }
     </style>
 </head>
 <body>
-    <h1>TrustShield Insurance — Motor Quote</h1>
+    <div class="header">
+        <div class="logo-box">TATA AIG</div>
+        <span>Auto Secure Insurance Portal</span>
+    </div>
 
-    {% if error %}
-        <p class="error">Error: {{ error }}</p>
-    {% endif %}
+    <div class="container">
+        <h2>Calculate Premium Quote</h2>
 
-    <form method="post" action="/quote">
-        <label>Full Name</label>
-        <input type="text" name="customer_name" required>
+        {% if error %}
+            <div style="color: red; margin-bottom: 15px;"><strong>Error:</strong> {{ error }}</div>
+        {% endif %}
 
-        <label>Vehicle Registration</label>
-        <input type="text" name="vehicle_registration" required>
+        <form method="post" action="/quote">
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" name="customer_name" required>
+            </div>
 
-        <label>Insurance Product</label>
-        <select name="product_id" required>
-            {% for product in products %}
-                <option value="{{ product.id }}">{{ product.name }}</option>
-            {% endfor %}
-        </select>
+            <div class="form-group">
+                <label>Vehicle Registration Number</label>
+                <input type="text" name="vehicle_registration" required>
+            </div>
 
-        <label>IDV (₹)</label>
-        <input type="number" name="idv" step="0.01" required>
+            <div class="form-group">
+                <label>Product Plan</label>
+                <select name="product_id" required>
+                    {% for product in products %}
+                        <option value="{{ product.id }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label>Vehicle Age (years)</label>
-        <input type="number" name="vehicle_age_years" value="0">
+            <div class="form-group">
+                <label>Vehicle IDV (₹)</label>
+                <input type="number" name="idv" step="0.01" required>
+            </div>
 
-        <label>NCB (%)</label>
-        <input type="number" name="ncb_percent" step="0.01" value="0">
+            <div class="form-group">
+                <label>Vehicle Age (Years)</label>
+                <input type="number" name="vehicle_age_years" value="2" required>
+            </div>
 
-        <label>Engine Capacity (cc)</label>
-        <input type="number" name="engine_capacity_cc" value="1200">
+            <div class="form-group">
+                <label>NCB Percent (%)</label>
+                <input type="number" name="ncb_percent" step="0.01" value="20" required>
+            </div>
 
-        <button type="submit">Calculate Premium</button>
-    </form>
+            <div class="form-group">
+                <label>Engine Capacity (CC)</label>
+                <input type="number" name="engine_capacity_cc" value="1497" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Generate TATA AIG Quote</button>
+        </form>
+    </div>
 </body>
 </html>

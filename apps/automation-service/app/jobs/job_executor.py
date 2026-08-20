@@ -9,10 +9,16 @@ from app.core.config import settings
 async def run_single_insurer(insurer_code: str, request: QuoteRequest) -> QuoteResult:
     adapter = get_adapter(insurer_code)
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=settings.PLAYWRIGHT_HEADLESS)
-        page = await browser.new_page()
+        browser = await p.chromium.launch(
+            headless=settings.PLAYWRIGHT_HEADLESS,
+            slow_mo=settings.SLOW_MO_MS
+        )
+        context = await browser.new_context(viewport={"width": 1280, "height": 800})
+        page = await context.new_page()
         try:
             result = await adapter.fill_and_submit(page, request)
+            # Give short delay so user can see final quote page visually on screen
+            await page.wait_for_timeout(1800)
             return result
         except Exception as e:
             return QuoteResult(
@@ -32,11 +38,14 @@ async def run_single_insurer(insurer_code: str, request: QuoteRequest) -> QuoteR
 async def run_automation_job(insurer_codes: list[str], request: QuoteRequest) -> AutomationJobResponse:
     job_id = str(uuid.uuid4())
 
-    tasks = [run_single_insurer(code, request) for code in insurer_codes]
-    results = await asyncio.gather(*tasks, return_exceptions=False)
+    # Sequential execution ensures each insurer portal opens one-by-one clearly on desktop
+    results = []
+    for code in insurer_codes:
+        res = await run_single_insurer(code, request)
+        results.append(res)
 
     return AutomationJobResponse(
         job_id=job_id,
         status="completed",
-        results=list(results),
+        results=results,
     )

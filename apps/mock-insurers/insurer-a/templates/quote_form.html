@@ -1,39 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mock Insurer A - Get a Quote</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICICI Lombard General Insurance - Motor Quote Portal</title>
+    <style>
+        :root {
+            --icici-navy: #003366;
+            --icici-orange: #F58220;
+            --bg-gray: #F4F6F9;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-gray);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header {
+            background-color: var(--icici-navy);
+            color: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid var(--icici-orange);
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-badge {
+            background-color: var(--icici-orange);
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 6px 14px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        h2 {
+            color: var(--icici-navy);
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 12px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #444;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--icici-orange);
+        }
+        .btn-submit {
+            width: 100%;
+            background-color: var(--icici-orange);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #e07216;
+        }
+        .error-msg {
+            background: #ffe6e6;
+            color: #d9534f;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Mock Insurer A — Motor Insurance Quote</h1>
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo-badge">ICICI Lombard</div>
+            <span style="font-size: 16px; font-weight: 500;">Nibhaye Vaade</span>
+        </div>
+        <span style="font-size: 12px; opacity: 0.8;">Motor Insurance Portal</span>
+    </div>
 
-    {% if error %}
-        <p style="color: red;"><strong>Error:</strong> {{ error }}</p>
-    {% endif %}
+    <div class="container">
+        <h2>Instant Motor Insurance Quote</h2>
 
-    <form method="post" action="/quote">
-        <label>Customer Name</label><br>
-        <input type="text" name="customer_name" required><br><br>
+        {% if error %}
+            <div class="error-msg"><strong>Error:</strong> {{ error }}</div>
+        {% endif %}
 
-        <label>Vehicle Registration Number</label><br>
-        <input type="text" name="vehicle_registration" required><br><br>
+        <form method="post" action="/quote">
+            <div class="form-group">
+                <label>Customer Full Name</label>
+                <input type="text" name="customer_name" placeholder="e.g. Arvinth Kumar" required>
+            </div>
 
-        <label>Product</label><br>
-        <select name="product_id" required>
-            {% for product in products %}
-                <option value="{{ product.id }}">{{ product.name }}</option>
-            {% endfor %}
-        </select><br><br>
+            <div class="form-group">
+                <label>Vehicle Registration Number</label>
+                <input type="text" name="vehicle_registration" placeholder="e.g. KA-01-MJ-4092" required>
+            </div>
 
-        <label>IDV (Insured Declared Value)</label><br>
-        <input type="number" name="idv" step="0.01" required><br><br>
+            <div class="form-group">
+                <label>Select Insurance Product</label>
+                <select name="product_id" required>
+                    {% for product in products %}
+                        <option value="{{ product.id }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label>Vehicle Age (years)</label><br>
-        <input type="number" name="vehicle_age_years" value="0"><br><br>
+            <div class="form-group">
+                <label>Insured Declared Value (IDV in ₹)</label>
+                <input type="number" name="idv" step="0.01" placeholder="e.g. 650000" required>
+            </div>
 
-        <label>NCB Percent</label><br>
-        <input type="number" name="ncb_percent" step="0.01" value="0"><br><br>
+            <div class="form-group">
+                <label>Vehicle Age (Years)</label>
+                <input type="number" name="vehicle_age_years" value="2" required>
+            </div>
 
-        <button type="submit">Get Quote</button>
-    </form>
+            <div class="form-group">
+                <label>No Claim Bonus (NCB %)</label>
+                <input type="number" name="ncb_percent" step="0.01" value="20" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Calculate Instant Quote</button>
+        </form>
+    </div>
 </body>
 </html>

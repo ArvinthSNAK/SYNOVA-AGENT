@@ -1,35 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mock Insurer B - Your Quote</title>
+    <meta charset="UTF-8">
+    <title>Acko Drive - Quote Summary</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #F8F9FE; margin: 0; padding: 20px; }
+        .card { max-width: 550px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-top: 5px solid #673AB7; }
+        .violet-text { color: #673AB7; }
+        .price-card { background: #F3E8FF; padding: 20px; border-radius: 8px; text-align: center; margin: 20px 0; border: 1px solid #D8B4FE; }
+        .amount { font-size: 32px; font-weight: 800; color: #673AB7; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px 0; border-bottom: 1px dashed #E2E8F0; display: flex; justify-content: space-between; }
+    </style>
 </head>
 <body>
-    <h1>Mock Insurer B — Quote Result</h1>
+    <div class="card">
+        <h2 class="violet-text">Acko Drive Quote Summary</h2>
+        <p><strong>Customer:</strong> {{ customer_name }}</p>
+        <p><strong>Vehicle Reg:</strong> {{ vehicle_registration }}</p>
+        <p><strong>Product:</strong> {{ product.name }}</p>
 
-    <p><strong>Customer:</strong> {{ customer_name }}</p>
-    <p><strong>Vehicle:</strong> {{ vehicle_registration }}</p>
-    <p><strong>Product:</strong> {{ result.product_name }}</p>
+        <div class="price-card">
+            <div style="font-size: 13px; color: #652B82;">Final Payable Premium</div>
+            <div class="amount">₹{{ "%.2f"|format(final_premium) }}</div>
+        </div>
 
-    <h2>Final Premium: Rs. {{ result.final_premium }}</h2>
-
-    <h3>Breakdown</h3>
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>Rule</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Running Total</th>
-        </tr>
-        {% for item in result.breakdown %}
-        <tr>
-            <td>{{ item.rule }}</td>
-            <td>{{ item.rule_type }}</td>
-            <td>{{ item.value }}</td>
-            <td>{{ item.running_total }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <p><a href="/quote">Get another quote</a></p>
+        <h3>Price Breakdown</h3>
+        <ul>
+            {% for item in breakdown %}
+                <li><span>{{ item.name }}</span> <strong>₹{{ "%.2f"|format(item.amount) }}</strong></li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

@@ -1,44 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mock Insurer C - Quote Result</title>
+    <meta charset="UTF-8">
+    <title>TATA AIG - Quote Summary</title>
     <style>
-        body { font-family: Georgia, serif; background: #f5f0e8; padding: 30px; }
-        h1 { color: #2c5f2d; }
-        h2 { color: #1a3d1a; }
-        table { border-collapse: collapse; width: 100%; max-width: 600px; }
-        th, td { border: 1px solid #999; padding: 8px; text-align: left; }
-        th { background: #2c5f2d; color: white; }
-        a { color: #2c5f2d; }
+        body { font-family: Arial, sans-serif; background: #F0F4F8; margin: 0; padding: 20px; }
+        .card { max-width: 550px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-top: 5px solid #002664; }
+        .blue-text { color: #002664; }
+        .price-card { background: #E6ECF5; padding: 20px; border-radius: 6px; text-align: center; margin: 20px 0; border: 1px solid #BCCCDD; }
+        .amount { font-size: 30px; font-weight: bold; color: #002664; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px 0; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
-    <h1>TrustShield Insurance — Your Quote</h1>
+    <div class="card">
+        <h2 class="blue-text">TATA AIG Auto Protect Quote</h2>
+        <p><strong>Customer:</strong> {{ customer_name }}</p>
+        <p><strong>Vehicle Reg:</strong> {{ vehicle_registration }}</p>
+        <p><strong>Product:</strong> {{ product.name }}</p>
 
-    <p><strong>Customer:</strong> {{ customer_name }}</p>
-    <p><strong>Vehicle:</strong> {{ vehicle_registration }}</p>
-    <p><strong>Product:</strong> {{ result.product_name }}</p>
+        <div class="price-card">
+            <div style="font-size: 13px; color: #4A5568;">Total Premium Payable</div>
+            <div class="amount">₹{{ "%.2f"|format(final_premium) }}</div>
+        </div>
 
-    <h2>Premium: ₹{{ result.final_premium }}</h2>
-
-    <h3>Calculation Breakdown</h3>
-    <table>
-        <tr>
-            <th>Component</th>
-            <th>Type</th>
-            <th>Amount (₹)</th>
-            <th>Running Total (₹)</th>
-        </tr>
-        {% for item in result.breakdown %}
-        <tr>
-            <td>{{ item.rule }}</td>
-            <td>{{ item.rule_type }}</td>
-            <td>{{ item.value }}</td>
-            <td>{{ item.running_total }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <p><a href="/quote">← Get another quote</a></p>
+        <h3>Itemized Premium Breakdown</h3>
+        <ul>
+            {% for item in breakdown %}
+                <li><span>{{ item.name }}</span> <strong>₹{{ "%.2f"|format(item.amount) }}</strong></li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

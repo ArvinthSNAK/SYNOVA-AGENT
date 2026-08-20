@@ -1,15 +1,18 @@
 import pymupdf
-import easyocr
 
 # EasyOCR reader is expensive to initialize (loads model weights),
-# so we create it once and reuse it across requests.
+# so we create it once lazily and reuse it across requests.
 _ocr_reader = None
 
 
 def _get_ocr_reader():
     global _ocr_reader
     if _ocr_reader is None:
-        _ocr_reader = easyocr.Reader(["en"], gpu=False)
+        try:
+            import easyocr
+            _ocr_reader = easyocr.Reader(["en"], gpu=False)
+        except ImportError:
+            raise PdfExtractionError("EasyOCR is required for scanned PDFs but is not installed.")
     return _ocr_reader
 
 

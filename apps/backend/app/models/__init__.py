@@ -14,6 +14,10 @@ from .notification_model import Notification
 from .user_model import User
 from .application_model import Application
 from .policy_model import Policy
+from .claims_model import Claim
+from .renewal_model import Renewal
+from .provider_model import InsurerProvider
+from .audit_model import AuditLog
 
 __all__ = [
 	"Insurer",
@@ -32,4 +36,8 @@ __all__ = [
 	"User",
 	"Application",
 	"Policy",
+	"Claim",
+	"Renewal",
+	"InsurerProvider",
+	"AuditLog",
 ]

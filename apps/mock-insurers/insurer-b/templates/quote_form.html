@@ -1,39 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mock Insurer B - Get a Quote</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acko Drive General Insurance - Motor Quote</title>
+    <style>
+        :root {
+            --acko-violet: #673AB7;
+            --acko-dark: #3F51B5;
+            --bg-light: #F8F9FE;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+            color: #2D3748;
+        }
+        .header {
+            background-color: var(--acko-violet);
+            color: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-badge {
+            background-color: #00E676;
+            color: #004D40;
+            font-weight: 800;
+            font-size: 22px;
+            padding: 4px 14px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+        .container {
+            max-width: 550px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(103, 58, 183, 0.08);
+            border: 1px solid #E2E8F0;
+        }
+        h2 {
+            color: var(--acko-violet);
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #4A5568;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #CBD5E0;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--acko-violet);
+        }
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--acko-violet), var(--acko-dark));
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(103, 58, 183, 0.3);
+        }
+    </style>
 </head>
 <body>
-    <h1>Mock Insurer B — Motor Insurance Quote</h1>
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="logo-badge">acko</div>
+            <span style="font-weight: 600;">Drive Insurance</span>
+        </div>
+        <span style="font-size: 13px;">Direct Customer Portal</span>
+    </div>
 
-    {% if error %}
-        <p style="color: red;"><strong>Error:</strong> {{ error }}</p>
-    {% endif %}
+    <div class="container">
+        <h2>Zero Paperwork Car Insurance</h2>
 
-    <form method="post" action="/quote">
-        <label>Customer Name</label><br>
-        <input type="text" name="customer_name" required><br><br>
+        {% if error %}
+            <div style="color: red; margin-bottom: 15px;"><strong>Error:</strong> {{ error }}</div>
+        {% endif %}
 
-        <label>Vehicle Registration Number</label><br>
-        <input type="text" name="vehicle_registration" required><br><br>
+        <form method="post" action="/quote">
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" name="customer_name" placeholder="Full Name" required>
+            </div>
 
-        <label>Product</label><br>
-        <select name="product_id" required>
-            {% for product in products %}
-                <option value="{{ product.id }}">{{ product.name }}</option>
-            {% endfor %}
-        </select><br><br>
+            <div class="form-group">
+                <label>Vehicle Registration Number</label>
+                <input type="text" name="vehicle_registration" placeholder="Registration (e.g. KA-01-MJ-4092)" required>
+            </div>
 
-        <label>IDV (Insured Declared Value)</label><br>
-        <input type="number" name="idv" step="0.01" required><br><br>
+            <div class="form-group">
+                <label>Select Plan</label>
+                <select name="product_id" required>
+                    {% for product in products %}
+                        <option value="{{ product.id }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label>Vehicle Age (years)</label><br>
-        <input type="number" name="vehicle_age_years" value="0"><br><br>
+            <div class="form-group">
+                <label>IDV Value (₹)</label>
+                <input type="number" name="idv" step="0.01" required>
+            </div>
 
-        <label>NCB Percent</label><br>
-        <input type="number" name="ncb_percent" step="0.01" value="0"><br><br>
+            <div class="form-group">
+                <label>Vehicle Age (Years)</label>
+                <input type="number" name="vehicle_age_years" value="2" required>
+            </div>
 
-        <button type="submit">Get Quote</button>
-    </form>
+            <div class="form-group">
+                <label>NCB Percent (%)</label>
+                <input type="number" name="ncb_percent" step="0.01" value="20" required>
+            </div>
+
+            <button type="submit" class="btn-submit">View Instant Quote</button>
+        </form>
+    </div>
 </body>
 </html>

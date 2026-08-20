@@ -1,44 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SafeGuard Motors - Quote Result</title>
+    <meta charset="UTF-8">
+    <title>HDFC ERGO - Quote Summary</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: #eee; padding: 30px; }
-        h1 { color: #e94560; }
-        h2 { color: #a8d8ea; }
-        table { border-collapse: collapse; width: 100%; max-width: 600px; }
-        th, td { border: 1px solid #444; padding: 8px; text-align: left; }
-        th { background: #e94560; color: white; }
-        a { color: #a8d8ea; }
+        body { font-family: 'Segoe UI', sans-serif; background: #F8FAFC; margin: 0; padding: 20px; }
+        .card { max-width: 550px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-top: 5px solid #E31837; }
+        .red-text { color: #E31837; }
+        .price-card { background: #FEF2F2; padding: 20px; border-radius: 6px; text-align: center; margin: 20px 0; border: 1px solid #FCA5A5; }
+        .amount { font-size: 30px; font-weight: bold; color: #E31837; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px 0; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
-    <h1>SafeGuard Motors — Your Quote</h1>
+    <div class="card">
+        <h2 class="red-text">HDFC ERGO Quote Summary</h2>
+        <p><strong>Customer:</strong> {{ customer_name }}</p>
+        <p><strong>Vehicle Reg:</strong> {{ vehicle_registration }}</p>
+        <p><strong>Product:</strong> {{ product.name }}</p>
 
-    <p><strong>Customer:</strong> {{ customer_name }}</p>
-    <p><strong>Vehicle:</strong> {{ vehicle_registration }}</p>
-    <p><strong>Product:</strong> {{ result.product_name }}</p>
+        <div class="price-card">
+            <div style="font-size: 13px; color: #991B1B;">Final Calculated Premium</div>
+            <div class="amount">₹{{ "%.2f"|format(final_premium) }}</div>
+        </div>
 
-    <h2>Total Premium: ₹{{ result.final_premium }}</h2>
-
-    <h3>Premium Breakdown</h3>
-    <table>
-        <tr>
-            <th>Component</th>
-            <th>Type</th>
-            <th>₹</th>
-            <th>Running Total</th>
-        </tr>
-        {% for item in result.breakdown %}
-        <tr>
-            <td>{{ item.rule }}</td>
-            <td>{{ item.rule_type }}</td>
-            <td>{{ item.value }}</td>
-            <td>{{ item.running_total }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <p><a href="/quote">← New Quote</a></p>
+        <h3>Detailed Premium Components</h3>
+        <ul>
+            {% for item in breakdown %}
+                <li><span>{{ item.name }}</span> <strong>₹{{ "%.2f"|format(item.amount) }}</strong></li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
