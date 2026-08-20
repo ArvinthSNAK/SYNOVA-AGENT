@@ -11,9 +11,6 @@ from .document_model import Document
 from .extracted_policy_data_model import ExtractedPolicyData
 from .policy_version_model import PolicyVersion
 from .notification_model import Notification
-from .user_model import User
-from .application_model import Application
-from .policy_model import Policy
 
 __all__ = [
 	"Insurer",
@@ -29,7 +26,4 @@ __all__ = [
 	"ExtractedPolicyData",
 	"PolicyVersion",
 	"Notification",
-	"User",
-	"Application",
-	"Policy",
 ]

@@ -1,0 +1,501 @@
+.root {
+  --hb-primary: #0F6E6E;
+  --hb-primaryDeep: #0B4F52;
+  --hb-primaryTint: #E4F2F2;
+  --hb-primaryMint: #3ECFAF;
+  --hb-borderStrong: #BEDFE5;
+  --hb-accent: #D06A4E;
+  --hb-accentTint: #FBEDE8;
+  --hb-accentText: #93401F;
+  --hb-border: #E2ECEC;
+  --hb-text: #101828;
+  --hb-textMuted: #5A6A6E;
+  --hb-textSubtle: #7A8C8C;
+  --hb-surface: #FFFFFF;
+  --hb-background: #FDFEFE;
+
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- 1. Drifting mesh ---------- */
+
+.meshA,
+.meshB {
+  position: absolute;
+  inset: -14%;
+}
+
+.meshA {
+  background-image: radial-gradient(620px 420px at 8% 4%, rgba(15, 110, 110, 0.13), transparent 60%),
+    radial-gradient(520px 380px at 92% 8%, rgba(62, 207, 175, 0.13), transparent 60%);
+  animation: meshDriftA 26s ease-in-out infinite;
+}
+
+.meshB {
+  background-image: radial-gradient(560px 400px at 74% 96%, rgba(208, 106, 78, 0.09), transparent 60%),
+    radial-gradient(460px 340px at 22% 88%, rgba(15, 110, 110, 0.07), transparent 60%);
+  animation: meshDriftB 34s ease-in-out infinite;
+}
+
+@keyframes meshDriftA {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(38px, -26px) scale(1.08);
+  }
+  66% {
+    transform: translate(-24px, 20px) scale(1.04);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes meshDriftB {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-42px, 24px) scale(1);
+  }
+}
+
+/* ---------- 2. Route network ---------- */
+
+.routes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    rgba(0, 0, 0, 0.1) 32%,
+    transparent 46%,
+    transparent 54%,
+    rgba(0, 0, 0, 0.1) 68%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    rgba(0, 0, 0, 0.1) 32%,
+    transparent 46%,
+    transparent 54%,
+    rgba(0, 0, 0, 0.1) 68%,
+    #000 100%
+  );
+}
+
+.routeSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    display: none;
+  }
+}
+
+/* ---------- 3. Flying objects ---------- */
+
+.sky {
+  position: absolute;
+  inset: 0;
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+
+.fl {
+  position: absolute;
+  will-change: transform;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.dirR {
+  left: 0;
+  animation-name: flyR;
+}
+
+.dirL {
+  right: -360px;
+  animation-name: flyL;
+}
+
+@keyframes flyR {
+  0% {
+    transform: translate(-360px, var(--y0));
+  }
+  100% {
+    transform: translate(calc(100vw + 360px), var(--y1));
+  }
+}
+
+@keyframes flyL {
+  0% {
+    transform: translate(0, var(--y0));
+  }
+  100% {
+    transform: translate(calc(-100vw - 380px), var(--y1));
+  }
+}
+
+/* Depth tiers — standalone `scale` (not `transform`) so they compose
+   cleanly with the transform-driven flyR/flyL travel animation on the
+   same element instead of clobbering it. */
+.d1 {
+  scale: 0.66;
+  filter: blur(1.6px);
+}
+
+.d2 {
+  scale: 0.84;
+  filter: blur(0.35px);
+}
+
+.d3 {
+  scale: 1;
+}
+
+.cy {
+  animation-name: cyc;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes cyc {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--op);
+  }
+  86% {
+    opacity: var(--op);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.wb {
+  animation-name: wob;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes wob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--rot));
+  }
+  50% {
+    transform: translateY(var(--amp)) rotate(var(--rot));
+  }
+}
+
+.tilt {
+  transform: rotateY(var(--ry)) rotateX(5deg);
+}
+
+.objectWrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* ---------- Object chrome ---------- */
+
+.quoteCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 236, 236, 0.9);
+  border-radius: 14px;
+  padding: 11px 15px;
+  box-shadow: 0 18px 42px rgba(15, 110, 110, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.quoteText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.quoteInsurer {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--hb-text);
+}
+
+.quoteSub {
+  font-size: 9.5px;
+  color: var(--hb-textSubtle);
+}
+
+.quotePrice {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--hb-primary);
+  margin-left: auto;
+}
+
+.winnerCard {
+  composes: quoteCard;
+  position: relative;
+  border-color: rgba(15, 110, 110, 0.55);
+  box-shadow: 0 22px 48px rgba(15, 110, 110, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.winnerBadge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--hb-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(11, 79, 82, 0.35);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 7px 13px;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+
+.pillTeal {
+  background: rgba(228, 242, 242, 0.82);
+  color: var(--hb-primaryDeep);
+}
+
+.pillAccent {
+  background: rgba(251, 237, 232, 0.82);
+  color: var(--hb-accentText);
+}
+
+.miniDoc {
+  position: relative;
+  width: 68px;
+  height: 86px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 236, 236, 0.9);
+  border-radius: 10px;
+  padding: 10px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.docBar {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--hb-primaryTint);
+}
+
+.docBar:nth-child(3) {
+  width: 70%;
+}
+
+.docBar:nth-child(5) {
+  width: 55%;
+}
+
+.scanLine {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--hb-primary);
+  box-shadow: 0 0 10px 3px rgba(15, 110, 110, 0.45);
+  animation: scan 6s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0% {
+    top: 8px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  56% {
+    opacity: 1;
+  }
+  62% {
+    opacity: 0;
+  }
+  100% {
+    top: 78px;
+    opacity: 0;
+  }
+}
+
+/* Reduce compositing cost: d1 objects are already blurred and scaled
+   down by the depth-tier filter, so the frosted-glass backdrop-filter
+   is visually redundant there — drop it to cut simultaneous blur
+   compositing on the smallest, least-noticed layer. */
+.d1 .quoteCard,
+.d1 .pill,
+.d1 .miniDoc {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.streak {
+  position: absolute;
+  top: 50%;
+  width: 150px;
+  height: 1.5px;
+  transform: translateY(-50%);
+}
+
+.streakLeft {
+  right: calc(100% + 10px);
+  background: linear-gradient(270deg, rgba(15, 110, 110, 0.34), transparent);
+}
+
+.streakRight {
+  left: calc(100% + 10px);
+  background: linear-gradient(90deg, rgba(15, 110, 110, 0.34), transparent);
+}
+
+.streakAccent.streakLeft {
+  background: linear-gradient(270deg, rgba(208, 106, 78, 0.34), transparent);
+}
+
+.streakAccent.streakRight {
+  background: linear-gradient(90deg, rgba(208, 106, 78, 0.34), transparent);
+}
+
+/* ---------- 4. Twinkles ---------- */
+
+.twinkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  animation-name: twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: var(--tw-dur, 5.4s);
+  animation-delay: var(--tw-delay, 0s);
+}
+
+.twinkle::before,
+.twinkle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--tw-color, var(--hb-primary));
+}
+
+.twinkle::before {
+  width: 1.2px;
+  height: 6px;
+  transform: translate(-50%, -50%);
+}
+
+.twinkle::after {
+  width: 6px;
+  height: 1.2px;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.4);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---------- 5. Grain ---------- */
+
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.038;
+  mix-blend-mode: multiply;
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='180'%20height='180'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.85'%20numOctaves='3'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- 6. Content veil ---------- */
+
+.veil {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  width: min(1060px, 96%);
+  height: 470px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(253, 254, 254, 0.97) 0%,
+    rgba(253, 254, 254, 0.88) 46%,
+    rgba(253, 254, 254, 0) 76%
+  );
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 760px) {
+  .hideS {
+    display: none;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .meshA,
+  .meshB,
+  .fl,
+  .wb {
+    animation-play-state: paused !important;
+  }
+
+  .twinkle {
+    display: none;
+  }
+
+  .scanLine {
+    display: none;
+  }
+
+  .cy {
+    animation: none !important;
+    opacity: var(--op) !important;
+  }
+}

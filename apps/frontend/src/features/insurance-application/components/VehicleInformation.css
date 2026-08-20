@@ -1,0 +1,316 @@
+/* VehicleInformation.css */
+
+.vi-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Section header */
+.vi-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.vi-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.vi-edit-btn,
+.vi-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  background: var(--color-background);
+  transition: all var(--transition-fast);
+}
+
+.vi-edit-btn:hover,
+.vi-back-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-tint);
+}
+
+/* Extraction review */
+.vi-extraction-review {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.vi-extraction-review-note {
+  font-size: 13px;
+  color: var(--color-text-subtle);
+  padding: 12px 16px;
+  background: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.vi-extraction-fields {
+  padding: 0 16px;
+}
+
+.vi-extraction-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.vi-extraction-row:last-child {
+  border-bottom: none;
+}
+
+.vi-extraction-label {
+  font-size: 13px;
+  color: var(--color-text-subtle);
+}
+
+.vi-extraction-value-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vi-check {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+.vi-extraction-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.vi-extraction-missing {
+  font-size: 13px;
+  color: var(--color-text-subtle);
+  font-style: italic;
+}
+
+/* Form */
+.vi-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.vi-form-section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.vi-form-section:last-of-type {
+  border-bottom: none;
+}
+
+.vi-form-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vi-optional-tag {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-subtle);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: 1px 8px;
+}
+
+.vi-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Field */
+.vi-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.vi-field-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.vi-field-required {
+  color: var(--color-error);
+  margin-left: 2px;
+}
+
+.vi-input,
+.vi-select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  background: var(--color-background);
+  transition: border-color var(--transition-fast);
+  outline: none;
+  font-family: var(--font-body);
+}
+
+.vi-input:focus,
+.vi-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(15, 110, 110, 0.08);
+}
+
+.vi-input--error,
+.vi-select--error {
+  border-color: var(--color-error);
+}
+
+.vi-input--error:focus,
+.vi-select--error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+}
+
+.vi-select-wrap {
+  position: relative;
+}
+
+.vi-select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 30px;
+}
+
+.vi-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--color-text-subtle);
+  pointer-events: none;
+}
+
+.vi-field-error {
+  font-size: 12px;
+  color: var(--color-error);
+}
+
+/* Field status icon */
+.vi-field-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.vi-field-status--complete { color: var(--color-success); }
+.vi-field-status--error { color: var(--color-error); }
+.vi-field-status--empty {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+}
+
+/* Actions */
+.vi-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 16px;
+  flex-shrink: 0;
+}
+
+.vi-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  outline: none;
+}
+
+.vi-btn--primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.vi-btn--primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.vi-btn--primary:disabled {
+  background: var(--color-border);
+  color: var(--color-text-subtle);
+  cursor: not-allowed;
+}
+
+.vi-btn--secondary {
+  background: var(--color-background);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.vi-btn--secondary:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-tint);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .vi-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vi-actions {
+    flex-direction: column-reverse;
+  }
+
+  .vi-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

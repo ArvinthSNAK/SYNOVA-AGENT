@@ -9,10 +9,3 @@ psycopg2-binary
 pymupdf
 easyocr
 python-multipart
-httpx
-python-jose[cryptography]
-bcrypt
-
-bcrypt
-python-jose[cryptography]
-email-validator

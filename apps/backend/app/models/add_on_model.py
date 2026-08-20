@@ -10,8 +10,6 @@ class AddOn(Base, TimestampMixin):
     product_id = Column(Integer, ForeignKey("insurance_products.id"), nullable=False)
     name = Column(String(255), nullable=False)
     description = Column(Text)
-    premium_calculation_method = Column(String(50), default="flat")
-    flat_amount = Column(Float, nullable=True)
     premium_factor = Column(Float, nullable=True)
     eligibility = Column(Text)
     coverage_limit = Column(Float, nullable=True)

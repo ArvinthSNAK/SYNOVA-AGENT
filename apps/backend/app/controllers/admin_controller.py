@@ -2,7 +2,6 @@ from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.postgres.session import get_db
 from app.services.admin_service import AdminService
-from app.services.notification.notification_service import NotificationService
 from app.schemas.admin_schema import InsurerCreate, InsuranceProductCreate, PricingRuleCreate
 
 
@@ -39,11 +38,7 @@ def create_product(payload: InsuranceProductCreate, db: Session = Depends(get_db
             maximum_premium=payload.maximum_premium,
             active=payload.active,
         )
-        notification_svc = NotificationService(db)
-        notifications = notification_svc.notify_eligible_customers_for_new_product(product.id)
-        result = _to_dict(product)
-        result["notifications_sent"] = len(notifications)
-        return result
+        return _to_dict(product)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 

@@ -1,0 +1,64 @@
+/* ═══════════════════════════════════════════════════════════
+   Euler Launcher (Floating Action Button) — Styling
+   ═══════════════════════════════════════════════════════════ */
+
+.euler-launcher-wrap {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.euler-fab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px 10px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-accent);
+  box-shadow: 0 8px 24px rgba(208, 106, 78, 0.22), 0 2px 6px rgba(16, 24, 40, 0.08);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.euler-fab:hover {
+  transform: translateY(-2px);
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(208, 106, 78, 0.3), 0 4px 10px rgba(16, 24, 40, 0.1);
+  border-color: var(--color-accent);
+}
+
+.euler-fab--active {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+  padding: 12px;
+  border-radius: 50%;
+}
+
+.euler-fab--active:hover {
+  background: var(--color-accent-hover);
+  color: #fff;
+}
+
+.euler-fab-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+.euler-fab-name {
+  font-size: 13px;
+  font-weight: var(--fw-bold);
+  color: var(--color-accent);
+}
+
+.euler-fab-subtitle {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
