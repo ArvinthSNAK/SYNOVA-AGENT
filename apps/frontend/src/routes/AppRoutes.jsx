@@ -27,50 +27,73 @@ function PlaceholderPage({ title, description, backTo = '/dashboard' }) {
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '32px',
       fontFamily: 'Inter, sans-serif',
-      background: 'var(--color-surface-alt, #FAFDFD)',
+      background: 'radial-gradient(circle at 10% 20%, rgba(228, 242, 242, 0.7) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(251, 237, 232, 0.6) 0%, transparent 45%), var(--color-surface-alt, #FAFDFD)',
       color: 'var(--color-text-primary, #101828)',
-      textAlign: 'center'
     }}>
+      <UserNavbar />
       <div style={{
-        width: '56px',
-        height: '56px',
-        borderRadius: '16px',
-        background: 'var(--color-primary-tint, #E4F2F2)',
-        color: 'var(--color-primary, #0F6E6E)',
+        flex: 1,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '24px',
-        fontWeight: 'bold',
-        marginBottom: '20px'
+        padding: '32px 20px 80px',
+        textAlign: 'center'
       }}>
-        S
-      </div>
-      <h1 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '8px' }}>{title}</h1>
-      <p style={{ fontSize: '15px', color: 'var(--color-text-muted, #566A6E)', maxWidth: '480px', marginBottom: '24px', lineHeight: '1.5' }}>
-        {description}
-      </p>
-      <Link
-        to={backTo}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '10px 20px',
-          borderRadius: '9999px',
-          background: 'var(--color-primary, #0F6E6E)',
+      <div style={{
+        background: 'rgba(255, 255, 255, 0.88)',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid rgba(226, 236, 236, 0.95)',
+        borderRadius: '24px',
+        padding: '44px 36px',
+        maxWidth: '520px',
+        width: '100%',
+        boxShadow: '0 20px 45px -10px rgba(15, 110, 110, 0.08)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        <div style={{
+          width: '60px',
+          height: '60px',
+          borderRadius: '18px',
+          background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-deep))',
           color: 'white',
-          fontWeight: '600',
-          fontSize: '14px',
-          textDecoration: 'none'
-        }}
-      >
-        &larr; Back to Dashboard
-      </Link>
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '26px',
+          fontWeight: 'bold',
+          marginBottom: '20px',
+          boxShadow: '0 8px 20px rgba(15, 110, 110, 0.25)'
+        }}>
+          S
+        </div>
+        <h1 style={{ fontSize: '26px', fontWeight: '700', marginBottom: '8px', letterSpacing: '-0.02em' }}>{title}</h1>
+        <p style={{ fontSize: '14px', color: 'var(--color-text-muted, #566A6E)', maxWidth: '440px', marginBottom: '28px', lineHeight: '1.6' }}>
+          {description}
+        </p>
+        <Link
+          to={backTo}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '12px 24px',
+            borderRadius: '9999px',
+            background: 'var(--color-primary, #0F6E6E)',
+            color: 'white',
+            fontWeight: '600',
+            fontSize: '14px',
+            textDecoration: 'none',
+            boxShadow: '0 4px 14px rgba(15, 110, 110, 0.25)',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          &larr; Back to Dashboard
+        </Link>
+      </div>
+      </div>
     </div>
   );
 }

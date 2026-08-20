@@ -10,7 +10,11 @@ import {
   RefreshCcw,
   FileText,
   Circle,
-  Volume2,
+  Upload,
+  Camera,
+  File,
+  Image as ImageIcon,
+  Car,
 } from 'lucide-react';
 import { dashboardData, getDaysUntilExpiry } from '../data/dashboardData.js';
 import './EulerChat.css';
@@ -19,11 +23,28 @@ const { user, policy } = dashboardData;
 const daysRemaining = getDaysUntilExpiry(policy.expiryDate);
 
 const quickActions = [
-  { id: 'new', icon: Sparkles, label: 'Find New Insurance', route: '/new-insurance' },
-  { id: 'renew', icon: RefreshCcw, label: 'Renew My Policy', route: '/renewal' },
-  { id: 'coverage', icon: ShieldCheck, label: 'Explain My Coverage', route: '/policies' },
-  { id: 'policy', icon: FileText, label: 'View My Policy', route: '/policies' },
+  { id: 'new', icon: Sparkles, label: 'New Insurance', route: '/new-insurance' },
+  { id: 'renew', icon: RefreshCcw, label: 'Renew Policy', route: '/renewal' },
+  { id: 'coverage', icon: ShieldCheck, label: 'My Coverage', route: '/policies' },
+  { id: 'policy', icon: FileText, label: 'View Policy', route: '/policies' },
 ];
+
+const attachmentOptions = [
+  { id: 'vehicle-doc', icon: Car, label: 'Vehicle Document' },
+  { id: 'insurance-policy', icon: ShieldCheck, label: 'Insurance Policy' },
+  { id: 'rc', icon: FileText, label: 'Registration Certificate' },
+  { id: 'image', icon: ImageIcon, label: 'Upload Image' },
+  { id: 'pdf', icon: File, label: 'Upload PDF' },
+];
+
+// Voice state machine
+const VOICE_STATES = {
+  IDLE: 'idle',
+  LISTENING: 'listening',
+  PROCESSING: 'processing',
+  SPEAKING: 'speaking',
+  ERROR: 'error',
+};
 
 const initialMessages = [
   {
@@ -53,12 +74,14 @@ export default function EulerChat({ open, onClose }) {
   const [messages, setMessages] = useState(initialMessages);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [voiceStatus, setVoiceStatus] = useState('');
+  const [voiceState, setVoiceState] = useState(VOICE_STATES.IDLE);
+  const [showAttachMenu, setShowAttachMenu] = useState(false);
+  const [ocrState, setOcrState] = useState(null); // null | 'uploading' | 'processing' | 'extracting' | 'completed' | 'error'
 
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (open) {
@@ -66,6 +89,7 @@ export default function EulerChat({ open, onClose }) {
       scrollToBottom();
     } else {
       stopVoiceRecognition();
+      setShowAttachMenu(false);
     }
   }, [open]);
 
@@ -121,19 +145,17 @@ export default function EulerChat({ open, onClose }) {
       } catch (e) {}
       recognitionRef.current = null;
     }
-    setIsListening(false);
-    setVoiceStatus('');
+    setVoiceState(VOICE_STATES.IDLE);
   };
 
-  // Toggle Voice Input
+  // Toggle Voice — Real-time voice UX
   const toggleVoiceInput = () => {
-    if (isListening) {
+    if (voiceState !== VOICE_STATES.IDLE) {
       stopVoiceRecognition();
       return;
     }
 
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (SpeechRecognition) {
       try {
@@ -143,8 +165,7 @@ export default function EulerChat({ open, onClose }) {
         recognition.lang = 'en-US';
 
         recognition.onstart = () => {
-          setIsListening(true);
-          setVoiceStatus('Listening... Speak into mic');
+          setVoiceState(VOICE_STATES.LISTENING);
         };
 
         recognition.onresult = (event) => {
@@ -153,18 +174,22 @@ export default function EulerChat({ open, onClose }) {
             transcript += event.results[i][0].transcript;
           }
           setInputValue(transcript);
-          setVoiceStatus(`Captured: "${transcript}"`);
         };
 
         recognition.onerror = (event) => {
           console.warn('Speech recognition error:', event.error);
-          stopVoiceRecognition();
-          runSimulatedVoiceInput();
+          setVoiceState(VOICE_STATES.ERROR);
+          setTimeout(() => {
+            stopVoiceRecognition();
+            runSimulatedVoiceInput();
+          }, 1000);
         };
 
         recognition.onend = () => {
-          setIsListening(false);
-          setVoiceStatus('');
+          if (voiceState === VOICE_STATES.LISTENING) {
+            setVoiceState(VOICE_STATES.PROCESSING);
+            setTimeout(() => setVoiceState(VOICE_STATES.IDLE), 800);
+          }
         };
 
         recognitionRef.current = recognition;
@@ -173,20 +198,18 @@ export default function EulerChat({ open, onClose }) {
         runSimulatedVoiceInput();
       }
     } else {
-      // Fallback voice simulation if browser Web Speech API is unssupported
       runSimulatedVoiceInput();
     }
   };
 
   // Simulated Voice Input Fallback
   const runSimulatedVoiceInput = () => {
-    setIsListening(true);
-    setVoiceStatus('Listening... (Voice mode active)');
+    setVoiceState(VOICE_STATES.LISTENING);
 
     const sampleQueries = [
       "Can you explain my ICICI Lombard auto insurance coverage?",
       "When does my policy expire and how do I renew?",
-      "How do I start a new insurance application for my vehicle?",
+      "How do I start a new insurance application?",
     ];
     const chosenQuery = sampleQueries[Math.floor(Math.random() * sampleQueries.length)];
 
@@ -200,12 +223,53 @@ export default function EulerChat({ open, onClose }) {
         charIndex++;
       } else {
         clearInterval(interval);
-        setTimeout(() => {
-          setIsListening(false);
-          setVoiceStatus('');
-        }, 600);
+        setVoiceState(VOICE_STATES.PROCESSING);
+        setTimeout(() => setVoiceState(VOICE_STATES.IDLE), 600);
       }
     }, 45);
+  };
+
+  // Attachment handling
+  const handleAttachment = (option) => {
+    setShowAttachMenu(false);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Simulate OCR flow
+    setOcrState('uploading');
+    const userMsg = {
+      id: `user-upload-${Date.now()}`,
+      role: 'user',
+      content: `📄 Uploaded: ${file.name}`,
+      type: 'upload',
+    };
+    setMessages((prev) => [...prev, userMsg]);
+
+    setTimeout(() => {
+      setOcrState('processing');
+      setTimeout(() => {
+        setOcrState('extracting');
+        setTimeout(() => {
+          setOcrState('completed');
+          const eulerMsg = {
+            id: `euler-ocr-${Date.now()}`,
+            role: 'euler',
+            content: `I found a vehicle document.\n\n**Extracted Information:**\n• Registration: **KA-01-XX-0000**\n• Make: **Hyundai**\n• Model: **Creta**\n• Variant: **SX(O) Turbo**\n• Year: **2023**\n\nWould you like me to use these details for your new insurance application?`,
+            type: 'ocr-result',
+            actions: ['Use Details', 'Review', 'Cancel'],
+          };
+          setMessages((prev) => [...prev, eulerMsg]);
+          setTimeout(() => setOcrState(null), 1500);
+        }, 1200);
+      }, 1000);
+    }, 800);
+
+    // Reset file input
+    e.target.value = '';
   };
 
   const handleQuickAction = (action) => {
@@ -217,6 +281,16 @@ export default function EulerChat({ open, onClose }) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
+    }
+  };
+
+  const getVoiceLabel = () => {
+    switch (voiceState) {
+      case VOICE_STATES.LISTENING: return 'Listening...';
+      case VOICE_STATES.PROCESSING: return 'Thinking...';
+      case VOICE_STATES.SPEAKING: return 'Euler is responding...';
+      case VOICE_STATES.ERROR: return 'Something went wrong';
+      default: return 'Talk to Euler';
     }
   };
 
@@ -237,7 +311,7 @@ export default function EulerChat({ open, onClose }) {
           </div>
           <div>
             <div className="euler-chat-name">Euler</div>
-            <div className="euler-chat-subtitle">Your Insurance Assistant</div>
+            <div className="euler-chat-subtitle">Insurance Assistant</div>
           </div>
         </div>
         <div className="euler-chat-status" aria-label="Euler is online">
@@ -269,6 +343,25 @@ export default function EulerChat({ open, onClose }) {
               {msg.content.split('\n').map((line, i) =>
                 line ? <p key={i}>{renderMessage(line)}</p> : <br key={i} />
               )}
+              {/* OCR action buttons */}
+              {msg.actions && (
+                <div className="euler-ocr-actions">
+                  {msg.actions.map((action) => (
+                    <button
+                      key={action}
+                      className={`euler-ocr-action-btn${action === 'Use Details' ? ' euler-ocr-action-btn--primary' : ''}`}
+                      onClick={() => {
+                        if (action === 'Use Details') {
+                          onClose();
+                          navigate('/new-insurance');
+                        }
+                      }}
+                    >
+                      {action}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -287,13 +380,42 @@ export default function EulerChat({ open, onClose }) {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Voice Status Toast */}
-      {isListening && (
-        <div className="euler-voice-toast">
-          <div className="euler-voice-pulse-icon">
-            <Volume2 size={15} />
+      {/* OCR Progress Toast */}
+      {ocrState && (
+        <div className="euler-ocr-toast" aria-live="assertive">
+          <div className={`euler-ocr-progress euler-ocr-progress--${ocrState}`}>
+            <div className="euler-ocr-spinner" />
+            <span>
+              {ocrState === 'uploading' && 'Uploading document...'}
+              {ocrState === 'processing' && 'Processing document...'}
+              {ocrState === 'extracting' && 'Extracting information...'}
+              {ocrState === 'completed' && '✓ Extraction complete'}
+              {ocrState === 'error' && '✕ Extraction failed'}
+            </span>
           </div>
-          <span className="euler-voice-toast-text">{voiceStatus || 'Listening... Speak now'}</span>
+        </div>
+      )}
+
+      {/* Voice Status */}
+      {voiceState !== VOICE_STATES.IDLE && (
+        <div className="euler-voice-toast" aria-live="assertive">
+          <div className={`euler-voice-indicator euler-voice-indicator--${voiceState}`}>
+            {voiceState === VOICE_STATES.LISTENING && (
+              <div className="euler-voice-waves" aria-hidden="true">
+                <span /><span /><span /><span /><span />
+              </div>
+            )}
+            {voiceState === VOICE_STATES.PROCESSING && (
+              <div className="euler-voice-pulse" aria-hidden="true" />
+            )}
+            {voiceState === VOICE_STATES.ERROR && (
+              <X size={14} />
+            )}
+          </div>
+          <span className="euler-voice-toast-text">{getVoiceLabel()}</span>
+          {voiceState === VOICE_STATES.ERROR && (
+            <button className="euler-voice-retry" onClick={toggleVoiceInput}>Try Again</button>
+          )}
         </div>
       )}
 
@@ -321,19 +443,19 @@ export default function EulerChat({ open, onClose }) {
           ref={inputRef}
           type="text"
           className="euler-chat-input"
-          placeholder={isListening ? "Listening to your voice..." : "Ask Euler anything..."}
+          placeholder={voiceState === VOICE_STATES.LISTENING ? "Listening..." : "Ask Euler anything..."}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           aria-label="Message input"
         />
         <button
-          className={`euler-chat-voice${isListening ? ' euler-chat-voice--active' : ''}`}
+          className={`euler-chat-voice${voiceState !== VOICE_STATES.IDLE ? ' euler-chat-voice--active' : ''}`}
           onClick={toggleVoiceInput}
-          aria-label={isListening ? "Stop voice recording" : "Start voice recording"}
-          title={isListening ? "Stop voice recording" : "Start voice recording"}
+          aria-label={voiceState !== VOICE_STATES.IDLE ? "Stop voice" : "Start voice"}
+          title={voiceState !== VOICE_STATES.IDLE ? "Stop" : "Voice input"}
         >
-          {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+          {voiceState !== VOICE_STATES.IDLE ? <MicOff size={16} /> : <Mic size={16} />}
         </button>
         <button
           className="euler-chat-send"
@@ -365,6 +487,9 @@ function generateEulerResponse(text) {
   }
   if (lower.includes('new') || lower.includes('another policy')) {
     return `I can help you explore new auto insurance options.\n\nTell me about the new vehicle, and I'll compare suitable plans from leading insurers.`;
+  }
+  if (lower.includes('upload') || lower.includes('document') || lower.includes('extract')) {
+    return `You can upload documents using the **+** button next to the input field.\n\nI support:\n• Vehicle Registration Certificate\n• Existing Insurance Policy\n• Aadhaar Card\n• Photos of documents\n\nI'll extract the details automatically and help fill your application.`;
   }
   return `I'm here to help with your auto insurance.\n\nI can explain your coverage, help with renewal, assist with a new policy, or answer any questions about your ICICI Lombard policy.`;
 }
