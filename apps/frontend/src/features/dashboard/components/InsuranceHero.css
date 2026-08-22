@@ -95,6 +95,8 @@
   color: var(--color-primary);
   background: var(--color-surface-alt);
   border-color: var(--color-border);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-copied-label {
@@ -281,6 +283,7 @@
 .hero-stat-cell:hover {
   border-color: var(--color-border-strong);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-stat-cell--highlight {
@@ -486,7 +489,8 @@
 
 .hero-addon-card:hover {
   border-color: var(--color-primary);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-addon-card--active {
@@ -683,6 +687,8 @@
 
 .hero-cta-btn--accent:hover {
   background: var(--color-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent);
 }
 
 .hero-cta-btn--secondary {
@@ -694,6 +700,8 @@
 .hero-cta-btn--secondary:hover {
   background: var(--color-primary-tint);
   border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-cta-btn--ghost {
@@ -705,6 +713,8 @@
 .hero-cta-btn--ghost:hover {
   color: var(--color-text-primary);
   background: var(--color-surface-alt);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 @media (max-width: 1024px) {

@@ -60,10 +60,14 @@
   color: var(--color-text-muted);
   cursor: pointer;
   flex: none;
+  transition: background var(--transition-fast), transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .topbar-icon-btn:hover {
   background: var(--color-surface-alt);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 @media (max-width: 700px) {

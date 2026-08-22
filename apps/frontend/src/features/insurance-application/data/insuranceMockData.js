@@ -201,6 +201,11 @@ export const vehicleMakes = [
   'Ford', 'Jeep', 'BMW', 'Mercedes-Benz', 'Audi', 'Other',
 ];
 
+export const twoWheelerMakes = [
+  'Hero', 'Honda', 'TVS', 'Bajaj', 'Royal Enfield', 'Yamaha',
+  'Suzuki', 'KTM', 'Ola Electric', 'Ather', 'Triumph', 'Other',
+];
+
 export const fuelTypes = ['Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid'];
 
 export const ownershipTypes = ['First Owner', 'Second Owner', 'Third Owner', 'Fourth Owner +'];

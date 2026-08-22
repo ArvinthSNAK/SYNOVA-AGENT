@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Check, Edit2, AlertTriangle, ChevronRight, X } from 'lucide-react';
+import { Check, Edit2, AlertTriangle, ChevronRight, X, Car, Motorbike } from 'lucide-react';
 import {
-  vehicleMakes, fuelTypes, ownershipTypes, indianCities,
+  vehicleMakes, twoWheelerMakes, fuelTypes, ownershipTypes, indianCities,
 } from '../data/insuranceMockData.js';
 import { validateVehicleForm } from '../utils/validation.js';
 import VehicleDocumentUpload from './VehicleDocumentUpload.jsx';
@@ -174,6 +174,31 @@ export default function VehicleInformation({
         onSubmit={(e) => { e.preventDefault(); handleContinue(); }}
         noValidate
       >
+        {/* Section: Vehicle Type */}
+        <div className="vi-form-section">
+          <h3 className="vi-form-section-title">Vehicle Type</h3>
+          <div className="vi-vehicle-type-toggle" role="radiogroup" aria-label="Vehicle type">
+            <button
+              type="button"
+              className={`vi-vehicle-type-btn${vehicle.vehicleType !== 'two-wheeler' ? ' vi-vehicle-type-btn--active' : ''}`}
+              role="radio"
+              aria-checked={vehicle.vehicleType !== 'two-wheeler'}
+              onClick={() => onUpdateVehicle('vehicleType', 'four-wheeler')}
+            >
+              <Car size={16} /> Four-Wheeler
+            </button>
+            <button
+              type="button"
+              className={`vi-vehicle-type-btn${vehicle.vehicleType === 'two-wheeler' ? ' vi-vehicle-type-btn--active' : ''}`}
+              role="radio"
+              aria-checked={vehicle.vehicleType === 'two-wheeler'}
+              onClick={() => onUpdateVehicle('vehicleType', 'two-wheeler')}
+            >
+              <Motorbike size={16} /> Two-Wheeler
+            </button>
+          </div>
+        </div>
+
         {/* Section: Vehicle Basics */}
         <div className="vi-form-section">
           <h3 className="vi-form-section-title">Vehicle Basics</h3>
@@ -190,7 +215,9 @@ export default function VehicleInformation({
                   aria-describedby={fieldError('make') ? 'vi-make-error' : undefined}
                 >
                   <option value="">Select make</option>
-                  {vehicleMakes.map((m) => <option key={m} value={m}>{m}</option>)}
+                  {(vehicle.vehicleType === 'two-wheeler' ? twoWheelerMakes : vehicleMakes).map((m) => (
+                    <option key={m} value={m}>{m}</option>
+                  ))}
                 </select>
               </div>
             </FormField>
@@ -200,7 +227,7 @@ export default function VehicleInformation({
                 id="vi-model"
                 type="text"
                 className={`vi-input${fieldError('model') ? ' vi-input--error' : ''}`}
-                placeholder="e.g., Creta, Swift, Nexon"
+                placeholder={vehicle.vehicleType === 'two-wheeler' ? 'e.g., Activa, Classic 350, Pulsar' : 'e.g., Creta, Swift, Nexon'}
                 value={vehicle.model}
                 onChange={(e) => onUpdateVehicle('model', e.target.value)}
                 onBlur={() => handleBlur('model')}

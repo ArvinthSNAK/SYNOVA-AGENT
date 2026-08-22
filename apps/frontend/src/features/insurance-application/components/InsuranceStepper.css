@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   gap: 0;
+  position: relative;
 }
 
 /* Desktop: horizontal stepper */
@@ -31,6 +32,8 @@
 
 .ins-stepper-step-inner:hover .ins-stepper-number {
   border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .ins-stepper-step-inner[disabled] {

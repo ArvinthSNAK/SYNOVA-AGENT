@@ -17,7 +17,7 @@ import './DashboardSidebar.css';
 
 const navItems = [
   { to: '/dashboard', icon: Home, label: 'Overview', end: true },
-  { to: '/wallet', icon: Wallet, label: 'Wallet' },
+  { to: '/wallet', icon: Wallet, label: 'Vault' },
   { to: '/policies', icon: ShieldCheck, label: 'Policies' },
   { to: '/new-insurance', icon: FilePlus, label: 'New Insurance' },
   { to: '/renewal', icon: RefreshCcw, label: 'Renewal' },

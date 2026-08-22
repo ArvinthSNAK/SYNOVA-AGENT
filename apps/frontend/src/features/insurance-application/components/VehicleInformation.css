@@ -44,6 +44,8 @@
   border-color: var(--color-primary);
   color: var(--color-primary);
   background: var(--color-primary-tint);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Extraction review */
@@ -149,6 +151,51 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+}
+
+/* Vehicle type toggle */
+.vi-vehicle-type-toggle {
+  display: inline-flex;
+  padding: 4px;
+  gap: 4px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.vi-vehicle-type-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.vi-vehicle-type-btn:hover {
+  color: var(--color-text-primary);
+}
+
+.vi-vehicle-type-btn--active {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.vi-vehicle-type-btn--active:hover {
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vi-vehicle-type-btn {
+    transition: none;
+  }
 }
 
 /* Field */

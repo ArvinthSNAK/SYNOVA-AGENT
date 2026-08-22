@@ -37,10 +37,10 @@
   --color-error-tint: #FEF2F2;
 
   /* ─── Typography ────────────────────────────────────────── */
-  /*  Exposure (heading) & GT Standard (body) are commercial.
-      Using Inter as the practical fallback until licensed fonts are hosted. */
-  --font-heading: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /*  Euclid Circular A is a commercial font; Figtree is the open
+      substitute we self-serve until a licensed Euclid file is hosted. */
+  --font-heading: 'Euclid Circular A', 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body: 'Euclid Circular A', 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --fw-regular: 400;

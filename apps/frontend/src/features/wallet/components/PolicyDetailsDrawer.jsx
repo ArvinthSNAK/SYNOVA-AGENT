@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { X, Calendar, Car, Shield, IndianRupee, FileText, RefreshCcw, Package } from 'lucide-react';
+import { X, Calendar, Car, Motorbike, Shield, IndianRupee, FileText, RefreshCcw, Package } from 'lucide-react';
 import Badge from '../../../components/common/Badge.jsx';
 import './PolicyDetailsDrawer.css';
 
@@ -36,6 +36,7 @@ export default function PolicyDetailsDrawer({ policy, open, onClose }) {
   if (!policy) return null;
 
   const status = STATUS_MAP[policy.status] || STATUS_MAP.active;
+  const VehicleIcon = policy.vehicle.type === 'two-wheeler' ? Motorbike : Car;
 
   return (
     <>
@@ -83,7 +84,7 @@ export default function PolicyDetailsDrawer({ policy, open, onClose }) {
             <div className="drawer-detail-row">
               <span className="drawer-detail-label">Vehicle</span>
               <span className="drawer-detail-value">
-                <Car size={14} /> {policy.vehicle.make} {policy.vehicle.model} {policy.vehicle.variant}
+                <VehicleIcon size={14} /> {policy.vehicle.make} {policy.vehicle.model} {policy.vehicle.variant}
               </span>
             </div>
             <div className="drawer-detail-row">

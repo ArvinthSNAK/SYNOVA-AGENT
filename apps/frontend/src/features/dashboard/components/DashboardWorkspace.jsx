@@ -61,13 +61,13 @@ export default function DashboardWorkspace({ onOpenEuler }) {
             <Sparkles size={18} />
           </div>
           <div>
-            <div className="euler-capsule-tag">✦ EULER AI COPILOT</div>
+            <div className="euler-capsule-tag">Euler AI Copilot</div>
             <h4 className="euler-capsule-title">Active AI Policy Diagnostics</h4>
           </div>
         </div>
 
         <p className="euler-capsule-text">
-          Your Creta policy has <strong style={{ color: '#5eead4' }}>96% coverage rating</strong>. Tap below to ask Euler anything about claims, add-ons, or quotes.
+          Your Creta policy has <strong style={{ color: 'var(--color-accent-tint)' }}>96% coverage rating</strong>. Tap below to ask Euler anything about claims, add-ons, or quotes.
         </p>
 
         <div className="euler-capsule-prompts">

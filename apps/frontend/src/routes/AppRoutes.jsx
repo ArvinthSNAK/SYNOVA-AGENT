@@ -15,10 +15,15 @@ import { usersByCompany, recentApplications, overviewStats } from '../features/a
 
 // User Dashboard & Journeys
 import Dashboard from '../features/dashboard/Dashboard.jsx';
-import LandingPage from '../pages/LandingPage.jsx';
-import SignInPage from '../pages/SignInPage.jsx';
-import SignUpPage from '../pages/SignUpPage.jsx';
-import AdminDashboardPage from '../pages/admin/AdminDashboardPage.jsx';
+import WalletPage from '../features/wallet/components/WalletPage.jsx';
+import NewInsurance from '../features/insurance-application/components/NewInsurance.jsx';
+import QuoteResults from '../features/insurance-application/components/QuoteResults.jsx';
+import RenewalPage from '../features/insurance-renewal/components/RenewalPage.jsx';
+import PoliciesPage from '../pages/PoliciesPage.jsx';
+import ApplicationsPage from '../pages/ApplicationsPage.jsx';
+import UserNavbar from '../components/layout/UserNavbar.jsx';
+import '../features/insurance-application/components/QuoteResults.css';
+
 
 // User Portal Placeholder Page
 function PlaceholderPage({ title, description, backTo = '/dashboard' }) {
@@ -27,7 +32,7 @@ function PlaceholderPage({ title, description, backTo = '/dashboard' }) {
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      fontFamily: 'Inter, sans-serif',
+      fontFamily: 'var(--font-body)',
       background: 'radial-gradient(circle at 10% 20%, rgba(228, 242, 242, 0.7) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(251, 237, 232, 0.6) 0%, transparent 45%), var(--color-surface-alt, #FAFDFD)',
       color: 'var(--color-text-primary, #101828)',
     }}>
@@ -290,24 +295,8 @@ export default function AppRoutes() {
       <Route path="/renewal/quotes" element={<RenewalPage />} />
 
       {/* User Portal Side Navigation Links */}
-      <Route
-        path="/policies"
-        element={
-          <PlaceholderPage
-            title="Your Insurance Policies"
-            description="View all active and past auto insurance policies, coverage schedules, and claim histories."
-          />
-        }
-      />
-      <Route
-        path="/applications"
-        element={
-          <PlaceholderPage
-            title="Application Tracking"
-            description="Track your application SYN-2026-00124 and review generated quotes."
-          />
-        }
-      />
+      <Route path="/policies" element={<PoliciesPage />} />
+      <Route path="/applications" element={<ApplicationsPage />} />
       <Route
         path="/documents"
         element={

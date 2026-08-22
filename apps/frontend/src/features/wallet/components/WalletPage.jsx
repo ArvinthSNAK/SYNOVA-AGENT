@@ -80,7 +80,7 @@ export default function WalletPage() {
               <WalletIcon size={22} />
             </div>
             <div>
-              <h1 className="wallet-title">Insurance Wallet</h1>
+              <h1 className="wallet-title">Insurance Vault</h1>
               <p className="wallet-subtitle">All your insurance policies and active coverage, in one place.</p>
             </div>
           </div>
@@ -132,12 +132,15 @@ export default function WalletPage() {
             </div>
           )}
 
-          {!loading && !error && policies.map((policy) => (
-            <WalletPolicyCard
-              key={policy.id}
-              policy={policy}
-              onViewDetails={() => handleViewDetails(policy)}
-            />
+          {!loading && !error && policies.map((policy, idx) => (
+            <div className="wallet-stack-outer" key={policy.id} style={{ zIndex: idx + 1 }}>
+              <div className="wallet-stack-inner" style={{ top: `${80 + idx * 18}px` }}>
+                <WalletPolicyCard
+                  policy={policy}
+                  onViewDetails={() => handleViewDetails(policy)}
+                />
+              </div>
+            </div>
           ))}
         </section>
       </main>

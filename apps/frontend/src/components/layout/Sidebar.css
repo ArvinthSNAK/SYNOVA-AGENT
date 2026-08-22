@@ -21,7 +21,7 @@
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .sidebar-link {
@@ -33,11 +33,15 @@
   color: var(--color-text-muted);
   font-size: 14px;
   font-weight: var(--fw-medium);
+  transition: background var(--transition-fast), color var(--transition-fast),
+    transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .sidebar-link:hover {
   background: var(--color-surface-alt);
   color: var(--color-text-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .sidebar-link.active {
@@ -99,11 +103,15 @@
   border: none;
   cursor: pointer;
   text-align: left;
+  transition: background var(--transition-fast), color var(--transition-fast),
+    transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .sidebar-logout:hover {
   background: #FBE7E7;
   color: #A32424;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 @media (max-width: 900px) {

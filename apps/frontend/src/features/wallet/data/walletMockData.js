@@ -7,10 +7,10 @@ export const walletUser = {
 };
 
 export const walletSummary = {
-  totalPolicies: 3,
-  activePolicies: 2,
+  totalPolicies: 4,
+  activePolicies: 3,
   expiringSoon: 1,
-  totalAnnualPremium: 52900,
+  totalAnnualPremium: 60050,
 };
 
 export const walletPolicies = [
@@ -21,6 +21,7 @@ export const walletPolicies = [
     policyType: 'Auto Insurance',
     policyNumber: 'SYN-AUTO-00123',
     vehicle: {
+      type: 'four-wheeler',
       make: 'Hyundai',
       model: 'Creta',
       variant: 'SX(O) Turbo',
@@ -44,6 +45,7 @@ export const walletPolicies = [
     policyType: 'Auto Insurance',
     policyNumber: 'ICICI-MH-784523',
     vehicle: {
+      type: 'four-wheeler',
       make: 'Maruti Suzuki',
       model: 'Swift',
       variant: 'ZXi+',
@@ -67,6 +69,7 @@ export const walletPolicies = [
     policyType: 'Auto Insurance',
     policyNumber: 'TATA-KA-991024',
     vehicle: {
+      type: 'four-wheeler',
       make: 'Honda',
       model: 'City',
       variant: 'V CVT',
@@ -82,5 +85,29 @@ export const walletPolicies = [
     idv: 720000,
     ncb: 35,
     deductible: 2000,
+  },
+  {
+    id: 'wp-004',
+    provider: 'Bajaj Allianz',
+    providerType: 'third-party',
+    policyType: 'Two-Wheeler Insurance',
+    policyNumber: 'BAJAJ-KA-552310',
+    vehicle: {
+      type: 'two-wheeler',
+      make: 'Royal Enfield',
+      model: 'Classic 350',
+      variant: 'Halcyon',
+      registration: 'KA-03-RS-2210',
+      year: 2024,
+    },
+    coverageType: 'Comprehensive',
+    premium: 7150,
+    startDate: '2025-11-05',
+    expiryDate: '2026-11-05',
+    status: 'active',
+    addons: ['Zero Depreciation', 'Roadside Assistance'],
+    idv: 168000,
+    ncb: 15,
+    deductible: 1000,
   },
 ];

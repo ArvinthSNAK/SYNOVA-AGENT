@@ -101,6 +101,8 @@
 .euler-chat-close:hover {
   background: var(--color-secondary);
   color: var(--color-text-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ─── Messages Area ───────────────────────────────────────── */
@@ -194,6 +196,8 @@
 
 .euler-ocr-action-btn:hover {
   background: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .euler-ocr-action-btn--primary {
@@ -205,6 +209,7 @@
 .euler-ocr-action-btn--primary:hover {
   background: var(--color-accent-hover);
   border-color: var(--color-accent-hover);
+  box-shadow: var(--shadow-accent);
 }
 
 /* ─── Typing Indicator ────────────────────────────────────── */
@@ -372,6 +377,8 @@
   background: var(--color-accent-tint);
   border-color: var(--color-accent);
   color: var(--color-accent-text);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ─── Attachment Menu ─────────────────────────────────────── */
@@ -455,6 +462,7 @@
 .euler-chat-voice:hover {
   background: var(--color-accent-tint);
   color: var(--color-accent);
+  transform: scale(1.05);
 }
 
 .euler-chat-voice--active {

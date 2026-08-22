@@ -194,10 +194,14 @@
   font-weight: var(--fw-medium);
   cursor: pointer;
   width: 100%;
+  transition: background var(--transition-base), transform var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .auth-google-btn:hover {
   background: var(--color-surface-alt);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .auth-switch {

@@ -414,7 +414,7 @@ export default function InsuranceHero() {
             onClick={() => navigate('/wallet')}
           >
             <Eye size={15} aria-hidden="true" />
-            <span>View in Policy Vault</span>
+            <span>View in Vault</span>
           </motion.button>
         </div>
 
