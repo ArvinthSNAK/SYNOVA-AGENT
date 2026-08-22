@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mock Insurer B - Get a Quote</title>
+</head>
+<body>
+    <h1>Mock Insurer B — Motor Insurance Quote</h1>
+
+    {% if error %}
+        <p style="color: red;"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+
+    <form method="post" action="/quote">
+        <label>Customer Name</label><br>
+        <input type="text" name="customer_name" required><br><br>
+
+        <label>Vehicle Registration Number</label><br>
+        <input type="text" name="vehicle_registration" required><br><br>
+
+        <label>Product</label><br>
+        <select name="product_id" required>
+            {% for product in products %}
+                <option value="{{ product.id }}">{{ product.name }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>IDV (Insured Declared Value)</label><br>
+        <input type="number" name="idv" step="0.01" required><br><br>
+
+        <label>Vehicle Age (years)</label><br>
+        <input type="number" name="vehicle_age_years" value="0"><br><br>
+
+        <label>NCB Percent</label><br>
+        <input type="number" name="ncb_percent" step="0.01" value="0"><br><br>
+
+        <button type="submit">Get Quote</button>
+    </form>
+</body>
+</html>

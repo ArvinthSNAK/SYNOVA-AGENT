@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mock Insurer B - Your Quote</title>
+</head>
+<body>
+    <h1>Mock Insurer B — Quote Result</h1>
+
+    <p><strong>Customer:</strong> {{ customer_name }}</p>
+    <p><strong>Vehicle:</strong> {{ vehicle_registration }}</p>
+    <p><strong>Product:</strong> {{ result.product_name }}</p>
+
+    <h2>Final Premium: Rs. {{ result.final_premium }}</h2>
+
+    <h3>Breakdown</h3>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Rule</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Running Total</th>
+        </tr>
+        {% for item in result.breakdown %}
+        <tr>
+            <td>{{ item.rule }}</td>
+            <td>{{ item.rule_type }}</td>
+            <td>{{ item.value }}</td>
+            <td>{{ item.running_total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="/quote">Get another quote</a></p>
+</body>
+</html>

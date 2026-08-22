@@ -15,10 +15,10 @@ import { usersByCompany, recentApplications, overviewStats } from '../features/a
 
 // User Dashboard & Journeys
 import Dashboard from '../features/dashboard/Dashboard.jsx';
-import NewInsurance from '../features/insurance-application/components/NewInsurance.jsx';
-import QuoteResults from '../features/insurance-application/components/QuoteResults.jsx';
-import RenewalPage from '../features/insurance-renewal/components/RenewalPage.jsx';
-import '../features/insurance-application/components/QuoteResults.css';
+import LandingPage from '../pages/LandingPage.jsx';
+import SignInPage from '../pages/SignInPage.jsx';
+import SignUpPage from '../pages/SignUpPage.jsx';
+import AdminDashboardPage from '../pages/admin/AdminDashboardPage.jsx';
 
 // User Portal Placeholder Page
 function PlaceholderPage({ title, description, backTo = '/dashboard' }) {
@@ -274,17 +274,11 @@ function AdminSubPage({ title, subtitle, type }) {
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* ─── Public / Marketing ─────────────────────────────── */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/landing" element={<LandingPage />} />
-
-      {/* ─── Auth ───────────────────────────────────────────── */}
       <Route path="/signin" element={<SignInPage />} />
-      <Route path="/login" element={<SignInPage />} />
       <Route path="/signup" element={<SignUpPage />} />
-      <Route path="/register" element={<SignUpPage />} />
-
-      {/* ─── User Portal (Journey 1, 2, 3) ──────────────────── */}
+      <Route path="/admin" element={<AdminDashboardPage />} />
       <Route path="/dashboard" element={<Dashboard />} />
 
       {/* Journey 2: New Auto Insurance */}
@@ -342,17 +336,8 @@ export default function AppRoutes() {
         }
       />
 
-      {/* ─── Admin Portal ───────────────────────────────────── */}
-      <Route path="/admin" element={<AdminDashboardPage />} />
-      <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-      <Route path="/admin/users" element={<AdminSubPage title="Users" subtitle="Platform users and agency agents" type="users" />} />
-      <Route path="/admin/companies" element={<AdminSubPage title="Companies" subtitle="Connected partner agencies and brokerages" type="companies" />} />
-      <Route path="/admin/applications" element={<AdminSubPage title="Applications" subtitle="Customer insurance applications overview" type="applications" />} />
-      <Route path="/admin/insurers" element={<AdminSubPage title="Insurers" subtitle="Configured insurance carriers and automated quoting status" type="insurers" />} />
-      <Route path="/admin/settings" element={<AdminSubPage title="Admin Settings" subtitle="Platform preferences and automation settings" type="settings" />} />
-
-      {/* Catch-all fallback to Landing Page */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
+
