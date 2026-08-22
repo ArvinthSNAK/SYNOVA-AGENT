@@ -2,16 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  ShieldCheck,
   RefreshCcw,
   Wallet,
   Sparkles,
-  ArrowRight,
   CheckCircle2,
   FilePlus,
   Car,
-  Activity,
-  Zap
 } from 'lucide-react';
 import { dashboardData, formatINR } from '../data/dashboardData.js';
 import './WelcomeSection.css';
@@ -81,9 +77,7 @@ export default function WelcomeSection({ onOpenEuler }) {
             </div>
             <div className="welcome-bento-info">
               <span className="welcome-bento-title">Get New Insurance</span>
-              <span className="welcome-bento-desc">Instant quotes from 5 top carriers</span>
             </div>
-            <ArrowRight size={14} className="welcome-bento-arrow" />
           </motion.button>
 
           {/* Action 2: Renew ICICI */}
@@ -98,9 +92,7 @@ export default function WelcomeSection({ onOpenEuler }) {
             </div>
             <div className="welcome-bento-info">
               <span className="welcome-bento-title">Renew with ICICI</span>
-              <span className="welcome-bento-desc">Preserve 20% NCB · Due in 43d</span>
             </div>
-            <ArrowRight size={14} className="welcome-bento-arrow" />
           </motion.button>
 
           {/* Action 3: Insurance Wallet */}
@@ -114,10 +106,8 @@ export default function WelcomeSection({ onOpenEuler }) {
               <Wallet size={18} />
             </div>
             <div className="welcome-bento-info">
-              <span className="welcome-bento-title">Policy Vault</span>
-              <span className="welcome-bento-desc">3 vehicle policies stored</span>
+              <span className="welcome-bento-title">Vault</span>
             </div>
-            <ArrowRight size={14} className="welcome-bento-arrow" />
           </motion.button>
 
           {/* Action 4: Euler AI Assistant */}
@@ -138,9 +128,7 @@ export default function WelcomeSection({ onOpenEuler }) {
             </div>
             <div className="welcome-bento-info">
               <span className="welcome-bento-title">Ask Euler Copilot</span>
-              <span className="welcome-bento-desc">AI coverage & claims advisor</span>
             </div>
-            <Zap size={14} className="welcome-bento-arrow" />
           </motion.button>
         </div>
       </div>

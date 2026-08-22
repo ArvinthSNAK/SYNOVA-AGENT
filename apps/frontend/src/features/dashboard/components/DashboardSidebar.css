@@ -72,13 +72,15 @@
   height: 28px;
   border-radius: var(--radius-md);
   color: var(--color-text-muted);
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
   flex-shrink: 0;
 }
 
 .sidebar-close-btn:hover {
   background: var(--color-surface-alt);
   color: var(--color-text-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Nav */
@@ -95,7 +97,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
 }
 
 .sidebar-nav-item {

@@ -21,6 +21,8 @@
 .vdu-dropzone:focus-visible {
   border-color: var(--color-primary);
   background: var(--color-primary-tint);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .vdu-dropzone--drag {

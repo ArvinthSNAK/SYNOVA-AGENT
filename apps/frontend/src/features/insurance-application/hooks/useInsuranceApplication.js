@@ -12,6 +12,7 @@ export const initialApplicationState = {
   applicationId: null,
   currentStep: 1,
   vehicle: {
+    vehicleType: 'four-wheeler',
     registrationNumber: '',
     make: '',
     model: '',

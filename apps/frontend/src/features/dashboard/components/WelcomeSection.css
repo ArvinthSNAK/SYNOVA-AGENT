@@ -172,6 +172,7 @@
 .welcome-bento-card:hover {
   border-color: var(--color-border-strong);
   box-shadow: 0 8px 20px -4px rgba(15, 110, 110, 0.1);
+  transform: translateY(-3px);
 }
 
 .welcome-bento-card--primary:hover {
@@ -239,27 +240,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.welcome-bento-desc {
-  font-size: 12px;
-  color: var(--color-text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.welcome-bento-arrow {
-  color: var(--color-text-subtle);
-  opacity: 0.6;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.welcome-bento-card:hover .welcome-bento-arrow {
-  opacity: 1;
-  transform: translateX(3px);
-  color: var(--color-text-primary);
 }
 
 @media (max-width: 1100px) {

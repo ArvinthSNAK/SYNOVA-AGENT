@@ -136,7 +136,7 @@
   border: 1px solid rgba(15, 110, 110, 0.2);
   color: var(--color-primary) !important;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
 }
@@ -144,6 +144,8 @@
 .atnav-portal-btn:hover {
   background: var(--color-primary);
   color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ── Profile button & dropdown ─────────────────── */
@@ -160,11 +162,13 @@
   background: #ffffff;
   border: 1px solid var(--color-border);
   cursor: pointer;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .atnav-profile-btn:hover {
   border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .atnav-avatar {
@@ -208,7 +212,7 @@
   box-shadow: 0 16px 36px rgba(15, 110, 110, 0.12);
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
   z-index: 200;
 }
 

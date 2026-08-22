@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Check } from 'lucide-react';
+import StepperRider from '../../../components/common/StepperRider.jsx';
 import './InsuranceStepper.css';
 
 const STEPS = [
@@ -9,10 +10,13 @@ const STEPS = [
 ];
 
 export default function InsuranceStepper({ currentStep, onStepClick }) {
+  const navRef = useRef(null);
+  const numberRefs = useRef([]);
+
   return (
     <>
       {/* Desktop: horizontal stepper */}
-      <nav className="ins-stepper" aria-label="Application progress">
+      <nav className="ins-stepper" aria-label="Application progress" ref={navRef}>
         {STEPS.map((step, index) => {
           const stepNum = index + 1;
           const isActive = stepNum === currentStep;
@@ -33,7 +37,11 @@ export default function InsuranceStepper({ currentStep, onStepClick }) {
                   aria-current={isActive ? 'step' : undefined}
                   aria-label={`Step ${stepNum}: ${step.label}${isComplete ? ' (completed)' : isActive ? ' (current)' : ' (upcoming)'}`}
                 >
-                  <div className="ins-stepper-number" aria-hidden="true">
+                  <div
+                    className="ins-stepper-number"
+                    aria-hidden="true"
+                    ref={(el) => (numberRefs.current[index] = el)}
+                  >
                     {isComplete ? <Check size={13} strokeWidth={2.5} /> : step.num}
                   </div>
                   <div className="ins-stepper-label-wrap">
@@ -51,6 +59,11 @@ export default function InsuranceStepper({ currentStep, onStepClick }) {
             </React.Fragment>
           );
         })}
+        <StepperRider
+          containerRef={navRef}
+          numberRefs={numberRefs}
+          activeIndex={currentStep - 1}
+        />
       </nav>
 
       {/* Mobile: compact progress indicator */}

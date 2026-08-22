@@ -1,0 +1,27 @@
+/* Floating bike rider that travels along a stepper's progress line */
+
+.stepper-rider {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.stepper-rider-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(208, 106, 78, 0.4), 0 0 0 3px var(--color-background);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepper-rider {
+    transition: none;
+  }
+}

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 
 import UserNavbar from '../../../components/layout/UserNavbar.jsx';
+import StepperRider from '../../../components/common/StepperRider.jsx';
 import useRenewalApplication from '../hooks/useRenewalApplication.js';
 import {
   renewalAddonOptions,
@@ -133,8 +134,11 @@ function EulerPanel({ conversation, onSendMessage }) {
 const STEPS = ['Upload Policy', 'Verify Details', 'Coverage', 'Compare Quotes'];
 
 function RenewalStepper({ currentStep, onStepClick }) {
+  const navRef = useRef(null);
+  const numRefs = useRef([]);
+
   return (
-    <nav className="rnw-stepper" aria-label="Renewal steps">
+    <nav className="rnw-stepper" aria-label="Renewal steps" ref={navRef}>
       {STEPS.map((label, i) => {
         const step = i + 1;
         const isDone = step < currentStep;
@@ -151,7 +155,7 @@ function RenewalStepper({ currentStep, onStepClick }) {
               tabIndex={isDone ? 0 : -1}
               aria-current={isActive ? 'step' : undefined}
             >
-              <div className="rnw-step-num">
+              <div className="rnw-step-num" ref={(el) => (numRefs.current[i] = el)}>
                 {isDone ? <Check size={11} /> : step}
               </div>
               <span className="rnw-step-label">{label}</span>
@@ -159,6 +163,11 @@ function RenewalStepper({ currentStep, onStepClick }) {
           </div>
         );
       })}
+      <StepperRider
+        containerRef={navRef}
+        numberRefs={numRefs}
+        activeIndex={currentStep - 1}
+      />
     </nav>
   );
 }

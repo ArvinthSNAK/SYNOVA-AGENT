@@ -38,7 +38,7 @@ const notifColorMap = {
 // The 4 requested essential quick links
 const USER_NAV_LINKS = [
   { label: 'Overview', to: '/dashboard', icon: LayoutDashboard },
-  { label: 'Wallet', to: '/wallet', icon: Wallet },
+  { label: 'Vault', to: '/wallet', icon: Wallet },
   { label: 'Policies', to: '/policies', icon: Shield },
   { label: 'Applications', to: '/applications', icon: FileText },
 ];
@@ -238,7 +238,7 @@ export default function UserNavbar() {
                     className="user-profile-link"
                     onClick={() => setProfileOpen(false)}
                   >
-                    <Wallet size={14} /> My Insurance Wallet
+                    <Wallet size={14} /> My Insurance Vault
                   </Link>
                   <Link
                     to="/policies"

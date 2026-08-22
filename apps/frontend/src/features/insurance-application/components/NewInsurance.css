@@ -81,13 +81,15 @@
   cursor: pointer;
   background: none;
   border: none;
-  transition: background var(--transition-fast);
+  transition: all var(--transition-fast);
   flex-shrink: 0;
 }
 
 .ins-menu-btn:hover {
   background: var(--color-surface-alt);
   color: var(--color-text-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ─── Breadcrumb ─────────────────────────────────────────────────────────── */
@@ -141,6 +143,8 @@
 
 .ins-summary-toggle:hover {
   background: var(--color-primary-tint);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ─── Page header with Embedded Stepper ───────────────────────────────── */

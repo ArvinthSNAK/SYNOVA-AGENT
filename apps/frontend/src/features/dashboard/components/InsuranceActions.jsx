@@ -39,17 +39,17 @@ export default function InsuranceActions() {
           </div>
         </button>
 
-        {/* 3. My Wallet */}
+        {/* 3. My Vault */}
         <button
           className="quick-action-card"
           onClick={() => navigate('/wallet')}
-          aria-label="View Insurance Wallet"
+          aria-label="View Insurance Vault"
         >
           <div className="quick-action-icon-box quick-action-icon-box--teal">
             <Wallet size={20} aria-hidden="true" />
           </div>
           <div className="quick-action-text">
-            <span className="quick-action-title">Insurance Wallet</span>
+            <span className="quick-action-title">Insurance Vault</span>
             <span className="quick-action-desc">3 active & external policies</span>
           </div>
         </button>

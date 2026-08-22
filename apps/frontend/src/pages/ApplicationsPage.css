@@ -1,0 +1,197 @@
+/* ═══════════════════════════════════════════════════
+   Applications Page Styles
+   ═══════════════════════════════════════════════════ */
+
+.applications-content {
+  flex: 1;
+  padding: var(--space-3) var(--space-4) var(--space-8);
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.applications-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  animation: fadeInUp 0.5s ease both;
+}
+
+.applications-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.applications-title {
+  font-size: var(--text-3xl);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-h2);
+  margin-bottom: 2px;
+}
+
+.applications-subtitle {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+}
+
+/* Summary card */
+.application-summary-card {
+  padding: 24px 28px;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.application-summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.application-summary-id {
+  font-size: 12px;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.03em;
+}
+
+.application-summary-status {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-primary-tint);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.application-summary-title {
+  font-size: 20px;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.application-progress-bar-track {
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.application-progress-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-deep));
+}
+
+.application-progress-label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* Timeline */
+.application-timeline {
+  padding: 24px 28px;
+  border-radius: var(--radius-lg);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.application-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+}
+
+.application-step-icon-wrap {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+}
+
+.application-step--completed .application-step-icon-wrap {
+  color: #fff;
+  background: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.application-step--current .application-step-icon-wrap {
+  color: #fff;
+  background: var(--color-warning);
+  border-color: var(--color-warning);
+}
+
+.application-step--pending .application-step-icon-wrap {
+  color: var(--color-text-subtle);
+}
+
+.application-step-line {
+  position: absolute;
+  top: 30px;
+  left: 14px;
+  width: 2px;
+  height: 20px;
+  background: var(--color-border);
+}
+
+.application-step--completed .application-step-line {
+  background: var(--color-success);
+}
+
+.application-step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  padding-top: 4px;
+}
+
+.application-step-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.application-step-date {
+  font-size: 12px;
+  color: var(--color-text-subtle);
+}
+
+.application-step-live-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-warning-tint);
+  color: var(--color-warning);
+  align-self: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .application-summary-card,
+  .application-timeline {
+    padding: 20px;
+  }
+}

@@ -101,6 +101,8 @@
   border-color: var(--color-accent);
   color: var(--color-accent);
   background: var(--color-accent-tint);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Plus Button */

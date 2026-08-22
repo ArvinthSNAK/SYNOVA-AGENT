@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Car, Calendar, Shield, Eye, RefreshCcw } from 'lucide-react';
+import { Car, Motorbike, Calendar, Shield, Eye, RefreshCcw } from 'lucide-react';
 import Badge from '../../../components/common/Badge.jsx';
 import './WalletPolicyCard.css';
 
@@ -18,6 +18,7 @@ const formatDate = (dateStr) =>
 
 export default function WalletPolicyCard({ policy, onViewDetails }) {
   const status = STATUS_MAP[policy.status] || STATUS_MAP.active;
+  const VehicleIcon = policy.vehicle.type === 'two-wheeler' ? Motorbike : Car;
 
   return (
     <article className="wpolicy-card hover-lift" aria-label={`${policy.provider} ${policy.policyType}`}>
@@ -42,7 +43,7 @@ export default function WalletPolicyCard({ policy, onViewDetails }) {
           <div className="wpolicy-detail">
             <span className="wpolicy-detail-label">Vehicle</span>
             <span className="wpolicy-detail-value">
-              <Car size={13} /> {policy.vehicle.make} {policy.vehicle.model}
+              <VehicleIcon size={13} /> {policy.vehicle.make} {policy.vehicle.model}
             </span>
           </div>
           <div className="wpolicy-detail">
