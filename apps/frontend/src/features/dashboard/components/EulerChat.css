@@ -1,92 +1,109 @@
-/* EulerChat.css */
+/* ═══════════════════════════════════════════════════════════
+   Euler Insurance Assistant — Styling
+   Visual Identity: ACCENT (#D06A4E, #B85838, #FBEDE8)
+   ═══════════════════════════════════════════════════════════ */
 
 .euler-chat-panel {
   position: fixed;
-  bottom: 100px;
+  bottom: 84px;
   right: 24px;
-  width: 380px;
-  max-height: 580px;
-  background: white;
-  border: 1px solid var(--color-border);
+  width: 390px;
+  height: 580px;
+  max-height: calc(100vh - 110px);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 20px 50px rgba(208, 106, 78, 0.16), 0 8px 24px rgba(16, 24, 40, 0.08);
   display: flex;
   flex-direction: column;
-  z-index: 300;
-  animation: slideInUp 0.25s ease-out;
+  z-index: 999;
   overflow: hidden;
+  animation: eulerPanelEntrance 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Header */
+@keyframes eulerPanelEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── Header ──────────────────────────────────────────────── */
 .euler-chat-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #fff;
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface-alt);
 }
 
 .euler-chat-brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex: 1;
 }
 
 .euler-chat-logo {
-  width: 34px;
-  height: 34px;
-  background: var(--color-primary);
-  border-radius: var(--radius-md);
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--color-accent);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(208, 106, 78, 0.3);
 }
 
 .euler-chat-name {
-  font-size: var(--text-base);
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: var(--fw-semibold);
   color: var(--color-text-primary);
+  line-height: 1.2;
 }
 
 .euler-chat-subtitle {
-  font-size: var(--text-xs);
-  color: var(--color-text-subtle);
-  margin-top: 1px;
+  font-size: 11px;
+  color: var(--color-text-muted);
 }
 
 .euler-chat-status {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: var(--text-xs);
+  font-size: 12px;
   color: var(--color-success);
-  font-weight: 500;
-  flex-shrink: 0;
+  font-weight: var(--fw-medium);
+  background: var(--color-success-tint);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
 }
 
 .euler-chat-close {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-md);
-  color: var(--color-text-muted);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition-fast), color var(--transition-fast);
-  flex-shrink: 0;
+  color: var(--color-text-muted);
   cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
 .euler-chat-close:hover {
-  background: var(--color-border);
+  background: var(--color-secondary);
   color: var(--color-text-primary);
 }
 
-/* Messages */
+/* ─── Messages Area ───────────────────────────────────────── */
 .euler-chat-messages {
   flex: 1;
   overflow-y: auto;
@@ -94,247 +111,396 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  background: var(--color-surface-alt);
 }
 
 .euler-message {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 8px;
+  max-width: 88%;
+}
+
+.euler-message--euler {
+  align-self: flex-start;
 }
 
 .euler-message--user {
+  align-self: flex-end;
   flex-direction: row-reverse;
 }
 
 .euler-message-avatar {
-  width: 26px;
-  height: 26px;
-  background: var(--color-primary);
-  color: white;
-  border-radius: var(--radius-full);
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--color-accent-tint);
+  color: var(--color-accent);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .euler-message-bubble {
-  max-width: 80%;
-  padding: 10px 13px;
-  border-radius: 16px;
-  font-size: var(--text-sm);
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13.5px;
   line-height: 1.5;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+}
+
+.euler-message--euler .euler-message-bubble {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  border-bottom-left-radius: 4px;
+  box-shadow: var(--shadow-sm);
+}
+
+.euler-message--user .euler-message-bubble {
+  background: var(--color-primary);
+  color: #fff;
+  border-bottom-right-radius: 4px;
 }
 
 .euler-message-bubble p {
   margin: 0;
 }
 
-.euler-message--euler .euler-message-bubble {
-  background: var(--color-surface-alt);
+.euler-message-bubble p + p {
+  margin-top: 6px;
+}
+
+/* OCR Buttons inside message */
+.euler-ocr-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.euler-ocr-action-btn {
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  border: 1px solid var(--color-border-strong);
+  background: #fff;
   color: var(--color-text-primary);
-  border-bottom-left-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
-.euler-message--user .euler-message-bubble {
-  background: var(--color-primary);
-  color: white;
-  border-bottom-right-radius: 4px;
+.euler-ocr-action-btn:hover {
+  background: var(--color-secondary);
 }
 
-/* Typing indicator */
+.euler-ocr-action-btn--primary {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+.euler-ocr-action-btn--primary:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+/* ─── Typing Indicator ────────────────────────────────────── */
 .euler-typing-indicator {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 12px 16px;
-  background: var(--color-surface-alt);
-  border-radius: 16px;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
   border-bottom-left-radius: 4px;
 }
 
 .euler-typing-indicator span {
   width: 6px;
   height: 6px;
-  background: var(--color-text-subtle);
-  border-radius: var(--radius-full);
-  animation: typingPulse 1.2s infinite;
+  background: var(--color-accent);
+  border-radius: 50%;
+  animation: eulerTyping 1.4s infinite ease-in-out both;
 }
 
-.euler-typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-.euler-typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+.euler-typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.euler-typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
 
-@keyframes typingPulse {
-  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
-  30% { opacity: 1; transform: translateY(-3px); }
+@keyframes eulerTyping {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
 }
 
-/* Voice Toast */
+/* ─── OCR Status Toast ────────────────────────────────────── */
+.euler-ocr-toast {
+  padding: 8px 14px;
+  background: #fff;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.euler-ocr-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  color: var(--color-accent-text);
+  background: var(--color-accent-tint);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.euler-ocr-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-accent-tint);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.euler-ocr-progress--completed {
+  background: var(--color-success-tint);
+  color: var(--color-success);
+}
+.euler-ocr-progress--completed .euler-ocr-spinner {
+  display: none;
+}
+
+/* ─── Voice Toast & Waveform ──────────────────────────────── */
 .euler-voice-toast {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 14px;
-  margin: 0 16px 8px;
-  background: var(--color-accent-tint);
-  border: 1px solid rgba(208, 106, 78, 0.3);
-  border-radius: var(--radius-md);
-  color: var(--color-accent-text);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  animation: fadeIn 0.2s ease-out;
+  padding: 8px 16px;
+  background: #fff;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.euler-voice-pulse-icon {
+.euler-voice-indicator {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: var(--color-accent);
-  animation: voicePulse 1s infinite alternate;
 }
 
-@keyframes voicePulse {
-  from { transform: scale(0.9); opacity: 0.7; }
-  to { transform: scale(1.15); opacity: 1; }
+.euler-voice-waves {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 16px;
+}
+
+.euler-voice-waves span {
+  width: 3px;
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 2px;
+  animation: eulerWave 1s ease-in-out infinite;
+}
+
+.euler-voice-waves span:nth-child(1) { animation-delay: 0.1s; height: 30%; }
+.euler-voice-waves span:nth-child(2) { animation-delay: 0.3s; height: 75%; }
+.euler-voice-waves span:nth-child(3) { animation-delay: 0.2s; height: 100%; }
+.euler-voice-waves span:nth-child(4) { animation-delay: 0.4s; height: 60%; }
+.euler-voice-waves span:nth-child(5) { animation-delay: 0.15s; height: 40%; }
+
+@keyframes eulerWave {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+
+.euler-voice-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: pulse 1s infinite;
 }
 
 .euler-voice-toast-text {
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  color: var(--color-accent);
   flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-/* Quick actions */
+.euler-voice-retry {
+  font-size: 11px;
+  color: var(--color-accent);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+
+/* ─── Quick Actions ───────────────────────────────────────── */
 .euler-quick-actions {
-  padding: 10px 16px;
   display: flex;
-  flex-wrap: wrap;
   gap: 6px;
+  padding: 8px 14px;
+  overflow-x: auto;
+  background: #fff;
   border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+  -webkit-overflow-scrolling: touch;
+}
+
+.euler-quick-actions::-webkit-scrollbar {
+  display: none;
 }
 
 .euler-quick-btn {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 11px;
-  border-radius: var(--radius-full);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  background: var(--color-primary-tint);
-  color: var(--color-primary);
-  border: 1px solid var(--color-border-strong);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
   cursor: pointer;
-  transition: background var(--transition-fast), border-color var(--transition-fast);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
 }
 
 .euler-quick-btn:hover {
-  background: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
+  background: var(--color-accent-tint);
+  border-color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
-/* Input */
+/* ─── Attachment Menu ─────────────────────────────────────── */
+.euler-attach-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  margin: 0 14px 6px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  animation: fadeInUp 0.2s ease both;
+}
+
+.euler-attach-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  text-align: left;
+  border: none;
+  background: none;
+  width: 100%;
+}
+
+.euler-attach-option:hover {
+  background: var(--color-accent-tint);
+  color: var(--color-accent-text);
+}
+
+/* ─── Input Row ───────────────────────────────────────────── */
 .euler-chat-input-wrap {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding: 12px 16px;
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--color-border);
 }
 
 .euler-chat-input {
   flex: 1;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
-  padding: 9px 16px;
-  font-size: var(--text-sm);
-  color: var(--color-text-primary);
   background: var(--color-surface-alt);
-  transition: border-color var(--transition-fast), background var(--transition-fast);
-  min-width: 0;
+  font-size: 13px;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  outline: none;
+  transition: border-color var(--transition-fast);
 }
 
 .euler-chat-input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  background: white;
-}
-
-.euler-chat-input::placeholder {
-  color: var(--color-text-subtle);
-}
-
-.euler-chat-voice,
-.euler-chat-send {
-  width: 34px;
-  height: 34px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+  border-color: var(--color-accent);
+  background: #fff;
 }
 
 .euler-chat-voice {
-  background: var(--color-surface-alt);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--color-text-muted);
-  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
 }
 
 .euler-chat-voice:hover {
-  background: var(--color-border);
-  color: var(--color-text-primary);
+  background: var(--color-accent-tint);
+  color: var(--color-accent);
 }
 
 .euler-chat-voice--active {
   background: var(--color-accent);
-  color: white;
-  border-color: var(--color-accent);
-  animation: micPulse 1.2s infinite;
+  color: #fff;
 }
 
-@keyframes micPulse {
-  0% { box-shadow: 0 0 0 0 rgba(208, 106, 78, 0.4); }
-  70% { box-shadow: 0 0 0 8px rgba(208, 106, 78, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(208, 106, 78, 0); }
+.euler-chat-voice--active:hover {
+  background: var(--color-accent-hover);
+  color: #fff;
 }
 
 .euler-chat-send {
-  background: var(--color-primary);
-  color: white;
-  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent);
+  color: #fff;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
 }
 
 .euler-chat-send:hover:not(:disabled) {
-  background: var(--color-primary-hover);
+  background: var(--color-accent-hover);
+  transform: scale(1.05);
 }
 
 .euler-chat-send:disabled {
-  background: var(--color-border);
-  color: var(--color-text-subtle);
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-/* Mobile */
-@media (max-width: 767px) {
+/* ─── Mobile Bottom Sheet ─────────────────────────────────── */
+@media (max-width: 480px) {
   .euler-chat-panel {
-    position: fixed;
     bottom: 0;
-    left: 0;
     right: 0;
-    width: 100%;
+    left: 0;
+    width: 100vw;
+    height: 80vh;
     max-height: 80vh;
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    border-radius: 20px 20px 0 0;
     border-bottom: none;
-    animation: slideInUp 0.25s ease-out;
   }
 }

@@ -1,98 +1,48 @@
 import React, { useState } from 'react';
-import DashboardSidebar from './components/DashboardSidebar.jsx';
-import DashboardHeader from './components/DashboardHeader.jsx';
+import UserNavbar from '../../components/layout/UserNavbar.jsx';
 import WelcomeSection from './components/WelcomeSection.jsx';
 import InsuranceHero from './components/InsuranceHero.jsx';
-import InsuranceActions from './components/InsuranceActions.jsx';
-import NewInsuranceSection from './components/NewInsuranceSection.jsx';
-import RenewalSection from './components/RenewalSection.jsx';
-import CoverageOverview from './components/CoverageOverview.jsx';
-import PolicyDetails from './components/PolicyDetails.jsx';
-import ApplicationTimeline from './components/ApplicationTimeline.jsx';
-import ClaimsSummary from './components/ClaimsSummary.jsx';
-import DocumentsSummary from './components/DocumentsSummary.jsx';
-import RecentActivity from './components/RecentActivity.jsx';
+import DashboardWorkspace from './components/DashboardWorkspace.jsx';
 import EulerLauncher from './components/EulerLauncher.jsx';
+import EulerChat from './components/EulerChat.jsx';
 import './Dashboard.css';
 
 export default function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [eulerOpen, setEulerOpen] = useState(false);
+
+  const handleOpenEulerWithPrompt = (promptText) => {
+    setEulerOpen(true);
+  };
 
   return (
-    <div className="dashboard-layout">
-      {/* Sidebar */}
-      <DashboardSidebar
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
+    <div className="dashboard-layout mesh-ambient-bg">
+      {/* Top Navbar with Overview, Wallet, Policies, Applications (No Sidebar) */}
+      <UserNavbar />
 
       {/* Main content area */}
-      <div className="dashboard-main">
-        {/* Sticky header */}
-        <DashboardHeader onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+      <main className="dashboard-content" id="main-content" tabIndex={-1}>
+        <div className="dashboard-container">
+          {/* 1. Modern Bento Welcome & Quick Actions */}
+          <WelcomeSection onOpenEuler={() => setEulerOpen(true)} />
 
-        {/* Scrollable content */}
-        <main className="dashboard-content" id="main-content" tabIndex={-1}>
-          {/* 1. Welcome section */}
-          <WelcomeSection />
-
-          {/* 2. Top Primary Actions & Quick Insurance CTAs immediately below Welcome */}
-          <section className="dashboard-top-actions">
-            <InsuranceActions />
-          </section>
-
-          {/* 2-column layout: left = main, right = sidebar */}
-          <div className="dashboard-grid">
-            {/* Main column */}
-            <div className="dashboard-col-main">
-              {/* 3. Active Insurance Hero centerpiece */}
+          {/* 2. Interactive InsurTech Bento Grid */}
+          <div className="dashboard-bento-grid">
+            {/* Main Column: Active Insurance Command Center */}
+            <div className="dashboard-bento-main">
               <InsuranceHero />
-
-              {/* 4. Dedicated Get New Insurance Feature Block */}
-              <NewInsuranceSection />
-
-              {/* 5. Application Timeline */}
-              <section className="dashboard-section">
-                <ApplicationTimeline />
-              </section>
-
-              {/* 6. Coverage */}
-              <section className="dashboard-section">
-                <CoverageOverview />
-              </section>
-
-              {/* 7. Policy Details */}
-              <section className="dashboard-section">
-                <PolicyDetails />
-              </section>
             </div>
 
-            {/* Sidebar column */}
-            <div className="dashboard-col-side">
-              {/* Renewal Section */}
-              <RenewalSection />
-
-              {/* Claims */}
-              <section className="dashboard-section">
-                <ClaimsSummary />
-              </section>
-
-              {/* Documents */}
-              <section className="dashboard-section">
-                <DocumentsSummary />
-              </section>
-
-              {/* Recent Activity */}
-              <section className="dashboard-section">
-                <RecentActivity />
-              </section>
+            {/* Side Column: Multi-tab Application Tracker, Vault & Euler Capsule */}
+            <div className="dashboard-bento-side">
+              <DashboardWorkspace onOpenEuler={handleOpenEulerWithPrompt} />
             </div>
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
 
       {/* Euler floating assistant */}
-      <EulerLauncher />
+      <EulerLauncher onClick={() => setEulerOpen(!eulerOpen)} />
+      <EulerChat open={eulerOpen} onClose={() => setEulerOpen(false)} />
     </div>
   );
 }

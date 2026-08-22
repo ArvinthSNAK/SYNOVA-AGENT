@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mock Insurer C - Quote Result</title>
+    <style>
+        body { font-family: Georgia, serif; background: #f5f0e8; padding: 30px; }
+        h1 { color: #2c5f2d; }
+        h2 { color: #1a3d1a; }
+        table { border-collapse: collapse; width: 100%; max-width: 600px; }
+        th, td { border: 1px solid #999; padding: 8px; text-align: left; }
+        th { background: #2c5f2d; color: white; }
+        a { color: #2c5f2d; }
+    </style>
+</head>
+<body>
+    <h1>TrustShield Insurance — Your Quote</h1>
+
+    <p><strong>Customer:</strong> {{ customer_name }}</p>
+    <p><strong>Vehicle:</strong> {{ vehicle_registration }}</p>
+    <p><strong>Product:</strong> {{ result.product_name }}</p>
+
+    <h2>Premium: ₹{{ result.final_premium }}</h2>
+
+    <h3>Calculation Breakdown</h3>
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Type</th>
+            <th>Amount (₹)</th>
+            <th>Running Total (₹)</th>
+        </tr>
+        {% for item in result.breakdown %}
+        <tr>
+            <td>{{ item.rule }}</td>
+            <td>{{ item.rule_type }}</td>
+            <td>{{ item.value }}</td>
+            <td>{{ item.running_total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="/quote">← Get another quote</a></p>
+</body>
+</html>
