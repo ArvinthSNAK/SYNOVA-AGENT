@@ -19,9 +19,11 @@ import {
   Info,
 } from 'lucide-react';
 import { dashboardData } from '../../features/dashboard/data/dashboardData.js';
+import { useUser } from '../../context/UserContext.jsx';
 import './UserNavbar.css';
 
-const { user, notifications } = dashboardData;
+const { notifications } = dashboardData;
+
 
 const notifIconMap = {
   warning: AlertCircle,
@@ -44,9 +46,11 @@ const USER_NAV_LINKS = [
 ];
 
 export default function UserNavbar() {
+  const { user } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
   const [profileOpen, setProfileOpen] = useState(false);
+
   const [notifOpen, setNotifOpen] = useState(false);
   const [notifList, setNotifList] = useState(notifications);
 
@@ -206,10 +210,13 @@ export default function UserNavbar() {
               aria-label={`Profile menu for ${user.name}`}
               aria-expanded={profileOpen}
             >
-              <div className="user-nav-avatar">
-                {user.name.charAt(0).toUpperCase()}
+              <div
+                className="user-nav-avatar"
+                style={user.avatarColor ? { backgroundColor: user.avatarColor } : undefined}
+              >
+                {(user.name || user.fullName || 'U').charAt(0).toUpperCase()}
               </div>
-              <span className="user-nav-user-name">{user.name}</span>
+              <span className="user-nav-user-name">{user.name || user.fullName?.split(' ')[0] || 'User'}</span>
               <ChevronDown
                 size={13}
                 className={`user-nav-chevron ${profileOpen ? 'user-nav-chevron--open' : ''}`}
@@ -226,12 +233,18 @@ export default function UserNavbar() {
                   className="user-nav-dropdown user-profile-dropdown"
                 >
                   <div className="user-profile-head">
-                    <div className="user-profile-avatar-lg">{user.name.charAt(0).toUpperCase()}</div>
+                    <div
+                      className="user-profile-avatar-lg"
+                      style={user.avatarColor ? { backgroundColor: user.avatarColor } : undefined}
+                    >
+                      {(user.fullName || user.name || 'U').charAt(0).toUpperCase()}
+                    </div>
                     <div>
-                      <div className="user-profile-fullname">{user.fullName}</div>
-                      <div className="user-profile-email">{user.email || 'naresh.kumar@synova.ai'}</div>
+                      <div className="user-profile-fullname">{user.fullName || user.name}</div>
+                      <div className="user-profile-email">{user.email || 'naresh.kumar@email.com'}</div>
                     </div>
                   </div>
+
                   <div className="user-nav-divider" />
                   <Link
                     to="/wallet"

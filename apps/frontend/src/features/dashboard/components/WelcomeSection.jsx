@@ -10,9 +10,10 @@ import {
   Car,
 } from 'lucide-react';
 import { dashboardData, formatINR } from '../data/dashboardData.js';
+import { useUser } from '../../../context/UserContext.jsx';
 import './WelcomeSection.css';
 
-const { user, policy, vehicle } = dashboardData;
+const { policy, vehicle } = dashboardData;
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -22,6 +23,7 @@ function getGreeting() {
 }
 
 export default function WelcomeSection({ onOpenEuler }) {
+  const { user } = useUser();
   const navigate = useNavigate();
 
   return (
@@ -35,14 +37,18 @@ export default function WelcomeSection({ onOpenEuler }) {
         {/* Top greeting row */}
         <div className="welcome-hero-greeting-row">
           <div className="welcome-user-info">
-            <div className="welcome-avatar-pill">
-              <span className="welcome-avatar-letter">{user.name.charAt(0)}</span>
+            <div
+              className="welcome-avatar-pill"
+              style={user.avatarColor ? { backgroundColor: user.avatarColor } : undefined}
+            >
+              <span className="welcome-avatar-letter">{(user.name || user.fullName || 'U').charAt(0)}</span>
               <span className="welcome-online-pulse" />
             </div>
             <div>
               <h1 className="welcome-hero-title">
-                {getGreeting()}, <span className="welcome-title-accent">{user.name}</span>
+                {getGreeting()}, <span className="welcome-title-accent">{user.name || user.fullName?.split(' ')[0] || 'User'}</span>
               </h1>
+
               <p className="welcome-hero-subtitle">
                 Unified auto insurance command center & AI policy manager.
               </p>

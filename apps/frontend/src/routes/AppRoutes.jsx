@@ -21,7 +21,11 @@ import QuoteResults from '../features/insurance-application/components/QuoteResu
 import RenewalPage from '../features/insurance-renewal/components/RenewalPage.jsx';
 import PoliciesPage from '../pages/PoliciesPage.jsx';
 import ApplicationsPage from '../pages/ApplicationsPage.jsx';
+import SettingsPage from '../pages/SettingsPage.jsx';
+import HelpSupportPage from '../pages/HelpSupportPage.jsx';
 import UserNavbar from '../components/layout/UserNavbar.jsx';
+
+
 import '../features/insurance-application/components/QuoteResults.css';
 
 
@@ -306,24 +310,10 @@ export default function AppRoutes() {
           />
         }
       />
-      <Route
-        path="/settings"
-        element={
-          <PlaceholderPage
-            title="Account & Profile Settings"
-            description="Manage your contact details, notification preferences, and security settings."
-          />
-        }
-      />
-      <Route
-        path="/help"
-        element={
-          <PlaceholderPage
-            title="Help & Support"
-            description="Get assistance from Euler or contact SYNOVA 24/7 dedicated customer care."
-          />
-        }
-      />
+      <Route path="/settings" element={<SettingsPage />} />
+
+      <Route path="/help" element={<HelpSupportPage />} />
+
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -15,9 +15,10 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { dashboardData } from '../data/dashboardData.js';
+import { useUser } from '../../../context/UserContext.jsx';
 import './DashboardHeader.css';
 
-const { user, notifications } = dashboardData;
+const { notifications } = dashboardData;
 
 const notifIconMap = {
   warning: AlertCircle,
@@ -32,8 +33,10 @@ const notifColorMap = {
 };
 
 export default function DashboardHeader({ onMenuToggle }) {
+  const { user } = useUser();
   const navigate = useNavigate();
   const [profileOpen, setProfileOpen] = useState(false);
+
   const [notifOpen, setNotifOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const [notifList, setNotifList] = useState(notifications);
@@ -182,10 +185,14 @@ export default function DashboardHeader({ onMenuToggle }) {
             aria-haspopup="true"
             aria-label={`Profile menu for ${user.name}`}
           >
-            <div className="header-avatar" aria-hidden="true">
-              {user.name.charAt(0).toUpperCase()}
+            <div
+              className="header-avatar"
+              aria-hidden="true"
+              style={user.avatarColor ? { backgroundColor: user.avatarColor } : undefined}
+            >
+              {(user.name || user.fullName || 'U').charAt(0).toUpperCase()}
             </div>
-            <span className="header-profile-name">{user.name}</span>
+            <span className="header-profile-name">{user.name || user.fullName?.split(' ')[0] || 'User'}</span>
             <ChevronDown
               size={14}
               className={`header-chevron${profileOpen ? ' header-chevron--open' : ''}`}
@@ -196,12 +203,18 @@ export default function DashboardHeader({ onMenuToggle }) {
           {profileOpen && (
             <div className="header-dropdown profile-dropdown" role="menu" aria-label="Profile menu">
               <div className="profile-dropdown-user">
-                <div className="profile-dropdown-avatar">{user.name.charAt(0).toUpperCase()}</div>
+                <div
+                  className="profile-dropdown-avatar"
+                  style={user.avatarColor ? { backgroundColor: user.avatarColor } : undefined}
+                >
+                  {(user.fullName || user.name || 'U').charAt(0).toUpperCase()}
+                </div>
                 <div>
-                  <div className="profile-dropdown-name">{user.fullName}</div>
-                  <div className="profile-dropdown-role">{user.role}</div>
+                  <div className="profile-dropdown-name">{user.fullName || user.name}</div>
+                  <div className="profile-dropdown-role">{user.role || 'Policyholder'}</div>
                 </div>
               </div>
+
               <div className="profile-dropdown-divider" />
               <button
                 className="profile-dropdown-item"
