@@ -9,8 +9,10 @@ from app.api.v1.routes import (
     application_routes,
     policy_routes,
     renewal_routes,
+    claims_routes,
 )
 
+# Fully wired API v1 router with all entity and claims routes
 router = APIRouter()
 
 router.include_router(admin_routes.router)
@@ -22,3 +24,6 @@ router.include_router(auth_routes.router)
 router.include_router(application_routes.router)
 router.include_router(policy_routes.router)
 router.include_router(renewal_routes.router)
+router.include_router(claims_routes.router)
+
+

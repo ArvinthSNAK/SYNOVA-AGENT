@@ -45,7 +45,7 @@ async def multi_quote(payload: MultiQuoteRequest):
         },
     }
 
-    async with httpx.AsyncClient(timeout=60.0) as client:
+    async with httpx.AsyncClient(timeout=90.0) as client:
         try:
             resp = await client.post(f"{automation_url}/automation/run", json=request_body)
             resp.raise_for_status()
@@ -69,6 +69,7 @@ async def multi_quote(payload: MultiQuoteRequest):
             "addon_count": len(r.get("selected_addons", [])),
             "selected_addons": r.get("selected_addons", []),
             "breakdown": r.get("breakdown", []),
+            "screencast_frames": r.get("screencast_frames", []),
         })
 
     ranked = compare_quotes(quotes_for_comparison)
@@ -94,7 +95,7 @@ async def multi_quote_recommend(payload: MultiQuoteRequest):
         },
     }
 
-    async with httpx.AsyncClient(timeout=60.0) as client:
+    async with httpx.AsyncClient(timeout=90.0) as client:
         try:
             resp = await client.post(f"{automation_url}/automation/run", json=request_body)
             resp.raise_for_status()
@@ -118,10 +119,12 @@ async def multi_quote_recommend(payload: MultiQuoteRequest):
             "addon_count": len(r.get("selected_addons", [])),
             "selected_addons": r.get("selected_addons", []),
             "breakdown": r.get("breakdown", []),
+            "screencast_frames": r.get("screencast_frames", []),
         })
 
     ranked = compare_quotes(quotes_for_comparison)
     recommendation = generate_recommendation(ranked)
+    recommendation["all_quotes"] = ranked
     return RecommendationResponse(**recommendation)
 
 

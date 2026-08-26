@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TATA AIG - Policy & Product Management Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tata-blue: #003366;
+            --tata-accent: #0088CC;
+            --bg-page: #F4F7FA;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
+        body { background-color: var(--bg-page); color: #1E293B; min-height: 100vh; }
+        
+        .navbar {
+            background: #FFFFFF;
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justifyContent: space-between;
+            border-bottom: 3px solid var(--tata-blue);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-logo {
+            background: linear-gradient(135deg, #003366, #0055A5);
+            color: #FFFFFF;
+            font-weight: 900;
+            font-size: 16px;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+        .brand-title { font-size: 17px; font-weight: 800; color: var(--tata-blue); }
+        .container { max-width: 1140px; margin: 32px auto; padding: 0 20px; }
+        .card { background: #FFFFFF; border-radius: 16px; padding: 28px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 4px 20px rgba(0,0,0,0.03); margin-bottom: 24px; }
+        .grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; }
+        .form-group { margin-bottom: 14px; }
+        .form-label { display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px; text-transform: uppercase; }
+        .form-input { width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 13.5px; }
+        .btn-submit { background: var(--tata-blue); color: #FFFFFF; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; font-size: 13.5px; cursor: pointer; width: 100%; }
+        .btn-submit:hover { background: #002244; }
+        .btn-toggle { padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 700; border: 1px solid #CBD5E1; background: #FFFFFF; cursor: pointer; }
+        .btn-delete { padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 700; border: 1px solid #FECDD3; background: #FFF1F2; color: #E11D48; cursor: pointer; }
+        .btn-delete:hover { background: #FFE4E6; }
+        .badge-active { background: #ECFDF5; color: #059669; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+        .badge-inactive { background: #FEF2F2; color: #DC2626; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+        .alert-success { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; padding: 12px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-logo">TATA AIG</div>
+            <div>
+                <div class="brand-title">TATA AIG General Insurance</div>
+                <div style="font-size: 10px; color: var(--tata-accent); font-weight: 700;">INSURER ADMIN & POLICY MANAGEMENT</div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <a href="/quote" style="background: #F0F9FF; border: 1px solid #BAE6FD; color: var(--tata-blue); padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 700; text-decoration: none;">
+                ← Public Quote Portal
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        {% if success_message %}
+        <div class="alert-success">✓ {{ success_message }}</div>
+        {% endif %}
+
+        <div class="grid">
+            <div class="card">
+                <h2 style="font-size: 18px; color: var(--tata-blue); font-weight: 800; margin-bottom: 4px;">Publish New Policy Product</h2>
+                <p style="font-size: 12.5px; color: #64748B; margin-bottom: 18px;">Catalog will instantly broadcast live alerts to all customer portals.</p>
+
+                <form method="POST" action="/admin/products" id="addPolicyForm">
+                    <div class="form-group">
+                        <label class="form-label">Policy Title</label>
+                        <input type="text" name="name" id="policyName" class="form-input" placeholder="e.g. AutoSecure Total Cover" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Policy Category</label>
+                        <select name="insurance_type" class="form-input">
+                            <option value="motor">Motor Comprehensive</option>
+                            <option value="commercial">Commercial Transport</option>
+                            <option value="health">MediPrime Health</option>
+                        </select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="form-group">
+                            <label class="form-label">Base Rate (%)</label>
+                            <input type="number" step="0.1" name="base_rate_percent" id="baseRate" class="form-input" value="3.5" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Min Premium (₹)</label>
+                            <input type="number" step="100" name="min_premium" id="minPremium" class="form-input" value="18900" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Coverage Description</label>
+                        <textarea name="description" class="form-input" rows="3" placeholder="Full comprehensive coverage with NCB protector & Key replacement..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Publish Policy & Broadcast Notification →</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div>
+                        <h2 style="font-size: 18px; color: var(--tata-blue); font-weight: 800; margin: 0;">Policy Catalog ({{ products|length }})</h2>
+                        <p style="font-size: 12.5px; color: #64748B; margin-top: 2px; margin-bottom: 0;">Manage, toggle, or remove underwriting policies.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    {% for p in products %}
+                    <div style="padding: 16px; border-radius: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <strong style="font-size: 14.5px; color: var(--tata-blue);">{{ p.name }}</strong>
+                                <span class="{{ 'badge-active' if p.active else 'badge-inactive' }}">
+                                    {{ 'ACTIVE' if p.active else 'INACTIVE' }}
+                                </span>
+                            </div>
+                            <div style="font-size: 12px; color: #64748B; margin-top: 4px;">
+                                Category: <strong>{{ p.insurance_type|upper }}</strong> • Base Rate: <strong>{{ p.base_rate_percent }}%</strong>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <form method="POST" action="/admin/products/{{ p.id }}/toggle">
+                                <button type="submit" class="btn-toggle">
+                                    {{ 'Deactivate' if p.active else 'Activate' }}
+                                </button>
+                            </form>
+                            <form method="POST" action="/admin/products/{{ p.id }}/delete" onsubmit="return confirm('Are you sure you want to remove this policy from TATA AIG?');">
+                                <button type="submit" class="btn-delete">
+                                    Remove
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('addPolicyForm').addEventListener('submit', async function(e) {
+            try {
+                const name = document.getElementById('policyName').value;
+                const rate = document.getElementById('baseRate').value;
+                const min = document.getElementById('minPremium').value;
+                await fetch('http://localhost:8000/api/v1/notifications/broadcast', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: 'New Policy Alert: ' + name,
+                        message: 'TATA AIG Assurance has launched "' + name + '" (Base Rate: ' + rate + '%, Starting from ₹' + Number(min).toLocaleString() + ') with NCB Protector benefits.',
+                        insurer_name: 'TATA AIG Assurance',
+                        product_name: name,
+                        notification_type: 'NEW_POLICY_LAUNCH'
+                    })
+                });
+            } catch(err) {
+                console.log('Client broadcast error:', err);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -6,11 +6,13 @@ from app.core.config import settings
 
 class InsurerAAdapter(BaseProviderAdapter):
     code = "insurer_a"
-    name = "Mock Insurer A"
+    name = "ICICI Lombard (Mock)"
     base_url = settings.INSURER_A_URL
 
     async def fill_and_submit(self, page: Page, request: QuoteRequest) -> QuoteResult:
+        frames = []
         await self.navigate_to_quote(page)
+        frames.append(await self.capture_frame(page, "Opened ICICI Lombard Quote Portal"))
 
         await page.fill("input[name='customer_name']", request.customer_name)
         await page.fill("input[name='vehicle_registration']", request.vehicle_registration)
@@ -19,14 +21,28 @@ class InsurerAAdapter(BaseProviderAdapter):
         await page.fill("input[name='vehicle_age_years']", str(request.vehicle_age_years))
         await page.fill("input[name='ncb_percent']", str(request.ncb_percent))
 
+        frames.append(await self.capture_frame(page, "Entered Vehicle & Customer Details"))
+
+        # Select Add-ons
+        for addon_id in request.addon_ids:
+            checkbox = page.locator(f"input[name='addon_ids'][value='{addon_id}']")
+            if await checkbox.count() > 0:
+                await checkbox.check()
+
+        frames.append(await self.capture_frame(page, "Selected Add-on Packages & Calculated Premium"))
+
         await page.click("button[type='submit']")
         await page.wait_for_load_state("networkidle")
+
+        frames.append(await self.capture_frame(page, "Received Instant Policy Quote & Breakdown"))
 
         premium = await self.extract_premium_from_result(page)
         breakdown = await self.extract_breakdown(page)
 
         product_el = page.locator("p:has-text('Product:')")
-        product_name = (await product_el.text_content()).replace("Product:", "").strip()
+        product_name = "ICICI Lombard Comprehensive Motor"
+        if await product_el.count() > 0:
+            product_name = (await product_el.text_content()).replace("Product:", "").strip()
 
         return QuoteResult(
             insurer_code=self.code,
@@ -35,4 +51,5 @@ class InsurerAAdapter(BaseProviderAdapter):
             final_premium=premium,
             breakdown=breakdown,
             selected_addons=[],
+            screencast_frames=frames,
         )

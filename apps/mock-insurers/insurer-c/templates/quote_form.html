@@ -3,137 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TATA AIG Insurance - Auto Protect Quote</title>
+    <title>TATA AIG General Insurance - Auto Secure Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --tata-blue: #002664;
-            --tata-red: #D32F2F;
-            --bg-gray: #F0F4F8;
+            --tata-light-blue: #0A4FA8;
+            --tata-red: #ED1C24;
         }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--bg-gray);
-            margin: 0;
-            padding: 0;
-            color: #1A202C;
-        }
-        .header {
-            background-color: var(--tata-blue);
-            color: white;
-            padding: 16px 32px;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #F1F5F9; color: #0F172A; min-height: 100vh; }
+
+        .navbar {
+            background: var(--tata-blue);
+            color: #FFFFFF;
+            padding: 14px 28px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 3px solid var(--tata-red);
+            justifyContent: space-between;
+            border-bottom: 4px solid var(--tata-red);
         }
-        .logo-box {
-            font-size: 22px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-logo {
+            background: #FFFFFF;
+            color: var(--tata-blue);
             font-weight: 900;
+            font-size: 16px;
+            padding: 4px 10px;
+            border-radius: 4px;
             letter-spacing: 1px;
         }
-        .container {
-            max-width: 580px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 16px rgba(0,38,100,0.1);
+        .brand-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #FFFFFF;
         }
-        h2 {
-            color: var(--tata-blue);
-            margin-top: 0;
-            font-size: 22px;
-            border-left: 4px solid var(--tata-red);
-            padding-left: 10px;
-        }
-        .form-group {
-            margin-bottom: 16px;
-        }
-        label {
-            display: block;
+        .brand-tagline {
+            font-size: 10px;
+            color: #93C5FD;
             font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 13px;
-            color: #2D3748;
+            text-transform: uppercase;
         }
-        input[type="text"], input[type="number"], select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #CBD5E0;
+        .badge-trust {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
             border-radius: 4px;
-            box-sizing: border-box;
         }
+
+        .container {
+            max-width: 620px;
+            margin: 30px auto;
+            background: #FFFFFF;
+            padding: 32px;
+            border-radius: 10px;
+            box-shadow: 0 4px 25px rgba(0, 38, 100, 0.08);
+            border: 1px solid #CBD5E1;
+        }
+        h2 { font-size: 22px; color: var(--tata-blue); margin-bottom: 6px; font-weight: 800; }
+        .sub-header { font-size: 13px; color: #64748B; margin-bottom: 20px; }
+
+        .trust-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 22px;
+            background: #EFF6FF;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #BFDBFE;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tata-blue);
+        }
+
+        .form-group { margin-bottom: 16px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+        label { display: block; font-weight: 600; font-size: 12.5px; color: #334155; margin-bottom: 6px; }
+        input, select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 6px;
+            font-size: 13.5px;
+            color: #0F172A;
+            transition: all 0.2s;
+            background: #FFFFFF;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--tata-light-blue);
+            box-shadow: 0 0 0 3px rgba(10, 79, 168, 0.15);
+        }
+
         .btn-submit {
             width: 100%;
-            background-color: var(--tata-blue);
-            color: white;
+            background: linear-gradient(135deg, #002664 0%, #0A4FA8 100%);
+            color: #FFFFFF;
+            font-weight: 800;
             font-size: 15px;
-            font-weight: 700;
-            padding: 12px;
+            padding: 13px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 38, 100, 0.3);
+            transition: all 0.2s;
+            margin-top: 8px;
         }
         .btn-submit:hover {
-            background-color: #001A47;
+            background: #001A44;
+            transform: translateY(-1px);
+        }
+
+        .autofill-banner {
+            display: none;
+            background: #EFF6FF;
+            border: 1px solid #93C5FD;
+            color: #1E40AF;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 18px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo-box">TATA AIG</div>
-        <span>Auto Secure Insurance Portal</span>
+    <div class="navbar">
+        <div class="brand">
+            <div class="brand-logo">TATA</div>
+            <div>
+                <div class="brand-title">TATA AIG Insurance</div>
+                <div class="brand-tagline">With You Always • Auto Secure</div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <a href="/admin" style="background: #F0F9FF; border: 1px solid #BAE6FD; color: var(--tata-blue); padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 6px;">
+                <span>⚙️ Insurer Admin Portal</span>
+            </a>
+            <span class="badge-trust">20+ YEARS OF TRUST</span>
+        </div>
     </div>
 
     <div class="container">
-        <h2>Calculate Premium Quote</h2>
+        <h2>TATA AIG Auto Secure Quote</h2>
+        <p class="sub-header">Comprehensive Protection with 6,500+ Network Garages Across India</p>
+
+        <div class="trust-strip">
+            <div>• 98% Settlement Ratio</div>
+            <div>• 7-Day Repair Warranty</div>
+            <div>• Free Towing Support</div>
+        </div>
+
+        <div id="autofill-banner" class="autofill-banner">
+            • Direct Gateway Stream — Populating risk parameters...
+        </div>
 
         {% if error %}
-            <div style="color: red; margin-bottom: 15px;"><strong>Error:</strong> {{ error }}</div>
+            <div style="background: #FEF2F2; border: 1px solid #FECACA; color: #DC2626; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 13px;">
+                <strong>Error:</strong> {{ error }}
+            </div>
         {% endif %}
 
-        <form method="post" action="/quote">
+        <form id="quote-form" method="post" action="/quote">
             <div class="form-group">
-                <label>Customer Name</label>
-                <input type="text" name="customer_name" required>
+                <label>Insured Full Name</label>
+                <input type="text" name="customer_name" id="customer_name" placeholder="e.g. Rajesh Nair" required>
             </div>
 
-            <div class="form-group">
-                <label>Vehicle Registration Number</label>
-                <input type="text" name="vehicle_registration" required>
+            <div class="grid-2 form-group">
+                <div>
+                    <label>Vehicle Registration</label>
+                    <input type="text" name="vehicle_registration" id="vehicle_registration" placeholder="MH-02-CP-7721" required>
+                </div>
+                <div>
+                    <label>TATA AIG Plan</label>
+                    <select name="product_id" id="product_id" required>
+                        {% for product in products %}
+                            <option value="{{ product.id }}">{{ product.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Product Plan</label>
-                <select name="product_id" required>
-                    {% for product in products %}
-                        <option value="{{ product.id }}">{{ product.name }}</option>
-                    {% endfor %}
-                </select>
+            <div class="grid-3 form-group">
+                <div>
+                    <label>IDV (₹)</label>
+                    <input type="number" name="idv" id="idv" step="0.01" placeholder="620000" required>
+                </div>
+                <div>
+                    <label>Vehicle Age (Yrs)</label>
+                    <input type="number" name="vehicle_age_years" id="vehicle_age_years" value="2" required>
+                </div>
+                <div>
+                    <label>NCB (%)</label>
+                    <input type="number" name="ncb_percent" id="ncb_percent" step="0.01" value="20" required>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Vehicle IDV (₹)</label>
-                <input type="number" name="idv" step="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label>Vehicle Age (Years)</label>
-                <input type="number" name="vehicle_age_years" value="2" required>
-            </div>
-
-            <div class="form-group">
-                <label>NCB Percent (%)</label>
-                <input type="number" name="ncb_percent" step="0.01" value="20" required>
-            </div>
-
-            <div class="form-group">
-                <label>Engine Capacity (CC)</label>
-                <input type="number" name="engine_capacity_cc" value="1497" required>
-            </div>
-
-            <button type="submit" class="btn-submit">Generate TATA AIG Quote</button>
+            <button type="submit" id="btn-submit" class="btn-submit">Calculate TATA AIG Auto Secure Quote →</button>
         </form>
     </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('autofill') === 'true') {
+                const banner = document.getElementById('autofill-banner');
+                if (banner) banner.style.display = 'block';
+
+                const cust = params.get('customer_name') || 'Rajesh Nair';
+                const reg = params.get('vehicle_registration') || 'MH-02-CP-7721';
+                const idvVal = params.get('idv') || '620000';
+                const age = params.get('vehicle_age_years') || '2';
+                const ncb = params.get('ncb_percent') || '20';
+
+                function typeInto(el, text, speed, callback) {
+                    if (!el) { if (callback) callback(); return; }
+                    el.value = '';
+                    el.focus();
+                    let i = 0;
+                    const timer = setInterval(() => {
+                        if (i < text.length) {
+                            el.value += text[i];
+                            i++;
+                        } else {
+                            clearInterval(timer);
+                            if (callback) setTimeout(callback, 120);
+                        }
+                    }, speed);
+                }
+
+                typeInto(document.getElementById('customer_name'), cust, 25, () => {
+                    typeInto(document.getElementById('vehicle_registration'), reg, 25, () => {
+                        typeInto(document.getElementById('idv'), idvVal, 20, () => {
+                            const ageInput = document.getElementById('vehicle_age_years');
+                            if (ageInput) ageInput.value = age;
+                            const ncbInput = document.getElementById('ncb_percent');
+                            if (ncbInput) ncbInput.value = ncb;
+
+                            if (params.get('submit') === 'true') {
+                                const btn = document.getElementById('btn-submit');
+                                if (btn) {
+                                    btn.style.background = '#059669';
+                                    btn.textContent = '✓ Submitting to TATA AIG Rating Hub...';
+                                    setTimeout(() => {
+                                        document.getElementById('quote-form').submit();
+                                    }, 500);
+                                }
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

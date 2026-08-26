@@ -3,140 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acko Drive General Insurance - Motor Quote</title>
+    <title>ACKO Drive - Direct Car Insurance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --acko-violet: #673AB7;
-            --acko-dark: #3F51B5;
-            --bg-light: #F8F9FE;
+            --acko-purple: #5C2D91;
+            --acko-green: #30D158;
+            --acko-dark: #1E1B2E;
         }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-light);
-            margin: 0;
-            padding: 0;
-            color: #2D3748;
-        }
-        .header {
-            background-color: var(--acko-violet);
-            color: #fff;
-            padding: 16px 32px;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #F7F5FC; color: #1E1B2E; min-height: 100vh; }
+
+        .navbar {
+            background: #FFFFFF;
+            padding: 14px 28px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justifyContent: space-between;
+            border-bottom: 2px solid #EBE5F7;
         }
-        .logo-badge {
-            background-color: #00E676;
-            color: #004D40;
-            font-weight: 800;
-            font-size: 22px;
-            padding: 4px 14px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-logo {
+            background: var(--acko-purple);
+            color: #FFFFFF;
+            font-weight: 900;
+            font-size: 18px;
+            padding: 4px 10px;
             border-radius: 6px;
-            letter-spacing: 0.5px;
         }
+        .brand-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--acko-purple);
+        }
+        .badge-d2c {
+            background: #ECFDF5;
+            color: #059669;
+            border: 1px solid #A7F3D0;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 9999px;
+        }
+
         .container {
-            max-width: 550px;
-            margin: 40px auto;
-            background: #fff;
+            max-width: 600px;
+            margin: 30px auto;
+            background: #FFFFFF;
             padding: 32px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(103, 58, 183, 0.08);
-            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(92, 45, 145, 0.08);
+            border: 1px solid #EAE4F5;
         }
-        h2 {
-            color: var(--acko-violet);
-            margin-top: 0;
-            font-size: 24px;
+        h2 { font-size: 22px; color: var(--acko-dark); margin-bottom: 6px; font-weight: 800; }
+        .sub-header { font-size: 13px; color: #6B7280; margin-bottom: 20px; }
+
+        .feature-box {
+            display: flex;
+            justifyContent: space-around;
+            background: #FAF7FD;
+            border: 1px solid #E9DFF8;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 22px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--acko-purple);
         }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 13px;
-            color: #4A5568;
-        }
-        input[type="text"], input[type="number"], select {
+
+        .form-group { margin-bottom: 16px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+        label { display: block; font-weight: 600; font-size: 12.5px; color: #4B5563; margin-bottom: 6px; }
+        input, select {
             width: 100%;
-            padding: 12px 14px;
-            border: 1.5px solid #CBD5E0;
+            padding: 11px 14px;
+            border: 1.5px solid #D1D5DB;
             border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
+            font-size: 13.5px;
+            color: #111827;
+            transition: all 0.2s;
+            background: #FFFFFF;
         }
         input:focus, select:focus {
             outline: none;
-            border-color: var(--acko-violet);
+            border-color: var(--acko-purple);
+            box-shadow: 0 0 0 3px rgba(92, 45, 145, 0.15);
         }
+
         .btn-submit {
             width: 100%;
-            background: linear-gradient(135deg, var(--acko-violet), var(--acko-dark));
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
+            background: linear-gradient(135deg, #673AB7 0%, #5C2D91 100%);
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 15px;
             padding: 14px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(103, 58, 183, 0.3);
+            box-shadow: 0 4px 15px rgba(92, 45, 145, 0.3);
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        .btn-submit:hover {
+            background: #4A1E7A;
+            transform: translateY(-1px);
+        }
+
+        .autofill-banner {
+            display: none;
+            background: #F3E8FF;
+            border: 1px solid #D8B4FE;
+            color: #6B21A8;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 18px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <div class="logo-badge">acko</div>
-            <span style="font-weight: 600;">Drive Insurance</span>
+    <div class="navbar">
+        <div class="brand">
+            <div class="brand-logo">acko</div>
+            <div>
+                <div class="brand-title">ACKO General Insurance</div>
+            </div>
         </div>
-        <span style="font-size: 13px;">Direct Customer Portal</span>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <a href="/admin" style="background: #EEF2FF; border: 1px solid #C7D2FE; color: var(--acko-purple); padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 6px;">
+                <span>⚙️ Insurer Admin Portal</span>
+            </a>
+            <span class="badge-d2c">ZERO COMMISSION DIRECT</span>
+        </div>
     </div>
 
     <div class="container">
-        <h2>Zero Paperwork Car Insurance</h2>
+        <h2>Direct Car Insurance in 2 Minutes</h2>
+        <p class="sub-header">Zero Paperwork, Instant Policy Issuance, and 1-Hour Digital Claims</p>
+
+        <div class="feature-box">
+            <span>• Zero Commission</span>
+            <span>• 100% Digital Flow</span>
+            <span>• Cashless Repairs</span>
+        </div>
+
+        <div id="autofill-banner" class="autofill-banner">
+            • Direct Gateway Stream — Populating risk parameters...
+        </div>
 
         {% if error %}
-            <div style="color: red; margin-bottom: 15px;"><strong>Error:</strong> {{ error }}</div>
+            <div style="background: #FEF2F2; border: 1px solid #FECACA; color: #DC2626; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 13px;">
+                <strong>Error:</strong> {{ error }}
+            </div>
         {% endif %}
 
-        <form method="post" action="/quote">
+        <form id="quote-form" method="post" action="/quote">
             <div class="form-group">
-                <label>Customer Name</label>
-                <input type="text" name="customer_name" placeholder="Full Name" required>
+                <label>Car Owner Full Name</label>
+                <input type="text" name="customer_name" id="customer_name" placeholder="e.g. Priya Sharma" required>
             </div>
 
-            <div class="form-group">
-                <label>Vehicle Registration Number</label>
-                <input type="text" name="vehicle_registration" placeholder="Registration (e.g. KA-01-MJ-4092)" required>
+            <div class="grid-2 form-group">
+                <div>
+                    <label>Registration Number</label>
+                    <input type="text" name="vehicle_registration" id="vehicle_registration" placeholder="DL-08-BQ-1190" required>
+                </div>
+                <div>
+                    <label>ACKO Plan</label>
+                    <select name="product_id" id="product_id" required>
+                        {% for product in products %}
+                            <option value="{{ product.id }}">{{ product.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Select Plan</label>
-                <select name="product_id" required>
-                    {% for product in products %}
-                        <option value="{{ product.id }}">{{ product.name }}</option>
-                    {% endfor %}
-                </select>
+            <div class="grid-3 form-group">
+                <div>
+                    <label>IDV (₹)</label>
+                    <input type="number" name="idv" id="idv" step="0.01" placeholder="480000" required>
+                </div>
+                <div>
+                    <label>Vehicle Age (Yrs)</label>
+                    <input type="number" name="vehicle_age_years" id="vehicle_age_years" value="2" required>
+                </div>
+                <div>
+                    <label>NCB (%)</label>
+                    <input type="number" name="ncb_percent" id="ncb_percent" step="0.01" value="20" required>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>IDV Value (₹)</label>
-                <input type="number" name="idv" step="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label>Vehicle Age (Years)</label>
-                <input type="number" name="vehicle_age_years" value="2" required>
-            </div>
-
-            <div class="form-group">
-                <label>NCB Percent (%)</label>
-                <input type="number" name="ncb_percent" step="0.01" value="20" required>
-            </div>
-
-            <button type="submit" class="btn-submit">View Instant Quote</button>
+            <button type="submit" id="btn-submit" class="btn-submit">Check ACKO Direct Premium →</button>
         </form>
     </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('autofill') === 'true') {
+                const banner = document.getElementById('autofill-banner');
+                if (banner) banner.style.display = 'block';
+
+                const cust = params.get('customer_name') || 'Priya Sharma';
+                const reg = params.get('vehicle_registration') || 'DL-08-BQ-1190';
+                const idvVal = params.get('idv') || '480000';
+                const age = params.get('vehicle_age_years') || '2';
+                const ncb = params.get('ncb_percent') || '20';
+
+                function typeInto(el, text, speed, callback) {
+                    if (!el) { if (callback) callback(); return; }
+                    el.value = '';
+                    el.focus();
+                    let i = 0;
+                    const timer = setInterval(() => {
+                        if (i < text.length) {
+                            el.value += text[i];
+                            i++;
+                        } else {
+                            clearInterval(timer);
+                            if (callback) setTimeout(callback, 120);
+                        }
+                    }, speed);
+                }
+
+                typeInto(document.getElementById('customer_name'), cust, 25, () => {
+                    typeInto(document.getElementById('vehicle_registration'), reg, 25, () => {
+                        typeInto(document.getElementById('idv'), idvVal, 20, () => {
+                            const ageInput = document.getElementById('vehicle_age_years');
+                            if (ageInput) ageInput.value = age;
+                            const ncbInput = document.getElementById('ncb_percent');
+                            if (ncbInput) ncbInput.value = ncb;
+
+                            if (params.get('submit') === 'true') {
+                                const btn = document.getElementById('btn-submit');
+                                if (btn) {
+                                    btn.style.background = '#059669';
+                                    btn.textContent = '✓ Calculating ACKO Direct Rate...';
+                                    setTimeout(() => {
+                                        document.getElementById('quote-form').submit();
+                                    }, 500);
+                                }
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

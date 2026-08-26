@@ -1,3 +1,6 @@
+import base64
+import re
+from datetime import datetime
 from abc import ABC, abstractmethod
 from playwright.async_api import Page
 from app.schemas.automation_job_schema import QuoteRequest, QuoteResult
@@ -15,9 +18,25 @@ class BaseProviderAdapter(ABC):
     async def navigate_to_quote(self, page: Page):
         await page.goto(f"{self.base_url}/quote", wait_until="networkidle")
 
+    async def capture_frame(self, page: Page, step_title: str) -> dict:
+        try:
+            screenshot_bytes = await page.screenshot(type="jpeg", quality=60)
+            b64 = base64.b64encode(screenshot_bytes).decode("utf-8")
+            return {
+                "step": step_title,
+                "timestamp": datetime.utcnow().isoformat(),
+                "screenshot": f"data:image/jpeg;base64,{b64}",
+            }
+        except Exception as e:
+            return {
+                "step": step_title,
+                "timestamp": datetime.utcnow().isoformat(),
+                "screenshot": "",
+                "error": str(e)
+            }
+
     async def extract_premium_from_result(self, page: Page) -> float:
         h2 = await page.locator("h2").first.text_content()
-        import re
         match = re.search(r"[\d,]+\.?\d*", h2.replace(",", ""))
         if match:
             return float(match.group())

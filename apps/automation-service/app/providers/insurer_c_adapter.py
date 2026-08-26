@@ -6,11 +6,13 @@ from app.core.config import settings
 
 class InsurerCAdapter(BaseProviderAdapter):
     code = "insurer_c"
-    name = "TrustShield Insurance"
+    name = "TATA AIG Auto Protect (Mock)"
     base_url = settings.INSURER_C_URL
 
     async def fill_and_submit(self, page: Page, request: QuoteRequest) -> QuoteResult:
+        frames = []
         await self.navigate_to_quote(page)
+        frames.append(await self.capture_frame(page, "Opened TATA AIG Auto Portal"))
 
         await page.fill("input[name='customer_name']", request.customer_name)
         await page.fill("input[name='vehicle_registration']", request.vehicle_registration)
@@ -18,16 +20,21 @@ class InsurerCAdapter(BaseProviderAdapter):
         await page.fill("input[name='idv']", str(request.idv))
         await page.fill("input[name='vehicle_age_years']", str(request.vehicle_age_years))
         await page.fill("input[name='ncb_percent']", str(request.ncb_percent))
-        await page.fill("input[name='engine_capacity_cc']", str(request.engine_capacity_cc))
+
+        frames.append(await self.capture_frame(page, "Populated Vehicle IDV and Depreciation Factors"))
 
         await page.click("button[type='submit']")
         await page.wait_for_load_state("networkidle")
+
+        frames.append(await self.capture_frame(page, "Extracted Comprehensive Auto Protect Quote"))
 
         premium = await self.extract_premium_from_result(page)
         breakdown = await self.extract_breakdown(page)
 
         product_el = page.locator("p:has-text('Product:')")
-        product_name = (await product_el.text_content()).replace("Product:", "").strip()
+        product_name = "TATA AIG Auto Secure Plus"
+        if await product_el.count() > 0:
+            product_name = (await product_el.text_content()).replace("Product:", "").strip()
 
         return QuoteResult(
             insurer_code=self.code,
@@ -36,4 +43,5 @@ class InsurerCAdapter(BaseProviderAdapter):
             final_premium=premium,
             breakdown=breakdown,
             selected_addons=[],
+            screencast_frames=frames,
         )

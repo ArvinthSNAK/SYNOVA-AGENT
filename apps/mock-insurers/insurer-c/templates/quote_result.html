@@ -2,35 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TATA AIG - Quote Summary</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TATA AIG - Premium Quote Summary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background: #F0F4F8; margin: 0; padding: 20px; }
-        .card { max-width: 550px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-top: 5px solid #002664; }
-        .blue-text { color: #002664; }
-        .price-card { background: #E6ECF5; padding: 20px; border-radius: 6px; text-align: center; margin: 20px 0; border: 1px solid #BCCCDD; }
-        .amount { font-size: 30px; font-weight: bold; color: #002664; }
-        ul { list-style: none; padding: 0; }
-        li { padding: 8px 0; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; }
+        :root { --tata-blue: #002664; --tata-red: #ED1C24; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: #F1F5F9; color: #0F172A; }
+        .navbar { background: var(--tata-blue); color: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 4px solid var(--tata-red); }
+        .container { max-width: 600px; margin: 30px auto; background: #FFFFFF; padding: 32px; border-radius: 10px; box-shadow: 0 4px 25px rgba(0, 38, 100, 0.08); border: 1px solid #CBD5E1; }
+        .price-box { background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border: 1.5px solid #93C5FD; border-radius: 10px; padding: 24px; text-align: center; margin-bottom: 20px; }
+        .price-val { font-size: 34px; font-weight: 900; color: #1E40AF; margin-top: 4px; }
+        .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #F1F5F9; font-size: 13.5px; }
+        .label { color: #64748B; font-weight: 500; }
+        .val { color: #0F172A; font-weight: 700; }
+        .btn-done { display: block; width: 100%; text-align: center; background: var(--tata-blue); color: #fff; text-decoration: none; padding: 12px; border-radius: 6px; font-weight: 700; font-size: 14px; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2 class="blue-text">TATA AIG Auto Protect Quote</h2>
-        <p><strong>Customer:</strong> {{ customer_name }}</p>
-        <p><strong>Vehicle Reg:</strong> {{ vehicle_registration }}</p>
-        <p><strong>Product:</strong> {{ product.name }}</p>
+    <div class="navbar">
+        <div style="font-weight: 900; font-size: 17px;">TATA AIG General Insurance</div>
+        <span style="font-size: 11px; font-weight: 700; color: #93C5FD;">LIVE RESULT</span>
+    </div>
 
-        <div class="price-card">
-            <div style="font-size: 13px; color: #4A5568;">Total Premium Payable</div>
-            <div class="amount">₹{{ "%.2f"|format(final_premium) }}</div>
+    <div class="container">
+        <div class="price-box">
+            <div style="font-size: 12px; font-weight: 700; color: #1E3A8A; text-transform: uppercase;">TATA AIG Calculated Annual Premium</div>
+            <div class="price-val" id="final-premium">₹{{ "{:,.2f}".format(result.final_premium) }}</div>
+            <div style="font-size: 11.5px; color: #1E40AF; margin-top: 4;">With 6,500+ Cashless Network Garages & 7-Day Warranty</div>
         </div>
 
-        <h3>Itemized Premium Breakdown</h3>
-        <ul>
-            {% for item in breakdown %}
-                <li><span>{{ item.name }}</span> <strong>₹{{ "%.2f"|format(item.amount) }}</strong></li>
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px;">
+            <div class="row"><span class="label">Policyholder:</span><span class="val" id="customer-name">{{ customer_name }}</span></div>
+            <div class="row"><span class="label">Vehicle Registration:</span><span class="val" id="vehicle-registration">{{ vehicle_registration }}</span></div>
+            <div class="row"><span class="label">Plan Cover:</span><span class="val" id="product-name">{{ result.product_name }}</span></div>
+        </div>
+
+        {% if result.breakdown %}
+        <div style="margin-top: 16px; font-size: 12px;">
+            <div style="font-weight: 700; color: #334155; margin-bottom: 8px;">Breakdown:</div>
+            {% for item in result.breakdown %}
+            <div class="row" style="font-size: 12px;">
+                <span class="label">{{ item.rule }}:</span>
+                <span class="val">₹{{ "{:,.2f}".format(item.value) }}</span>
+            </div>
             {% endfor %}
-        </ul>
+        </div>
+        {% endif %}
+
+        <a href="/quote" class="btn-done">← Back to TATA AIG Portal</a>
     </div>
 </body>
 </html>

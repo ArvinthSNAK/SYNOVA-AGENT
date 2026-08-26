@@ -20,3 +20,9 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
         return svc.login(email=payload.email, password=payload.password)
     except AuthServiceError as e:
         raise HTTPException(status_code=401, detail=str(e))
+
+
+def get_me_user(db: Session = Depends(get_db), current_user=Depends(lambda: None)):
+    from app.auth.dependencies import get_current_user
+    # Handled via dependency injection directly
+    return get_current_user

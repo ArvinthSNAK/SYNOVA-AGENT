@@ -18,6 +18,7 @@ from .claims_model import Claim
 from .renewal_model import Renewal
 from .provider_model import InsurerProvider
 from .audit_model import AuditLog
+from .wallet_model import Wallet, WalletTransaction
 
 __all__ = [
 	"Insurer",
@@ -40,4 +41,6 @@ __all__ = [
 	"Renewal",
 	"InsurerProvider",
 	"AuditLog",
+	"Wallet",
+	"WalletTransaction",
 ]

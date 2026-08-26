@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List, Dict, Any
 
 
 class QuoteRequest(BaseModel):
@@ -26,6 +26,7 @@ class QuoteResult(BaseModel):
     final_premium: float
     breakdown: list[dict]
     selected_addons: list[str]
+    screencast_frames: list[Dict[str, Any]] = []
     status: str = "success"
     error: Optional[str] = None
 

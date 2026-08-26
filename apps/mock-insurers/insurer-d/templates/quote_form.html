@@ -3,152 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDFC Ergo General Insurance - Motor Shield Quote</title>
+    <title>HDFC ERGO General Insurance - Motor Shield Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --hdfc-red: #E31837;
-            --hdfc-slate: #1E293B;
-            --bg-gray: #F8FAFC;
+            --hdfc-blue: #002F6C;
+            --hdfc-red: #ED1B24;
+            --bg-page: #F8FAFC;
         }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--bg-gray);
-            margin: 0;
-            padding: 0;
-            color: #334155;
-        }
-        .header {
-            background-color: var(--hdfc-slate);
-            color: white;
-            padding: 16px 32px;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-page); color: #0F172A; min-height: 100vh; }
+
+        .navbar {
+            background: #FFFFFF;
+            padding: 14px 28px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 4px solid var(--hdfc-red);
+            justifyContent: space-between;
+            border-bottom: 3px solid var(--hdfc-red);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-        .logo-box {
-            background-color: var(--hdfc-red);
-            color: white;
-            font-weight: 800;
-            font-size: 20px;
-            padding: 4px 12px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-logo {
+            background: var(--hdfc-red);
+            color: #FFFFFF;
+            font-weight: 900;
+            font-size: 16px;
+            padding: 6px 12px;
             border-radius: 4px;
         }
+        .brand-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--hdfc-blue);
+        }
+        .brand-tagline {
+            font-size: 10px;
+            color: var(--hdfc-red);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-portal {
+            background: #EFF6FF;
+            color: var(--hdfc-blue);
+            border: 1px solid #BFDBFE;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
         .container {
-            max-width: 580px;
-            margin: 40px auto;
-            background: white;
+            max-width: 620px;
+            margin: 30px auto;
+            background: #FFFFFF;
             padding: 32px;
-            border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            box-shadow: 0 4px 25px rgba(0, 47, 108, 0.06);
             border: 1px solid #E2E8F0;
         }
-        h2 {
-            color: var(--hdfc-slate);
-            margin-top: 0;
-            font-size: 22px;
-            border-bottom: 2px solid var(--hdfc-red);
-            padding-bottom: 8px;
-        }
-        .form-group {
-            margin-bottom: 16px;
-        }
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 13px;
-            color: #475569;
-        }
-        input[type="text"], input[type="number"], select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #CBD5E1;
+        h2 { font-size: 22px; color: var(--hdfc-blue); margin-bottom: 6px; font-weight: 800; }
+        .sub-header { font-size: 13px; color: #64748B; margin-bottom: 20px; }
+
+        .service-ribbon {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 22px;
+            background: #FEF2F2;
+            padding: 12px;
             border-radius: 6px;
-            box-sizing: border-box;
+            border: 1px solid #FECACA;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #991B1B;
         }
+
+        .form-group { margin-bottom: 16px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+        label { display: block; font-weight: 600; font-size: 12.5px; color: #334155; margin-bottom: 6px; }
+        input, select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #CBD5E1;
+            border-radius: 6px;
+            font-size: 13.5px;
+            color: #0F172A;
+            transition: all 0.2s;
+            background: #FFFFFF;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--hdfc-blue);
+            box-shadow: 0 0 0 3px rgba(0, 47, 108, 0.15);
+        }
+
         .btn-submit {
             width: 100%;
-            background-color: var(--hdfc-red);
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            padding: 12px;
+            background: linear-gradient(135deg, #002F6C 0%, #001D44 100%);
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 15px;
+            padding: 13px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 47, 108, 0.3);
+            transition: all 0.2s;
+            margin-top: 8px;
         }
         .btn-submit:hover {
-            background-color: #c4122d;
+            background: #ED1B24;
+            transform: translateY(-1px);
+        }
+
+        .autofill-banner {
+            display: none;
+            background: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            color: #991B1B;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 18px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <div class="logo-box">HDFC ERGO</div>
-            <span style="font-size: 14px;">Motor Shield Insurance</span>
+    <div class="navbar">
+        <div class="brand">
+            <div class="brand-logo">HDFC ERGO</div>
+            <div>
+                <div class="brand-title">General Insurance</div>
+                <div class="brand-tagline">Optima Secure Motor Shield</div>
+            </div>
         </div>
-        <span style="font-size: 12px; opacity: 0.8;">Instant Online Quote</span>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <a href="/admin" style="background: #FEF2F2; border: 1px solid #FECACA; color: var(--hdfc-red); padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 6px;">
+                <span>⚙️ Insurer Admin Portal</span>
+            </a>
+            <span class="badge-portal">7,800+ CASHLESS GARAGES</span>
+        </div>
     </div>
 
     <div class="container">
-        <h2>Motor Insurance Quote Calculator</h2>
+        <h2>HDFC ERGO Comprehensive Motor Quote</h2>
+        <p class="sub-header">Over 1.5 Crore Happy Customers with Overnight Cashless Approvals</p>
+
+        <div class="service-ribbon">
+            <div>• 100% Cashless Garages</div>
+            <div>• Zero Paperwork Claim</div>
+            <div>• Free Emergency RSA</div>
+        </div>
+
+        <div id="autofill-banner" class="autofill-banner">
+            • Direct Gateway Stream — Populating risk parameters...
+        </div>
 
         {% if error %}
-            <div style="color: red; margin-bottom: 15px;"><strong>Error:</strong> {{ error }}</div>
+            <div style="background: #FEF2F2; border: 1px solid #FECACA; color: #DC2626; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 13px;">
+                <strong>Error:</strong> {{ error }}
+            </div>
         {% endif %}
 
-        <form method="post" action="/quote">
+        <form id="quote-form" method="post" action="/quote">
             <div class="form-group">
-                <label>Customer Name</label>
-                <input type="text" name="customer_name" required>
+                <label>Car Owner Full Name</label>
+                <input type="text" name="customer_name" id="customer_name" placeholder="e.g. Vikramaditya Reddy" required>
             </div>
 
-            <div class="form-group">
-                <label>Vehicle Registration Number</label>
-                <input type="text" name="vehicle_registration" required>
+            <div class="grid-2 form-group">
+                <div>
+                    <label>Vehicle Registration</label>
+                    <input type="text" name="vehicle_registration" id="vehicle_registration" placeholder="KA-04-NB-3321" required>
+                </div>
+                <div>
+                    <label>HDFC ERGO Product</label>
+                    <select name="product_id" id="product_id" required>
+                        {% for product in products %}
+                            <option value="{{ product.id }}">{{ product.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Select Product Plan</label>
-                <select name="product_id" required>
-                    {% for product in products %}
-                        <option value="{{ product.id }}">{{ product.name }}</option>
-                    {% endfor %}
-                </select>
+            <div class="grid-3 form-group">
+                <div>
+                    <label>IDV (₹)</label>
+                    <input type="number" name="idv" id="idv" step="0.01" placeholder="700000" required>
+                </div>
+                <div>
+                    <label>Vehicle Age (Yrs)</label>
+                    <input type="number" name="vehicle_age_years" id="vehicle_age_years" value="2" required>
+                </div>
+                <div>
+                    <label>NCB (%)</label>
+                    <input type="number" name="ncb_percent" id="ncb_percent" step="0.01" value="20" required>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Insured Declared Value - IDV (₹)</label>
-                <input type="number" name="idv" step="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label>Vehicle Age (Years)</label>
-                <input type="number" name="vehicle_age_years" value="2" required>
-            </div>
-
-            <div class="form-group">
-                <label>No Claim Bonus (%)</label>
-                <input type="number" name="ncb_percent" step="0.01" value="20" required>
-            </div>
-
-            <div class="form-group">
-                <label>Engine Capacity (CC)</label>
-                <input type="number" name="engine_capacity_cc" value="1497" required>
-            </div>
-
-            <div class="form-group">
-                <label>Has Anti-Theft Device Installed?</label>
-                <select name="has_anti_theft">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn-submit">Calculate HDFC Ergo Premium</button>
+            <button type="submit" id="btn-submit" class="btn-submit">Calculate HDFC ERGO Premium →</button>
         </form>
     </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('autofill') === 'true') {
+                const banner = document.getElementById('autofill-banner');
+                if (banner) banner.style.display = 'block';
+
+                const cust = params.get('customer_name') || 'Vikramaditya Reddy';
+                const reg = params.get('vehicle_registration') || 'KA-04-NB-3321';
+                const idvVal = params.get('idv') || '700000';
+                const age = params.get('vehicle_age_years') || '2';
+                const ncb = params.get('ncb_percent') || '20';
+
+                function typeInto(el, text, speed, callback) {
+                    if (!el) { if (callback) callback(); return; }
+                    el.value = '';
+                    el.focus();
+                    let i = 0;
+                    const timer = setInterval(() => {
+                        if (i < text.length) {
+                            el.value += text[i];
+                            i++;
+                        } else {
+                            clearInterval(timer);
+                            if (callback) setTimeout(callback, 120);
+                        }
+                    }, speed);
+                }
+
+                typeInto(document.getElementById('customer_name'), cust, 25, () => {
+                    typeInto(document.getElementById('vehicle_registration'), reg, 25, () => {
+                        typeInto(document.getElementById('idv'), idvVal, 20, () => {
+                            const ageInput = document.getElementById('vehicle_age_years');
+                            if (ageInput) ageInput.value = age;
+                            const ncbInput = document.getElementById('ncb_percent');
+                            if (ncbInput) ncbInput.value = ncb;
+
+                            if (params.get('submit') === 'true') {
+                                const btn = document.getElementById('btn-submit');
+                                if (btn) {
+                                    btn.style.background = '#059669';
+                                    btn.textContent = '✓ Submitting to HDFC ERGO Engine...';
+                                    setTimeout(() => {
+                                        document.getElementById('quote-form').submit();
+                                    }, 500);
+                                }
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

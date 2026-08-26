@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1787663228573,
+    "title": "New Policy Alert: testpolicyacko2",
+    "subject": "New Policy Alert: testpolicyacko2",
+    "message": "ACKO General Insurance has launched 'testpolicyacko2' (Base Rate: 2.5%, Starting from \u20b914,200) with Engine Protector benefits.",
+    "insurer_name": "ACKO General Insurance",
+    "product_name": "testpolicyacko2",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-25T18:37:08.573365Z"
+  },
+  {
+    "id": 1787662952626,
+    "title": "New Policy Alert: testpolicyacko",
+    "subject": "New Policy Alert: testpolicyacko",
+    "message": "ACKO General Insurance has launched 'testpolicyacko' (Base Rate: 2.5%, Starting from \u20b914,200) with Engine Protector benefits.",
+    "insurer_name": "ACKO General Insurance",
+    "product_name": "testpolicyacko",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-25T18:32:32.626773Z"
+  },
+  {
+    "id": 1787662729974,
+    "title": "New Policy Alert: testpolicy3",
+    "subject": "New Policy Alert: testpolicy3",
+    "message": "ICICI Lombard General has launched 'testpolicy3' (Base Rate: 3.0%, Starting from \u20b916,500) with Zero Depreciation benefits.",
+    "insurer_name": "ICICI Lombard General",
+    "product_name": "testpolicy3",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-25T18:28:49.974762Z"
+  },
+  {
+    "id": 1787662564057,
+    "title": "Policy Notice: testpolicy1",
+    "subject": "Policy Notice: testpolicy1",
+    "message": "ICICI Lombard General has retired policy 'testpolicy1' from the live catalog.",
+    "insurer_name": "ICICI Lombard General",
+    "product_name": "testpolicy1",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-25T18:26:04.057913Z"
+  },
+  {
+    "id": 1787662560166,
+    "title": "Policy Notice: testpolicy3",
+    "subject": "Policy Notice: testpolicy3",
+    "message": "ICICI Lombard General has retired policy 'testpolicy3' from the live catalog.",
+    "insurer_name": "ICICI Lombard General",
+    "product_name": "testpolicy3",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-25T18:26:00.166693Z"
+  },
+  {
+    "id": 1787662539244,
+    "title": "Policy Notice: testpolicy2",
+    "subject": "Policy Notice: testpolicy2",
+    "message": "ICICI Lombard General has retired policy 'testpolicy2' from the live catalog.",
+    "insurer_name": "ICICI Lombard General",
+    "product_name": "testpolicy2",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-25T18:25:39.244681Z"
+  }
+]

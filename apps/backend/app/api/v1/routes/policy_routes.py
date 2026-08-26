@@ -148,3 +148,68 @@ def get_policy(policy_id: int, db: Session = Depends(get_db)):
             for v in versions
         ],
     }
+
+
+@router.post("/")
+def create_policy(payload: dict, db: Session = Depends(get_db)):
+    import uuid
+    customer_id = payload.get("customer_id", 1)
+    premium = float(payload.get("premium", payload.get("premium_amount", 5000.0)))
+    insurer_name = payload.get("insurer_name", "SecureRide General")
+    product_name = payload.get("product_name", "Comprehensive Motor Cover")
+    reg_no = payload.get("vehicle_registration", "KA-01-MJ-4092")
+    
+    policy_no = f"POL-{insurer_name[:3].upper()}-{str(uuid.uuid4())[:8].upper()}"
+    now = datetime.utcnow()
+    end_date = now + timedelta(days=365)
+
+    policy = Policy(
+        customer_id=customer_id,
+        policy_number=policy_no,
+        insurance_type=payload.get("insurance_type", "motor"),
+        insurer_name=insurer_name,
+        product_name=product_name,
+        premium=premium,
+        premium_amount=premium,
+        idv=float(payload.get("idv", 650000)),
+        coverage_amount=float(payload.get("idv", 650000)),
+        deductible=float(payload.get("deductible", 2000.0)),
+        start_date=now,
+        end_date=end_date,
+        vehicle_registration=reg_no,
+        vehicle_make=payload.get("vehicle_make", "Hyundai"),
+        vehicle_model=payload.get("vehicle_model", "Creta"),
+        ncb_percent=float(payload.get("ncb_percent", 20.0)),
+        addons=payload.get("addons", ["Zero Depreciation", "Roadside Assistance"]),
+        active=True,
+        status="active",
+    )
+    db.add(policy)
+    db.commit()
+    db.refresh(policy)
+
+    return {
+        "status": "SUCCESS",
+        "message": f"Policy {policy.policy_number} issued successfully!",
+        "policy": {
+            "id": policy.id,
+            "customer_id": policy.customer_id,
+            "policy_number": policy.policy_number,
+            "insurer_name": policy.insurer_name,
+            "product_name": policy.product_name,
+            "insurance_type": policy.insurance_type,
+            "premium": policy.premium,
+            "idv": policy.idv,
+            "coverage_amount": policy.coverage_amount,
+            "deductible": policy.deductible,
+            "vehicle_registration": policy.vehicle_registration,
+            "vehicle_make": policy.vehicle_make,
+            "vehicle_model": policy.vehicle_model,
+            "ncb_percent": policy.ncb_percent,
+            "addons": policy.addons,
+            "status": policy.status,
+            "active": policy.active,
+            "start_date": policy.start_date.strftime("%Y-%m-%d") if policy.start_date else None,
+            "end_date": policy.end_date.strftime("%Y-%m-%d") if policy.end_date else None,
+        }
+    }

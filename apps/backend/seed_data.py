@@ -8,6 +8,7 @@ Run: python -m seed_data  (from apps/backend/)
 from datetime import datetime, timedelta
 from app.db.postgres.session import SessionLocal, engine
 from app.db.postgres.base import Base
+from app.core.security import hash_password
 from app.models.insurer_model import Insurer
 from app.models.insurance_product_model import InsuranceProduct
 from app.models.pricing_rule_model import PricingRule
@@ -182,16 +183,24 @@ try:
         ]
         db.add_all(addons)
 
-        # --- 6. Demo User ---
+        # --- 6. Demo & Admin Users ---
         demo_user = User(
             email="demo@example.com",
             full_name="Arvinth Kumar",
-            hashed_password="demo123",
+            hashed_password=hash_password("demo123"),
             is_active=True,
             role="customer",
         )
-        db.add(demo_user)
+        admin_user = User(
+            email="admin@example.com",
+            full_name="Platform Admin",
+            hashed_password=hash_password("admin123"),
+            is_active=True,
+            role="admin",
+        )
+        db.add_all([demo_user, admin_user])
         db.flush()
+
 
         # --- 7. Customer Insurance Vault (Motor, Health, Term/Life) ---
         now = datetime.now()

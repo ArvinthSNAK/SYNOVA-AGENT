@@ -64,6 +64,7 @@ class ComparedQuote(BaseModel):
     addon_count: int = 0
     selected_addons: List[str] = []
     breakdown: List[dict] = []
+    screencast_frames: List[Dict[str, Any]] = []
     scores: QuoteScores
     rank: int
 
@@ -96,4 +97,5 @@ class RecommendationResponse(BaseModel):
     tradeoffs: List[str]
     coverage_gaps: List[str]
     other_policies: List[OtherPolicy]
+    all_quotes: List[ComparedQuote] = []
     disclaimer: str

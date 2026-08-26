@@ -1,5 +1,18 @@
 from sqlalchemy.orm import Session
+from datetime import datetime
 from app.models.extracted_policy_data_model import ExtractedPolicyData
+
+
+def _to_datetime(val):
+    if isinstance(val, datetime):
+        return val
+    if isinstance(val, str):
+        for fmt in ["%Y-%m-%d", "%d-%m-%Y", "%d/%m/%Y", "%d %b %Y", "%d-%b-%Y"]:
+            try:
+                return datetime.strptime(val.strip(), fmt)
+            except ValueError:
+                pass
+    return None
 
 
 class ExtractedPolicyDataRepository:
@@ -12,6 +25,17 @@ class ExtractedPolicyDataRepository:
             for key, value in fields.items()
         }
 
+        start_dt = _to_datetime(fields.get("start_date"))
+        end_dt = _to_datetime(fields.get("end_date"))
+
+        # Convert ncb to float or clean string
+        ncb_val = fields.get("ncb")
+        if isinstance(ncb_val, str):
+            try:
+                ncb_val = float(ncb_val.replace("%", "").strip())
+            except ValueError:
+                ncb_val = 20.0
+
         record = ExtractedPolicyData(
             document_id=document_id,
             customer_name=fields.get("customer_name"),
@@ -21,11 +45,11 @@ class ExtractedPolicyDataRepository:
             vehicle_registration=fields.get("vehicle_registration"),
             vehicle_make=fields.get("vehicle_make"),
             vehicle_model=fields.get("vehicle_model"),
-            idv=fields.get("idv"),
-            start_date=fields.get("start_date"),
-            end_date=fields.get("end_date"),
-            premium=fields.get("premium"),
-            ncb=fields.get("ncb"),
+            idv=float(fields.get("idv")) if fields.get("idv") is not None else None,
+            start_date=start_dt,
+            end_date=end_dt,
+            premium=float(fields.get("premium")) if fields.get("premium") is not None else None,
+            ncb=ncb_val,
             raw_text=raw_text,
             raw=json_safe_fields,
         )

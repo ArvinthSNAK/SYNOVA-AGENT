@@ -6,11 +6,13 @@ from app.core.config import settings
 
 class InsurerBAdapter(BaseProviderAdapter):
     code = "insurer_b"
-    name = "Mock Insurer B"
+    name = "Acko Drive (Mock)"
     base_url = settings.INSURER_B_URL
 
     async def fill_and_submit(self, page: Page, request: QuoteRequest) -> QuoteResult:
+        frames = []
         await self.navigate_to_quote(page)
+        frames.append(await self.capture_frame(page, "Opened Acko Direct Quote Portal"))
 
         await page.fill("input[name='customer_name']", request.customer_name)
         await page.fill("input[name='vehicle_registration']", request.vehicle_registration)
@@ -19,14 +21,20 @@ class InsurerBAdapter(BaseProviderAdapter):
         await page.fill("input[name='vehicle_age_years']", str(request.vehicle_age_years))
         await page.fill("input[name='ncb_percent']", str(request.ncb_percent))
 
+        frames.append(await self.capture_frame(page, "Configured Zero-Commission Driver Profile"))
+
         await page.click("button[type='submit']")
         await page.wait_for_load_state("networkidle")
+
+        frames.append(await self.capture_frame(page, "Calculated Real-Time Direct Premium"))
 
         premium = await self.extract_premium_from_result(page)
         breakdown = await self.extract_breakdown(page)
 
         product_el = page.locator("p:has-text('Product:')")
-        product_name = (await product_el.text_content()).replace("Product:", "").strip()
+        product_name = "Acko Smart Drive Secure"
+        if await product_el.count() > 0:
+            product_name = (await product_el.text_content()).replace("Product:", "").strip()
 
         return QuoteResult(
             insurer_code=self.code,
@@ -35,4 +43,5 @@ class InsurerBAdapter(BaseProviderAdapter):
             final_premium=premium,
             breakdown=breakdown,
             selected_addons=[],
+            screencast_frames=frames,
         )
