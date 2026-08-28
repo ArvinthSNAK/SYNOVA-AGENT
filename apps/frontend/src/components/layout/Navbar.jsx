@@ -49,7 +49,7 @@ export default function Navbar() {
           localStorage.setItem(`synova_wallet_balance_${uKey}`, bal);
         }
       }
-    } catch (e) {}
+    } catch (e) { }
 
     setWalletBalance(bal);
     setWalletTransactions(storedTxns);
@@ -96,13 +96,13 @@ export default function Navbar() {
           mockNotifs.push(...res.value);
         }
       }
-    } catch (e) {}
+    } catch (e) { }
 
     let serverNotifs = [];
     try {
       const res = await httpClient.get('/notifications');
       if (Array.isArray(res.data)) serverNotifs = res.data;
-    } catch (e) {}
+    } catch (e) { }
 
     const combined = [...mockNotifs, ...serverNotifs];
     const unique = [];
@@ -187,7 +187,7 @@ export default function Navbar() {
 
     try {
       await httpClient.post('/wallet/add-funds', { amount: amt, payment_method: 'Instant UPI / Card' });
-    } catch (err) {}
+    } catch (err) { }
 
     setTopupAmount('');
     setTopupSuccessMsg(`✓ Added ₹${amt.toLocaleString('en-IN')} to vault balance!`);
@@ -207,7 +207,7 @@ export default function Navbar() {
 
     try {
       await httpClient.post('/notifications/mark-all-read');
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const clearAllNotifications = () => {
@@ -295,7 +295,7 @@ export default function Navbar() {
 
       try {
         await httpClient.post('/wallet/debit', { amount: totalAmount, reason: `Policy Premium: ${policyNum}` });
-      } catch (err) {}
+      } catch (err) { }
     }
 
     // Save to user's Insurance Vault across all user keys
@@ -314,13 +314,13 @@ export default function Navbar() {
         const existing = JSON.parse(localStorage.getItem(k) || '[]');
         const filtered = existing.filter((p) => p.policy_number !== policyNum);
         localStorage.setItem(k, JSON.stringify([newPol, ...filtered]));
-      } catch (err) {}
+      } catch (err) { }
     }
 
     try {
       window.dispatchEvent(new Event('storage'));
       window.dispatchEvent(new Event('synova_policy_purchased'));
-    } catch (err) {}
+    } catch (err) { }
 
     // Also attempt backend policy creation if logged in
     if (user && user.id) {
@@ -335,7 +335,7 @@ export default function Navbar() {
           idv_amount: 720000,
           vehicle_number: customerVehicle || 'KA-01-MJ-8821',
         });
-      } catch (err) {}
+      } catch (err) { }
     }
 
     setIssuedPolicy(newPol);
@@ -497,6 +497,18 @@ export default function Navbar() {
             }}
           >
             Claims & Vault
+          </Link>
+          <Link
+            to="/ai-agent"
+            style={{
+              fontSize: 14,
+              fontWeight: 700,
+              color: isActive('/ai-agent') ? 'var(--ai-accent)' : 'var(--text-body)',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease',
+            }}
+          >
+            SYNOVA AI
           </Link>
           <button
             type="button"

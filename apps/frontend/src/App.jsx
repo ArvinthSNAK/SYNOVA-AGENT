@@ -4,13 +4,21 @@ import Navbar from './components/layout/Navbar';
 import AppRoutes from './routes/AppRoutes';
 import AiAssistantModal from './components/common/AiAssistantModal';
 import ScrollToTop from './components/common/ScrollToTop';
+import { useLocation } from 'react-router-dom';
 
 export default function App() {
+  const location = useLocation();
+  const isAIAgent = location.pathname === '/ai-agent';
+
+  if (isAIAgent) {
+    return <AppRoutes />;
+  }
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-main)' }}>
       <ScrollToTop />
       <Navbar />
-      
+
       <main style={{ flex: 1 }}>
         <AppRoutes />
       </main>

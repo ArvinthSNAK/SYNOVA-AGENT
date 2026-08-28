@@ -7,6 +7,7 @@ import NewInsurancePage from '../pages/NewInsurancePage';
 import RenewInsurancePage from '../pages/RenewInsurancePage';
 import InsuranceVaultPage from '../pages/InsuranceVaultPage';
 import AdminDashboardPage from '../pages/AdminDashboardPage';
+import AIAgent from '../pages/AIAgent';
 
 export default function AppRoutes() {
   return (
@@ -26,6 +27,7 @@ export default function AppRoutes() {
       <Route path="/vault" element={<InsuranceVaultPage />} />
       <Route path="/claims" element={<InsuranceVaultPage />} />
       <Route path="/admin" element={<AdminDashboardPage />} />
+      <Route path="/ai-agent" element={<AIAgent />} />
     </Routes>
   );
 }
