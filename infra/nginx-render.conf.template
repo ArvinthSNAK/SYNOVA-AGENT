@@ -1,0 +1,102 @@
+server {
+    listen ${PORT};
+    server_name _;
+    client_max_body_size 50M;
+
+    # Gzip Compression
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    # 1. React Frontend SPA (Root)
+    location / {
+        root /var/www/html;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # 2. Core Backend API (FastAPI)
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000/api/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /docs {
+        proxy_pass http://127.0.0.1:8000/docs;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location /openapi.json {
+        proxy_pass http://127.0.0.1:8000/openapi.json;
+        proxy_set_header Host $host;
+    }
+
+    # 3. Policy Automation & OCR Inspection Service (Port 8001)
+    location /automation/ {
+        proxy_pass http://127.0.0.1:8001/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # 4. Mock Insurer A: ICICI Lombard (Port 9001)
+    location /insurer-a/ {
+        proxy_pass http://127.0.0.1:9001/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_hide_header X-Frame-Options;
+        add_header X-Frame-Options "SAMEORIGIN";
+    }
+
+    # 5. Mock Insurer B: ACKO General (Port 9002)
+    location /insurer-b/ {
+        proxy_pass http://127.0.0.1:9002/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_hide_header X-Frame-Options;
+        add_header X-Frame-Options "SAMEORIGIN";
+    }
+
+    # 6. Mock Insurer C: TATA AIG Assurance (Port 9003)
+    location /insurer-c/ {
+        proxy_pass http://127.0.0.1:9003/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_hide_header X-Frame-Options;
+        add_header X-Frame-Options "SAMEORIGIN";
+    }
+
+    # 7. Mock Insurer D: HDFC ERGO (Port 9004)
+    location /insurer-d/ {
+        proxy_pass http://127.0.0.1:9004/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_hide_header X-Frame-Options;
+        add_header X-Frame-Options "SAMEORIGIN";
+    }
+
+    # 8. Realtime AI Voice Agent / Advisor (Port 8011) + WebSockets
+    location /voice-agent/ {
+        proxy_pass http://127.0.0.1:8011/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 86400;
+    }
+}

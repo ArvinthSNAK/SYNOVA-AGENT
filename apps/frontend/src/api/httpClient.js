@@ -1,4 +1,6 @@
-const BASE_URL = 'http://127.0.0.1:8000';
+import { getBackendBaseUrl } from '../utils/endpointHelper';
+
+const BASE_URL = getBackendBaseUrl();
 
 function formatEndpoint(endpoint) {
   let url = endpoint;

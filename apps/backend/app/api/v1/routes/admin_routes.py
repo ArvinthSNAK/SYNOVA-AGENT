@@ -285,10 +285,10 @@ async def check_insurers_health(
     Asynchronously probes the 4 mock insurers / scrapers and returns real latency and status.
     """
     insurers_config = [
-        {"id": "insurer_a", "name": "SecureRide General (Insurer A)", "url": "http://localhost:8001/health"},
-        {"id": "insurer_b", "name": "Apex Shield Auto (Insurer B)", "url": "http://localhost:8002/health"},
-        {"id": "insurer_c", "name": "DriveSafe Assurance (Insurer C)", "url": "http://localhost:8003/health"},
-        {"id": "insurer_d", "name": "SwiftDrive Prime (Insurer D)", "url": "http://localhost:8004/health"},
+        {"id": "insurer_a", "name": "ICICI Lombard General (Gateway 1)", "url": "http://127.0.0.1:9001/health"},
+        {"id": "insurer_b", "name": "ACKO General Insurance (Gateway 2)", "url": "http://127.0.0.1:9002/health"},
+        {"id": "insurer_c", "name": "TATA AIG Assurance (Gateway 3)", "url": "http://127.0.0.1:9003/health"},
+        {"id": "insurer_d", "name": "HDFC ERGO General (Gateway 4)", "url": "http://127.0.0.1:9004/health"},
     ]
 
     results = []

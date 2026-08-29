@@ -5,6 +5,7 @@ import { httpClient } from '../api/httpClient';
 import InsurerLogoBadge from '../components/common/InsurerLogoBadge';
 import BuyPolicyModal from '../components/marketplace/BuyPolicyModal';
 import { validateVehicleRegistration, formatVehicleRegistration } from '../utils/validators';
+import { getInsurerPortalUrl, getInsurerAutofillUrl } from '../utils/endpointHelper';
 
 export default function RenewInsurancePage() {
   const { user } = useAuth();
@@ -47,7 +48,7 @@ export default function RenewInsurancePage() {
   const [activeTab, setActiveTab] = useState('insurer_a');
   const [comparisonResults, setComparisonResults] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
-  const [iframeSrc, setIframeSrc] = useState('http://localhost:9001/quote');
+  const [iframeSrc, setIframeSrc] = useState(getInsurerPortalUrl('insurer_a', 9001));
   const [automationStep, setAutomationStep] = useState('');
   const [liveAutoPlaying, setLiveAutoPlaying] = useState(false);
 
@@ -84,10 +85,10 @@ export default function RenewInsurancePage() {
   }, [recommendation, comparisonResults]);
 
   const mockInsurers = [
-    { code: 'insurer_a', label: '1', port: 9001, color: '#1565C0' },
-    { code: 'insurer_b', label: '2', port: 9002, color: '#5B5FEF' },
-    { code: 'insurer_c', label: '3', port: 9003, color: '#0B1F3A' },
-    { code: 'insurer_d', label: '4', port: 9004, color: '#123B66' },
+    { code: 'insurer_a', label: '1', port: 9001, url: getInsurerPortalUrl('insurer_a', 9001), color: '#1565C0' },
+    { code: 'insurer_b', label: '2', port: 9002, url: getInsurerPortalUrl('insurer_b', 9002), color: '#5B5FEF' },
+    { code: 'insurer_c', label: '3', port: 9003, url: getInsurerPortalUrl('insurer_c', 9003), color: '#0B1F3A' },
+    { code: 'insurer_d', label: '4', port: 9004, url: getInsurerPortalUrl('insurer_d', 9004), color: '#123B66' },
   ];
 
   const applyExtractedFields = (data, sourceLabel) => {
@@ -187,7 +188,7 @@ export default function RenewInsurancePage() {
     }
   };
 
-  const buildAutofillUrl = (port) => {
+  const buildAutofillUrl = (code, port) => {
     const params = new URLSearchParams({
       autofill: 'true',
       submit: 'true',
@@ -197,14 +198,14 @@ export default function RenewInsurancePage() {
       vehicle_age_years: formData.vehicle_age_years || '2',
       ncb_percent: formData.ncb_percent || '20',
     });
-    return `http://localhost:${port}/quote?${params.toString()}`;
+    return getInsurerAutofillUrl(code, port, params);
   };
 
   const handleTabChange = (code) => {
     setActiveTab(code);
     const ins = mockInsurers.find((i) => i.code === code);
     if (ins) {
-      setIframeSrc(`http://localhost:${ins.port}/quote`);
+      setIframeSrc(getInsurerPortalUrl(ins.code, ins.port));
     }
   };
 
@@ -212,24 +213,24 @@ export default function RenewInsurancePage() {
     setLiveAutoPlaying(true);
 
     setActiveTab('insurer_a');
-    setIframeSrc(buildAutofillUrl(9001));
+    setIframeSrc(buildAutofillUrl('insurer_a', 9001));
     setAutomationStep('• [1/4] Transferring renewal data to Gateway 1...');
 
     setTimeout(() => {
       setActiveTab('insurer_b');
-      setIframeSrc(buildAutofillUrl(9002));
+      setIframeSrc(buildAutofillUrl('insurer_b', 9002));
       setAutomationStep('• [2/4] Autofilling renewal parameters on Gateway 2...');
     }, 2500);
 
     setTimeout(() => {
       setActiveTab('insurer_c');
-      setIframeSrc(buildAutofillUrl(9003));
+      setIframeSrc(buildAutofillUrl('insurer_c', 9003));
       setAutomationStep('• [3/4] Requesting quotes and NCB transfer discounts on Gateway 3...');
     }, 5000);
 
     setTimeout(() => {
       setActiveTab('insurer_d');
-      setIframeSrc(buildAutofillUrl(9004));
+      setIframeSrc(buildAutofillUrl('insurer_d', 9004));
       setAutomationStep('• [4/4] Extracting final calculated renewal premium on Gateway 4...');
     }, 7500);
 

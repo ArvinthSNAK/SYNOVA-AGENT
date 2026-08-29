@@ -5,6 +5,7 @@ import { httpClient } from '../api/httpClient';
 import InsurerLogoBadge from '../components/common/InsurerLogoBadge';
 import BuyPolicyModal from '../components/marketplace/BuyPolicyModal';
 import { validateVehicleRegistration, formatVehicleRegistration } from '../utils/validators';
+import { getInsurerPortalUrl, getInsurerAutofillUrl } from '../utils/endpointHelper';
 
 export default function NewInsurancePage() {
   const { user } = useAuth();
@@ -42,7 +43,7 @@ export default function NewInsurancePage() {
   const [recommendation, setRecommendation] = useState(null);
   const [error, setError] = useState(null);
   const [automationStep, setAutomationStep] = useState('');
-  const [iframeSrc, setIframeSrc] = useState('http://localhost:9001/quote');
+  const [iframeSrc, setIframeSrc] = useState(getInsurerPortalUrl('insurer_a', 9001));
   const [liveAutoPlaying, setLiveAutoPlaying] = useState(false);
   const [purchasing, setPurchasing] = useState(false);
   const [purchaseSuccess, setPurchaseSuccess] = useState(null);
@@ -59,10 +60,10 @@ export default function NewInsurancePage() {
   }, [recommendation, comparisonResults]);
 
   const mockInsurers = [
-    { code: 'insurer_a', label: '1', port: 9001, url: 'http://localhost:9001/quote', color: '#1565C0' },
-    { code: 'insurer_b', label: '2', port: 9002, url: 'http://localhost:9002/quote', color: '#5B5FEF' },
-    { code: 'insurer_c', label: '3', port: 9003, url: 'http://localhost:9003/quote', color: '#0B1F3A' },
-    { code: 'insurer_d', label: '4', port: 9004, url: 'http://localhost:9004/quote', color: '#123B66' },
+    { code: 'insurer_a', label: '1', port: 9001, url: getInsurerPortalUrl('insurer_a', 9001), color: '#1565C0' },
+    { code: 'insurer_b', label: '2', port: 9002, url: getInsurerPortalUrl('insurer_b', 9002), color: '#5B5FEF' },
+    { code: 'insurer_c', label: '3', port: 9003, url: getInsurerPortalUrl('insurer_c', 9003), color: '#0B1F3A' },
+    { code: 'insurer_d', label: '4', port: 9004, url: getInsurerPortalUrl('insurer_d', 9004), color: '#123B66' },
   ];
 
   const handleInputChange = (e) => {
@@ -94,7 +95,7 @@ export default function NewInsurancePage() {
     });
   };
 
-  const buildAutofillUrl = (port) => {
+  const buildAutofillUrl = (code, port) => {
     const params = new URLSearchParams({
       autofill: 'true',
       submit: 'true',
@@ -104,14 +105,14 @@ export default function NewInsurancePage() {
       vehicle_age_years: formData.vehicle_age_years || '2',
       ncb_percent: formData.ncb_percent || '20',
     });
-    return `http://localhost:${port}/quote?${params.toString()}`;
+    return getInsurerAutofillUrl(code, port, params);
   };
 
   const handleTabChange = (code) => {
     setActiveTab(code);
     const ins = mockInsurers.find((i) => i.code === code);
     if (ins) {
-      setIframeSrc(`http://localhost:${ins.port}/quote`);
+      setIframeSrc(getInsurerPortalUrl(ins.code, ins.port));
     }
   };
 
@@ -119,24 +120,24 @@ export default function NewInsurancePage() {
     setLiveAutoPlaying(true);
 
     setActiveTab('insurer_a');
-    setIframeSrc(buildAutofillUrl(9001));
+    setIframeSrc(buildAutofillUrl('insurer_a', 9001));
     setAutomationStep('• [1/4] Autofilling vehicle risk factors and calculating quote on Gateway 1...');
 
     setTimeout(() => {
       setActiveTab('insurer_b');
-      setIframeSrc(buildAutofillUrl(9002));
+      setIframeSrc(buildAutofillUrl('insurer_b', 9002));
       setAutomationStep('• [2/4] Autofilling parameters and querying Gateway 2...');
     }, 2500);
 
     setTimeout(() => {
       setActiveTab('insurer_c');
-      setIframeSrc(buildAutofillUrl(9003));
+      setIframeSrc(buildAutofillUrl('insurer_c', 9003));
       setAutomationStep('• [3/4] Requesting coverage terms and deductible options on Gateway 3...');
     }, 5000);
 
     setTimeout(() => {
       setActiveTab('insurer_d');
-      setIframeSrc(buildAutofillUrl(9004));
+      setIframeSrc(buildAutofillUrl('insurer_d', 9004));
       setAutomationStep('• [4/4] Extracting final calculated premium on Gateway 4...');
     }, 7500);
 

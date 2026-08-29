@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { httpClient } from '../api/httpClient';
 import InsurerLogoBadge from '../components/common/InsurerLogoBadge';
+import { getInsurerPortalUrl } from '../utils/endpointHelper';
 
 export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState('claims');
@@ -1422,7 +1423,7 @@ export default function AdminDashboardPage() {
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a
-                href="http://localhost:9001/quote"
+                href={getInsurerPortalUrl('insurer_a', 9001)}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-pill-secondary"
@@ -1431,7 +1432,7 @@ export default function AdminDashboardPage() {
                 <span>Gateway 1: ICICI Lombard (Port 9001)</span> ↗
               </a>
               <a
-                href="http://localhost:9002/quote"
+                href={getInsurerPortalUrl('insurer_b', 9002)}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-pill-secondary"
@@ -1440,7 +1441,7 @@ export default function AdminDashboardPage() {
                 <span>Gateway 2: ACKO General (Port 9002)</span> ↗
               </a>
               <a
-                href="http://localhost:9003/quote"
+                href={getInsurerPortalUrl('insurer_c', 9003)}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-pill-secondary"
@@ -1449,7 +1450,7 @@ export default function AdminDashboardPage() {
                 <span>Gateway 3: TATA AIG (Port 9003)</span> ↗
               </a>
               <a
-                href="http://localhost:9004/quote"
+                href={getInsurerPortalUrl('insurer_d', 9004)}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-pill-secondary"

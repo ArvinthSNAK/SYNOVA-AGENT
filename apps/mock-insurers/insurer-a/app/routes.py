@@ -21,6 +21,11 @@ _jinja_env = Environment(
 templates = Jinja2Templates(env=_jinja_env)
 
 
+@router.get("/health")
+def health_check():
+    return {"status": "ok", "insurer": "ICICI Lombard", "gateway": "insurer_a"}
+
+
 @router.get("/quote", response_class=HTMLResponse)
 def show_quote_form(request: Request, db: Session = Depends(get_db)):
     products = db.query(Product).filter(Product.active == True).all()

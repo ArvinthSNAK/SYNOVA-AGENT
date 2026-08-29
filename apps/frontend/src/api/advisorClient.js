@@ -1,5 +1,10 @@
+import { isLocalEnvironment } from '../utils/endpointHelper';
+
+const isLocal = isLocalEnvironment();
+
 const ADVISOR_URLS = [
     import.meta.env.VITE_ADVISOR_URL,
+    !isLocal ? '/voice-agent' : null,
     'http://127.0.0.1:8011',
     'http://localhost:8011',
 ].filter(Boolean);

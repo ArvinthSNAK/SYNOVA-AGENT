@@ -28,3 +28,10 @@ app.include_router(document_router, prefix="/api/v1")
 def root():
     return {"message": "SYNOVA Backend API Running", "docs": "/docs", "version": "2.0.3"}
 
+
+@app.get("/health")
+@app.get("/api/v1/health")
+def health():
+    return {"status": "ok", "service": "synova-backend", "version": "2.0.3"}
+
+

@@ -7,6 +7,7 @@ import InsurerLogoBadge from '../common/InsurerLogoBadge';
 import SynovaOwlLogo from '../common/SynovaOwlLogo';
 import WalletTopupModal from '../wallet/WalletTopupModal';
 import { downloadPolicyPdf } from '../../utils/generatePolicyPdf';
+import { getInsurerNotificationEndpoints } from '../../utils/endpointHelper';
 import { BellOff, Shield, ShieldCheck, CreditCard, QrCode, AlertCircle, ArrowRight, Check, Zap, Plus, History, Download, Clock } from 'lucide-react';
 
 export const formatRealtimeTime = (dateInput) => {
@@ -127,12 +128,7 @@ export default function Navbar() {
     const storedReadIds = JSON.parse(localStorage.getItem(`synova_read_notifs_${uKey}`) || '[]');
     const storedClearedIds = JSON.parse(localStorage.getItem(`synova_cleared_notifs_${uKey}`) || '[]');
 
-    const endpoints = [
-      'http://127.0.0.1:9001/api/notifications',
-      'http://127.0.0.1:9002/api/notifications',
-      'http://127.0.0.1:9003/api/notifications',
-      'http://127.0.0.1:9004/api/notifications',
-    ];
+    const endpoints = getInsurerNotificationEndpoints();
 
     let mockNotifs = [];
     try {

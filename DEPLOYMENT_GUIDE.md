@@ -64,29 +64,22 @@ docker compose down
 
 ---
 
-## ☁️ Option 2: Cloud PaaS Deployment (Render / Railway / Fly.io)
+## ☁️ Option 2: 1-Click Render Deployment (Recommended for Cloud)
 
-If deploying to Managed Cloud PaaS:
+Deploy the **entire full-stack ecosystem** (React Frontend + Core Backend API + All 4 Mock Insurers + Voice Advisor + Automation) in a single high-performance container on Render:
 
-### 1. Backend Services (Render / Railway)
-Deploy each backend service as a **Web Service**:
-- **Backend API**:
-  - Build Command: `pip install -r requirements.txt`
-  - Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-  - Root Directory: `apps/backend`
-- **Automation Service**:
-  - Root Directory: `apps/automation-service`
-  - Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-- **Mock Insurers**:
-  - Deploy `apps/mock-insurers/insurer-a` through `insurer-d`.
+- **100% Free Tier Compatible**: Runs within 1 Render Web Service (never exhausts monthly free hours).
+- **Zero Mixed Content or CORS errors**: Unified HTTPS domain for APIs and mock insurer iframes.
+- **Blueprint Supported**: Use the root `render.yaml` for 1-Click automated deployment.
 
-### 2. Frontend (Vercel / Netlify / Cloudflare Pages)
-- Framework Preset: **Vite**
-- Root Directory: `apps/frontend`
-- Build Command: `npm run build`
-- Output Directory: `dist`
-- Environment Variables:
-  - `VITE_API_URL`: Your deployed backend API URL (e.g., `https://api.yourdomain.com/api/v1`)
+👉 **Complete Step-by-Step Instructions**: See [RENDER_DEPLOYMENT.md](file:///c:/Users/HariharanMurugesan/Downloads/Synova-v2/arvinth-wip/RENDER_DEPLOYMENT.md).
+
+### Quick Render Deployment Steps:
+1. Push this repository to GitHub.
+2. In [Render Dashboard](https://dashboard.render.com), click **New +** -> **Blueprint**.
+3. Connect your GitHub repository.
+4. Render detects `render.yaml` and `Dockerfile` automatically.
+5. Click **Apply** — Render builds and boots all 8 services in 3 minutes!
 
 ---
 
