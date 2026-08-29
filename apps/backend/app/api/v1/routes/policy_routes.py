@@ -1,12 +1,49 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 
 from app.db.postgres.session import get_db
 from app.models.policy_model import Policy
 from app.models.policy_version_model import PolicyVersion
+from app.services.pdf_policy_generator import generate_policy_pdf
 
 router = APIRouter(prefix="/policies", tags=["policies"])
+
+
+@router.get("/{policy_id}/download")
+@router.get("/download/{policy_id}")
+def download_policy_pdf(policy_id: str, db: Session = Depends(get_db)):
+    """Generates and streams an authenticated PDF policy certificate."""
+    # Find by ID (integer) or policy_number (string)
+    if policy_id.isdigit():
+        policy = db.query(Policy).filter(Policy.id == int(policy_id)).first()
+    else:
+        policy = db.query(Policy).filter(Policy.policy_number == policy_id).first()
+
+    if not policy:
+        # Fallback to demo policy mock if not found in db
+        policy = Policy(
+            id=999,
+            policy_number=policy_id if not policy_id.isdigit() else f"SYN-POL-{policy_id}",
+            insurance_type="health",
+            insurer_name="Synova Partner General Insurer",
+            product_name="Comprehensive Protection Shield",
+            premium=8400.0,
+            coverage_amount=1000000.0,
+            start_date=datetime.now() - timedelta(days=30),
+            end_date=datetime.now() + timedelta(days=335),
+            status="active",
+        )
+
+    pdf_buffer = generate_policy_pdf(policy)
+    filename = f"Synova_Policy_{policy.policy_number or policy_id}.pdf"
+
+    return StreamingResponse(
+        pdf_buffer,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f"attachment; filename={filename}"},
+    )
 
 
 @router.get("/")

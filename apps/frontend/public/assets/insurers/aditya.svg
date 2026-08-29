@@ -1,0 +1,18 @@
+<svg viewBox="0 0 500 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="500" rx="72" fill="#A6192E"/>
+  <!-- Aditya Birla Rising Sunburst Icon -->
+  <g transform="translate(150, 60)">
+    <!-- Sun Ray segments -->
+    <path d="M100 40 L120 90 L80 90 Z" fill="#F58220"/>
+    <path d="M145 60 L140 105 L105 95 Z" fill="#FFC72C"/>
+    <path d="M55 60 L95 95 L60 105 Z" fill="#FFC72C"/>
+    <path d="M175 100 L145 125 L125 105 Z" fill="#F58220"/>
+    <path d="M25 100 L75 105 L55 125 Z" fill="#F58220"/>
+    <!-- Base Rising Sun Globe -->
+    <circle cx="100" cy="140" r="45" fill="#FFFFFF"/>
+    <circle cx="100" cy="140" r="30" fill="#A6192E"/>
+  </g>
+  <text x="250" y="350" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">ADITYA BIRLA</text>
+  <text x="250" y="395" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" fill="#FFC72C" text-anchor="middle" letter-spacing="3">CAPITAL</text>
+  <text x="250" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">Health Insurance</text>
+</svg>

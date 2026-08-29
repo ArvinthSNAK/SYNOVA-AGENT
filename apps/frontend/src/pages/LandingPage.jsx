@@ -20,7 +20,7 @@ export default function LandingPage() {
           setMetrics(res.data);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
 
     if (window.location.hash) {
       const id = window.location.hash.replace('#', '');
@@ -303,7 +303,7 @@ export default function LandingPage() {
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
                     <div style={{ width: 22, height: 22, borderRadius: '50%', background: 'var(--ai-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" stroke="#FFFFFF" strokeWidth="2"/></svg>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" stroke="#FFFFFF" strokeWidth="2" /></svg>
                     </div>
                     <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#FFFFFF' }}>
                       AI Recommendation

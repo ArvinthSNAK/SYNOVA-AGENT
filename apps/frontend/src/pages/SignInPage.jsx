@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { validateEmail } from '../utils/validators';
+import { Eye, EyeOff, ShieldCheck } from 'lucide-react';
 
 export default function SignInPage() {
-  const [email, setEmail] = useState('demo@example.com');
-  const [password, setPassword] = useState('demo123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const { login, loginDemo, loading } = useAuth();
   const navigate = useNavigate();
@@ -12,6 +15,18 @@ export default function SignInPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+
+    const emailVal = validateEmail(email);
+    if (!emailVal.isValid) {
+      setError(emailVal.error);
+      return;
+    }
+
+    if (!password || password.trim().length === 0) {
+      setError('Please enter your password.');
+      return;
+    }
+
     const res = await login(email, password);
     if (res.success) {
       if (res.user.role === 'admin') {
@@ -20,7 +35,7 @@ export default function SignInPage() {
         navigate('/insurance-vault');
       }
     } else {
-      setError(res.error || 'Invalid credentials');
+      setError(res.error || 'Invalid credentials. Please verify your email and password.');
     }
   };
 
@@ -34,9 +49,9 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="page-container" style={{ maxWidth: 480, paddingTop: 60, paddingBottom: 60 }}>
-      <div className="saas-card" style={{ padding: '40px 36px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+    <div className="page-container" style={{ maxWidth: 480, paddingTop: 50, paddingBottom: 60 }}>
+      <div className="saas-card" style={{ padding: '38px 36px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <div
             style={{
               width: 48,
@@ -46,28 +61,26 @@ export default function SignInPage() {
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 14,
+              marginBottom: 12,
               boxShadow: '0 8px 20px rgba(11, 31, 58, 0.15)',
             }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.4">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
+            <ShieldCheck size={26} color="#FFFFFF" />
           </div>
           <h2 style={{ fontSize: 24, color: 'var(--primary-navy)', fontWeight: 800, margin: 0 }}>Sign In to SYNOVA</h2>
-          <p style={{ fontSize: 13.5, color: 'var(--text-muted)', marginTop: 6, marginBottom: 0 }}>
+          <p style={{ fontSize: 13.5, color: 'var(--text-muted)', marginTop: 4, marginBottom: 0 }}>
             Autonomous AI Insurance Aggregator & Policy Vault
           </p>
         </div>
 
         {error && (
-          <div style={{ padding: '10px 14px', background: 'var(--status-rose-bg)', border: '1px solid var(--status-rose-border)', borderRadius: 10, color: 'var(--status-rose)', fontSize: 13, marginBottom: 20 }}>
+          <div style={{ padding: '10px 14px', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: 10, color: '#E11D48', fontSize: 13, marginBottom: 18, fontWeight: 500 }}>
             {error}
           </div>
         )}
 
         <form onSubmit={handleLogin}>
-          <div style={{ marginBottom: 16 }}>
+          <div style={{ marginBottom: 14 }}>
             <label style={{ display: 'block', fontSize: 13, color: 'var(--text-body)', marginBottom: 6, fontWeight: 600 }}>
               Email Address
             </label>
@@ -81,18 +94,40 @@ export default function SignInPage() {
             />
           </div>
 
-          <div style={{ marginBottom: 22 }}>
+          <div style={{ marginBottom: 20 }}>
             <label style={{ display: 'block', fontSize: 13, color: 'var(--text-body)', marginBottom: 6, fontWeight: 600 }}>
               Password
             </label>
-            <input
-              type="password"
-              className="input-field"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="input-field"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your account password"
+                style={{ paddingRight: 40 }}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: 12,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  color: '#94A3B8',
+                  cursor: 'pointer',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <button

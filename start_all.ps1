@@ -2,7 +2,7 @@
 #   SYNOVA AI Insurance Platform - Startup Script (PowerShell)
 # ========================================================
 
-Write-Host "🚀 Launching All SYNOVA Services..." -ForegroundColor Cyan
+Write-Host "⚙️ Launching All SYNOVA Services..." -ForegroundColor Cyan
 
 # 1. Main Backend API (Port 8000)
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$PSScriptRoot\apps\backend'; uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload"
@@ -22,10 +22,14 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$PS
 # 6. Insurer D: HDFC ERGO (Port 9004)
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$PSScriptRoot\apps\mock-insurers\insurer-d'; uvicorn app.main:app --host 127.0.0.1 --port 9004 --reload"
 
-# 7. Frontend Vite Server (Port 5173)
+# 7. Realtime Voice Agent / Advisor (Port 8011)
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$PSScriptRoot\apps\synova-voice-agent'; uvicorn app.main:app --host 127.0.0.1 --port 8011 --reload"
+
+# 8. Frontend Vite Server (Port 5173)
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$PSScriptRoot\apps\frontend'; npm run dev"
 
-Write-Host "✅ All 7 services launched successfully!" -ForegroundColor Green
-Write-Host "👉 Frontend Web App:       http://localhost:5173" -ForegroundColor Yellow
-Write-Host "👉 Backend API Docs:       http://localhost:8000/docs" -ForegroundColor Yellow
-Write-Host "👉 Automation Service Docs: http://localhost:8001/docs" -ForegroundColor Yellow
+Write-Host "✓ All 8 services launched successfully!" -ForegroundColor Green
+Write-Host "▪ Frontend Web App:        http://localhost:5173" -ForegroundColor Yellow
+Write-Host "▪ Realtime Voice Agent:    http://localhost:8011" -ForegroundColor Yellow
+Write-Host "▪ Backend API Docs:        http://localhost:8000/docs" -ForegroundColor Yellow
+Write-Host "▪ Automation Service Docs: http://localhost:8001/docs" -ForegroundColor Yellow

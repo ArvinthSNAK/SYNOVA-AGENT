@@ -1,153 +1,156 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import InsurerLogoBadge from './InsurerLogoBadge';
 
 const INSURERS_ROW1 = [
   {
+    id: 'icici',
     name: 'ICICI Lombard',
     tagline: 'General Insurance',
-    abbr: 'ICICI',
-    gradient: 'linear-gradient(135deg, #E65100 0%, #C62828 100%)',
     metric: '98.8% Settlement',
-    badge: 'API Connected',
+    badge: 'Official Portal',
     type: 'Motor • Health',
+    website: 'https://www.icicilombard.com/',
   },
   {
+    id: 'tata',
     name: 'TATA AIG',
     tagline: 'With You Always',
-    abbr: 'TATA',
-    gradient: 'linear-gradient(135deg, #005088 0%, #0077C8 100%)',
     metric: '99.1% Settlement',
-    badge: 'API Connected',
+    badge: 'Official Portal',
     type: 'Auto • Travel',
+    website: 'https://www.tataaig.com/',
   },
   {
+    id: 'hdfc',
     name: 'HDFC ERGO',
     tagline: 'General Insurance',
-    abbr: 'HDFC',
-    gradient: 'linear-gradient(135deg, #D32F2F 0%, #0B1F3A 100%)',
     metric: '99.4% Settlement',
-    badge: 'API Connected',
+    badge: 'Official Portal',
     type: 'Comprehensive',
+    website: 'https://www.hdfcergo.com/',
   },
   {
+    id: 'acko',
     name: 'ACKO Drive',
     tagline: 'Tech-First Insurance',
-    abbr: 'ACKO',
-    gradient: 'linear-gradient(135deg, #5B5FEF 0%, #3B82F6 100%)',
     metric: 'Zero Paperwork',
-    badge: 'Live Gateway',
+    badge: 'Official Portal',
     type: 'Direct Auto',
+    website: 'https://www.acko.com/',
   },
   {
+    id: 'bajaj',
     name: 'Bajaj Allianz',
     tagline: 'General Insurance',
-    abbr: 'BAJAJ',
-    gradient: 'linear-gradient(135deg, #005696 0%, #0088D4 100%)',
     metric: '98.5% Settlement',
-    badge: 'Instant Cashless',
+    badge: 'Official Portal',
     type: 'Motor • Health',
+    website: 'https://www.bajajallianz.com/',
   },
   {
+    id: 'digit',
     name: 'Go Digit',
     tagline: 'General Insurance',
-    abbr: 'DIGIT',
-    gradient: 'linear-gradient(135deg, #FF9800 0%, #E65100 100%)',
     metric: '2-Min Video Claims',
-    badge: 'Digital Native',
+    badge: 'Official Portal',
     type: 'Zero Dep',
+    website: 'https://www.godigit.com/',
   },
 ];
 
 const INSURERS_ROW2 = [
   {
+    id: 'sbi',
     name: 'SBI General',
     tagline: 'Suraksha Aur Bharosa',
-    abbr: 'SBI',
-    gradient: 'linear-gradient(135deg, #0A4C86 0%, #1565C0 100%)',
     metric: 'PAN-India Garages',
-    badge: 'Network Leader',
+    badge: 'Official Portal',
     type: 'Motor • Fire',
+    website: 'https://www.sbigeneral.in/',
   },
   {
+    id: 'star',
     name: 'Star Health',
     tagline: 'Allied Insurance',
-    abbr: 'STAR',
-    gradient: 'linear-gradient(135deg, #005C8A 0%, #00897B 100%)',
     metric: '14,000+ Hospitals',
-    badge: 'Health Specialist',
+    badge: 'Official Portal',
     type: 'Family Floater',
+    website: 'https://www.starhealth.in/',
   },
   {
+    id: 'care',
     name: 'Care Health',
     tagline: 'Enterprise Health Cover',
-    abbr: 'CARE',
-    gradient: 'linear-gradient(135deg, #E64A19 0%, #F57C00 100%)',
     metric: '95.2% Claim Ratio',
-    badge: 'Cashless Everywhere',
+    badge: 'Official Portal',
     type: 'Critical Shield',
+    website: 'https://www.careinsurance.com/',
   },
   {
+    id: 'reliance',
     name: 'Reliance General',
     tagline: 'Tech-Assisted Claims',
-    abbr: 'R-GEN',
-    gradient: 'linear-gradient(135deg, #B71C1C 0%, #0D47A1 100%)',
     metric: '10,000+ Garages',
-    badge: 'Active Scraper',
+    badge: 'Official Portal',
     type: 'Motor Shield',
+    website: 'https://www.reliancegeneral.co.in/',
   },
   {
+    id: 'sompo',
     name: 'Universal Sompo',
     tagline: 'General Insurance',
-    abbr: 'SOMPO',
-    gradient: 'linear-gradient(135deg, #2E7D32 0%, #00695C 100%)',
-    metric: 'Instant Inspection',
-    badge: 'Integrated',
-    type: 'Commercial & PV',
+    metric: 'Instant Approval',
+    badge: 'Official Portal',
+    type: 'Commercial Auto',
+    website: 'https://www.universalsompo.com/',
   },
   {
-    name: 'New India Assurance',
-    tagline: 'Govt. Backed Leader',
-    abbr: 'NIA',
-    gradient: 'linear-gradient(135deg, #0D47A1 0%, #311B92 100%)',
-    metric: 'Largest Market Share',
-    badge: 'Public Sector',
-    type: 'All Risk Cover',
+    id: 'generali',
+    name: 'Future Generali',
+    tagline: 'Total Care Insurance',
+    metric: 'Smart Assist 24x7',
+    badge: 'Official Portal',
+    type: 'Motor • Property',
+    website: 'https://general.futuregenerali.in/',
   },
 ];
 
 export default function InsurerMarquee() {
-  const navigate = useNavigate();
-
   const handleInsurerClick = (insurer) => {
-    navigate('/new-insurance');
+    if (insurer.website) {
+      window.open(insurer.website, '_blank', 'noopener,noreferrer');
+    }
   };
 
-  // Duplicate arrays to create seamless infinite looping tracks
   const track1 = [...INSURERS_ROW1, ...INSURERS_ROW1, ...INSURERS_ROW1];
   const track2 = [...INSURERS_ROW2, ...INSURERS_ROW2, ...INSURERS_ROW2];
 
   return (
-    <div style={{ marginTop: 24, marginBottom: 48, width: '100%', overflow: 'hidden' }}>
-      <div style={{ textAlign: 'center', marginBottom: 20 }}>
+    <div style={{ width: '100%', overflow: 'hidden', padding: '40px 0 20px', background: 'transparent' }}>
+      {/* Section Header */}
+      <div style={{ textAlign: 'center', marginBottom: 24, padding: '0 20px' }}>
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: 8,
-            fontSize: 12,
-            fontWeight: 800,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: 'var(--text-muted)',
-            background: 'rgba(11, 31, 58, 0.04)',
-            padding: '6px 16px',
+            background: '#FFFFFF',
+            border: '1px solid rgba(21, 101, 192, 0.16)',
+            padding: '5px 16px',
             borderRadius: 9999,
-            border: '1px solid rgba(11, 31, 58, 0.08)',
+            marginBottom: 10,
+            boxShadow: '0 2px 8px rgba(11, 31, 58, 0.04)',
           }}
         >
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--status-emerald)' }}></span>
-          Live Insurer Network & Gateway Aggregators
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--status-emerald)' }}></span>
+          <span style={{ color: 'var(--blue-primary)', fontSize: 12, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+            Live Insurer Network & Gateway Aggregators
+          </span>
         </div>
+        <p style={{ color: 'var(--text-muted)', fontSize: 13.5, maxWidth: 600, margin: '0 auto' }}>
+          Real-time API quotes aggregated across India's top general & health insurance providers.
+        </p>
       </div>
 
       {/* Row 1: Leftward Infinite Scroll */}
@@ -160,26 +163,8 @@ export default function InsurerMarquee() {
               onClick={() => handleInsurerClick(item)}
               title={`Compare ${item.name} quotes on Synova`}
             >
-              {/* Brand Logo Avatar */}
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 12,
-                  background: item.gradient,
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 800,
-                  fontSize: 13,
-                  letterSpacing: '-0.02em',
-                  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
-                  flexShrink: 0,
-                }}
-              >
-                {item.abbr}
-              </div>
+              {/* Authentic Brand Logo */}
+              <InsurerLogoBadge insurerName={item.name} size={44} rounded={12} />
 
               {/* Insurer Info */}
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -215,26 +200,8 @@ export default function InsurerMarquee() {
               onClick={() => handleInsurerClick(item)}
               title={`Compare ${item.name} quotes on Synova`}
             >
-              {/* Brand Logo Avatar */}
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 12,
-                  background: item.gradient,
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 800,
-                  fontSize: 13,
-                  letterSpacing: '-0.02em',
-                  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
-                  flexShrink: 0,
-                }}
-              >
-                {item.abbr}
-              </div>
+              {/* Authentic Brand Logo */}
+              <InsurerLogoBadge insurerName={item.name} size={44} rounded={12} />
 
               {/* Insurer Info */}
               <div style={{ flex: 1, minWidth: 0 }}>

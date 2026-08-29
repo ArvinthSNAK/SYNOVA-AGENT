@@ -1,0 +1,16 @@
+<svg viewBox="0 0 500 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="500" rx="72" fill="#002855"/>
+  <!-- Max Life Wings / Sunburst Emblem -->
+  <g transform="translate(100, 60)">
+    <!-- Right Wing / Chevron Orange -->
+    <path d="M150 50 L230 110 L180 180 L150 140 Z" fill="#F37021"/>
+    <!-- Left Wing / Chevron Dark Orange -->
+    <path d="M150 50 L70 110 L120 180 L150 140 Z" fill="#FF8D3F"/>
+    <!-- Central Shield Pillar White -->
+    <path d="M150 80 L175 160 L150 210 L125 160 Z" fill="#FFFFFF"/>
+    <!-- Center Dot -->
+    <circle cx="150" cy="115" r="16" fill="#F37021"/>
+  </g>
+  <text x="250" y="375" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="52" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="3">MAX</text>
+  <text x="250" y="430" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="900" fill="#F37021" text-anchor="middle" letter-spacing="2">LIFE</text>
+</svg>

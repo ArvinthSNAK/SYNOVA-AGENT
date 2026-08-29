@@ -3,6 +3,66 @@ import { createPortal } from 'react-dom';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { httpClient } from '../../api/httpClient';
+import InsurerLogoBadge from '../common/InsurerLogoBadge';
+import SynovaOwlLogo from '../common/SynovaOwlLogo';
+import WalletTopupModal from '../wallet/WalletTopupModal';
+import { downloadPolicyPdf } from '../../utils/generatePolicyPdf';
+import { BellOff, Shield, ShieldCheck, CreditCard, QrCode, AlertCircle, ArrowRight, Check, Zap, Plus, History, Download, Clock } from 'lucide-react';
+
+export const formatRealtimeTime = (dateInput) => {
+  if (!dateInput) return 'Just now';
+
+  let dateObj = new Date(dateInput);
+  if (typeof dateInput === 'string' && !dateInput.endsWith('Z') && !dateInput.includes('+') && dateInput.includes('T')) {
+    dateObj = new Date(dateInput + 'Z');
+  }
+
+  if (isNaN(dateObj.getTime())) return 'Just now';
+
+  const now = new Date();
+  const diffMs = now.getTime() - dateObj.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHour = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHour / 24);
+
+  // If created within 45 seconds or slight client/server skew
+  if (diffSec < 45) {
+    return 'Just now';
+  }
+  if (diffMin < 60) {
+    return `${diffMin}m ago`;
+  }
+  if (diffHour < 24 && now.toDateString() === dateObj.toDateString()) {
+    return `${diffHour}h ago • ${dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  }
+  if (diffDay === 1) {
+    return `Yesterday, ${dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  }
+  if (diffDay < 7) {
+    return `${diffDay}d ago • ${dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  }
+
+  return `${dateObj.toLocaleDateString([], { day: 'numeric', month: 'short' })}, ${dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+};
+
+export const getFullTimestamp = (dateInput) => {
+  if (!dateInput) return '';
+  let dateObj = new Date(dateInput);
+  if (typeof dateInput === 'string' && !dateInput.endsWith('Z') && !dateInput.includes('+') && dateInput.includes('T')) {
+    dateObj = new Date(dateInput + 'Z');
+  }
+  if (isNaN(dateObj.getTime())) return '';
+  return dateObj.toLocaleString([], {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+};
 
 export default function Navbar() {
   const location = useLocation();
@@ -11,6 +71,7 @@ export default function Navbar() {
 
   const [walletBalance, setWalletBalance] = useState(25000);
   const [showWalletDropdown, setShowWalletDropdown] = useState(false);
+  const [showTopupModal, setShowTopupModal] = useState(false);
   const [walletTransactions, setWalletTransactions] = useState([]);
   const [topupAmount, setTopupAmount] = useState('');
   const [topupLoading, setTopupLoading] = useState(false);
@@ -49,7 +110,7 @@ export default function Navbar() {
           localStorage.setItem(`synova_wallet_balance_${uKey}`, bal);
         }
       }
-    } catch (e) {}
+    } catch (e) { }
 
     setWalletBalance(bal);
     setWalletTransactions(storedTxns);
@@ -96,15 +157,16 @@ export default function Navbar() {
           mockNotifs.push(...res.value);
         }
       }
-    } catch (e) {}
+    } catch (e) { }
 
     let serverNotifs = [];
     try {
       const res = await httpClient.get('/notifications');
       if (Array.isArray(res.data)) serverNotifs = res.data;
-    } catch (e) {}
+    } catch (e) { }
 
-    const combined = [...mockNotifs, ...serverNotifs];
+    const localNotifs = JSON.parse(localStorage.getItem('synova_notifications') || '[]');
+    const combined = [...localNotifs, ...mockNotifs, ...serverNotifs];
     const unique = [];
     const seen = new Set();
 
@@ -122,6 +184,13 @@ export default function Navbar() {
         });
       }
     }
+
+    // Sort by timestamp descending (newest realtime first)
+    unique.sort((a, b) => {
+      const timeA = new Date(a.created_at || 0).getTime() || (typeof a.id === 'number' ? a.id : 0);
+      const timeB = new Date(b.created_at || 0).getTime() || (typeof b.id === 'number' ? b.id : 0);
+      return timeB - timeA;
+    });
 
     setNotifications(unique);
     setUnreadCount(unique.filter((n) => n.status !== 'read').length);
@@ -187,7 +256,7 @@ export default function Navbar() {
 
     try {
       await httpClient.post('/wallet/add-funds', { amount: amt, payment_method: 'Instant UPI / Card' });
-    } catch (err) {}
+    } catch (err) { }
 
     setTopupAmount('');
     setTopupSuccessMsg(`✓ Added ₹${amt.toLocaleString('en-IN')} to vault balance!`);
@@ -207,7 +276,7 @@ export default function Navbar() {
 
     try {
       await httpClient.post('/notifications/mark-all-read');
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const clearAllNotifications = () => {
@@ -239,7 +308,7 @@ export default function Navbar() {
 
     // Check for insufficient balance when using Vault Balance
     if (paymentMethod === 'vault' && walletBalance < totalAmount) {
-      alert(`⚠️ Insufficient Vault Balance!\n\nYour available balance is ₹${walletBalance.toLocaleString('en-IN')}, but ₹${totalAmount.toLocaleString('en-IN')} is required.\n\nPlease top-up your wallet or select UPI/Card payment.`);
+      alert(`Insufficient Vault Balance!\n\nYour available balance is ₹${walletBalance.toLocaleString('en-IN')}, but ₹${totalAmount.toLocaleString('en-IN')} is required.\n\nPlease top-up your wallet or select UPI/Card payment.`);
       return;
     }
 
@@ -295,32 +364,33 @@ export default function Navbar() {
 
       try {
         await httpClient.post('/wallet/debit', { amount: totalAmount, reason: `Policy Premium: ${policyNum}` });
-      } catch (err) {}
+      } catch (err) { }
     }
 
-    // Save to user's Insurance Vault across all user keys
-    const keysToSave = [
-      `synova_vault_policies_${uKey}`,
-      `synova_vault_policies_user_${uKey}`,
-      user?.id ? `synova_vault_policies_${user.id}` : null,
-      user?.id ? `synova_vault_policies_user_${user.id}` : null,
-      user?.email ? `synova_vault_policies_${user.email}` : null,
-      user?.email ? `synova_vault_policies_user_${user.email}` : null,
-      'synova_vault_policies_guest',
-    ].filter(Boolean);
+    // Save strictly to user's isolated Insurance Vault
+    const keysToSave = uKey === 'guest'
+      ? ['synova_vault_policies_guest']
+      : [
+          `synova_vault_policies_${uKey}`,
+          `synova_vault_policies_user_${uKey}`,
+          user?.id ? `synova_vault_policies_${user.id}` : null,
+          user?.id ? `synova_vault_policies_user_${user.id}` : null,
+          user?.email ? `synova_vault_policies_${user.email}` : null,
+          user?.email ? `synova_vault_policies_user_${user.email}` : null,
+        ].filter(Boolean);
 
     for (const k of keysToSave) {
       try {
         const existing = JSON.parse(localStorage.getItem(k) || '[]');
         const filtered = existing.filter((p) => p.policy_number !== policyNum);
         localStorage.setItem(k, JSON.stringify([newPol, ...filtered]));
-      } catch (err) {}
+      } catch (err) { }
     }
 
     try {
       window.dispatchEvent(new Event('storage'));
       window.dispatchEvent(new Event('synova_policy_purchased'));
-    } catch (err) {}
+    } catch (err) { }
 
     // Also attempt backend policy creation if logged in
     if (user && user.id) {
@@ -335,7 +405,7 @@ export default function Navbar() {
           idv_amount: 720000,
           vehicle_number: customerVehicle || 'KA-01-MJ-8821',
         });
-      } catch (err) {}
+      } catch (err) { }
     }
 
     setIssuedPolicy(newPol);
@@ -392,60 +462,87 @@ export default function Navbar() {
         }}
       >
         {/* Left: Brand Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <div
-            style={{
-              width: 38,
-              height: 38,
-              borderRadius: 10,
-              background: 'linear-gradient(135deg, #0B1F3A 0%, #1565C0 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(11, 31, 58, 0.15)',
-            }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 20,
-                fontWeight: 800,
-                letterSpacing: '-0.03em',
-                color: 'var(--primary-navy)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 4,
-              }}
-            >
-              SYNOVA
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--ai-accent)', display: 'inline-block' }}></span>
-            </span>
-          </div>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <SynovaOwlLogo size={40} showText={true} />
         </Link>
 
-        {/* Center: Minimal Navigation */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-          <button
-            type="button"
-            onClick={() => handleNavTo('insurance-overview')}
+        {/* Center: Comprehensive Marketplace Navigation */}
+        <nav style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+          <Link
+            to="/policies"
             style={{
-              background: 'transparent',
-              border: 'none',
+              fontSize: 14,
+              fontWeight: 700,
+              color: (isActive('/policies') || isActive('/marketplace') || isActive('/insurance')) ? '#2563EB' : 'var(--text-body)',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+            }}
+          >
+            All Policies
+          </Link>
+
+          <Link
+            to="/new-insurance"
+            style={{
               fontSize: 14,
               fontWeight: 600,
-              color: 'var(--text-body)',
-              cursor: 'pointer',
-              padding: 0,
+              color: (isActive('/new-insurance') || isActive('/compare')) ? 'var(--blue-primary)' : 'var(--text-body)',
+              textDecoration: 'none',
               transition: 'color 0.2s ease',
             }}
           >
-            Insurance
-          </button>
+            Compare
+          </Link>
+
+          <Link
+            to="/renew-insurance"
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              color: (isActive('/renew-insurance') || isActive('/renewals')) ? 'var(--blue-primary)' : 'var(--text-body)',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease',
+            }}
+          >
+            Renewals
+          </Link>
+
+          <Link
+            to="/insurance-vault"
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              color: (isActive('/insurance-vault') || isActive('/vault') || isActive('/claims')) ? 'var(--blue-primary)' : 'var(--text-body)',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease',
+            }}
+          >
+            Insurance Vault
+          </Link>
+
+          <Link
+            to="/agent"
+            style={{
+              fontSize: 13.5,
+              fontWeight: 700,
+              color: (isActive('/agent') || isActive('/ai-agent')) ? '#2563EB' : '#4338CA',
+              background: (isActive('/agent') || isActive('/ai-agent')) ? '#EFF6FF' : 'rgba(99, 102, 241, 0.08)',
+              border: (isActive('/agent') || isActive('/ai-agent')) ? '1px solid #BFDBFE' : '1px solid rgba(99, 102, 241, 0.15)',
+              padding: '5px 12px',
+              borderRadius: 20,
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#10B981', display: 'inline-block' }}></span>
+            <span>Voice Advisor</span>
+          </Link>
+
           <button
             type="button"
             onClick={() => handleNavTo('how-it-works')}
@@ -461,58 +558,6 @@ export default function Navbar() {
             }}
           >
             How It Works
-          </button>
-          <Link
-            to="/new-insurance"
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: (isActive('/new-insurance') || isActive('/compare')) ? 'var(--blue-primary)' : 'var(--text-body)',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease',
-            }}
-          >
-            Compare
-          </Link>
-          <Link
-            to="/renew-insurance"
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: (isActive('/renew-insurance') || isActive('/renewals')) ? 'var(--blue-primary)' : 'var(--text-body)',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease',
-            }}
-          >
-            Renewals
-          </Link>
-          <Link
-            to="/insurance-vault"
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: (isActive('/insurance-vault') || isActive('/vault') || isActive('/claims')) ? 'var(--blue-primary)' : 'var(--text-body)',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease',
-            }}
-          >
-            Claims & Vault
-          </Link>
-          <button
-            type="button"
-            onClick={() => handleNavTo('about')}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              fontSize: 14,
-              fontWeight: 600,
-              color: 'var(--text-body)',
-              cursor: 'pointer',
-              padding: 0,
-              transition: 'color 0.2s ease',
-            }}
-          >
-            About Us
           </button>
         </nav>
 
@@ -556,42 +601,120 @@ export default function Navbar() {
                       position: 'absolute',
                       top: 'calc(100% + 10px)',
                       right: 0,
-                      width: 320,
+                      width: 340,
                       background: '#FFFFFF',
                       border: '1px solid rgba(11, 31, 58, 0.12)',
-                      borderRadius: 18,
-                      boxShadow: '0 20px 50px rgba(11, 31, 58, 0.15)',
-                      padding: 20,
+                      borderRadius: 20,
+                      boxShadow: '0 20px 50px rgba(11, 31, 58, 0.18)',
+                      padding: 22,
                       zIndex: 1000,
                     }}
                   >
-                    <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>Available Vault Balance</div>
-                    <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--primary-navy)', marginBottom: 16 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                        Insurance Vault Balance
+                      </div>
+                      <span className="badge badge-active" style={{ fontSize: 10, padding: '2px 8px' }}>
+                        ACTIVE
+                      </span>
+                    </div>
+
+                    <div style={{ fontSize: 28, fontWeight: 900, color: '#0B1F3A', marginBottom: 16 }}>
                       ₹{walletBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </div>
 
-                    <form onSubmit={handleTopup} style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-                      <input
-                        type="number"
-                        placeholder="Amount (₹)"
-                        className="input-field"
-                        style={{ padding: '8px 12px', fontSize: 13 }}
-                        value={topupAmount}
-                        onChange={(e) => setTopupAmount(e.target.value)}
-                        min="100"
-                        step="100"
-                        required
-                      />
-                      <button type="submit" className="btn-pill-primary" style={{ padding: '8px 16px', fontSize: 13 }} disabled={topupLoading}>
-                        {topupLoading ? 'Adding...' : 'Top-up'}
-                      </button>
-                    </form>
+                    {/* Add Funds Button triggering full payment process */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowWalletDropdown(false);
+                        setShowTopupModal(true);
+                      }}
+                      className="btn-pill-primary"
+                      style={{
+                        width: '100%',
+                        padding: '12px 18px',
+                        fontSize: 13.5,
+                        fontWeight: 800,
+                        borderRadius: 14,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 8,
+                        marginBottom: 16,
+                      }}
+                    >
+                      <Plus size={16} strokeWidth={2.5} />
+                      <span>Add Money (UPI / Card / NetBanking)</span>
+                    </button>
 
-                    {topupSuccessMsg && (
-                      <div style={{ fontSize: 12, color: 'var(--status-emerald)', fontWeight: 600, marginTop: 6 }}>
-                        {topupSuccessMsg}
+                    {/* Quick Add Chips */}
+                    <div style={{ marginBottom: 16 }}>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: '#64748B', marginBottom: 8, textTransform: 'uppercase' }}>
+                        Quick Top-up
                       </div>
-                    )}
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+                        {[1000, 2500, 5000].map((q) => (
+                          <button
+                            key={q}
+                            type="button"
+                            onClick={() => {
+                              setShowWalletDropdown(false);
+                              setShowTopupModal(true);
+                            }}
+                            style={{
+                              padding: '6px 8px',
+                              borderRadius: 8,
+                              border: '1px solid #E2E8F0',
+                              background: '#F8FAFC',
+                              fontSize: 12,
+                              fontWeight: 700,
+                              color: '#1565C0',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            +₹{q.toLocaleString('en-IN')}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Recent Transactions Snippet */}
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 11, fontWeight: 700, color: '#64748B', marginBottom: 8, textTransform: 'uppercase' }}>
+                        <span>Recent Ledger</span>
+                        <History size={13} />
+                      </div>
+                      {walletTransactions.slice(0, 2).length > 0 ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                          {walletTransactions.slice(0, 2).map((tx) => (
+                            <div
+                              key={tx.id}
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                padding: '6px 10px',
+                                background: '#F8FAFC',
+                                borderRadius: 8,
+                                fontSize: 11.5,
+                              }}
+                            >
+                              <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 180, color: '#334155', fontWeight: 600 }}>
+                                {tx.description || 'Wallet Transaction'}
+                              </div>
+                              <div style={{ fontWeight: 800, color: tx.type === 'CREDIT' ? '#059669' : '#DC2626' }}>
+                                {tx.type === 'CREDIT' ? '+' : '-'}₹{Number(tx.amount).toLocaleString('en-IN')}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: 11.5, color: '#94A3B8', textAlign: 'center', padding: '6px 0' }}>
+                          No recent transactions
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -691,7 +814,9 @@ export default function Navbar() {
 
                     {notifications.length === 0 ? (
                       <div style={{ fontSize: 13, color: 'var(--text-muted)', padding: '32px 0', textAlign: 'center' }}>
-                        <div style={{ fontSize: 24, marginBottom: 6 }}>🔕</div>
+                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8, color: 'var(--text-muted)' }}>
+                          <BellOff size={28} />
+                        </div>
                         <strong>No notifications</strong>
                         <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 2 }}>You're all caught up with policy updates.</div>
                       </div>
@@ -736,9 +861,23 @@ export default function Navbar() {
                               <div style={{ fontSize: 10.5, color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                                   {n.insurer_name && (
-                                    <span className="badge badge-ai" style={{ fontSize: 9.5, padding: '2px 6px' }}>{n.insurer_name}</span>
+                                    <span className="badge badge-primary" style={{ fontSize: 10, padding: '3px 8px', letterSpacing: '0.5px' }}>
+                                      LIVE GATEWAY
+                                    </span>
                                   )}
-                                  <span>{n.created_at ? new Date(n.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'}</span>
+                                  <span
+                                    title={getFullTimestamp(n.created_at)}
+                                    style={{
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: 4,
+                                      color: 'var(--text-muted)',
+                                      fontWeight: 500,
+                                    }}
+                                  >
+                                    <Clock size={11} color="var(--text-muted)" />
+                                    {formatRealtimeTime(n.created_at)}
+                                  </span>
                                 </div>
                                 <button
                                   type="button"
@@ -885,20 +1024,27 @@ export default function Navbar() {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                    <span style={{ background: 'rgba(255, 255, 255, 0.2)', padding: '3px 10px', borderRadius: 9999, fontSize: 11, fontWeight: 700, letterSpacing: '0.5px' }}>
-                      {selectedQuote.insurer_name || 'Verified Underwriter'}
-                    </span>
-                    <span style={{ background: '#10B981', color: '#FFFFFF', padding: '3px 8px', borderRadius: 9999, fontSize: 10, fontWeight: 800 }}>
-                      ⚡ LIVE GATEWAY
-                    </span>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                  <InsurerLogoBadge
+                    insurerName={selectedQuote.insurer_name || selectedQuote.insurer || selectedQuote.title}
+                    size={46}
+                    rounded={12}
+                  />
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                      <span style={{ background: 'rgba(255, 255, 255, 0.2)', padding: '3px 10px', borderRadius: 9999, fontSize: 11, fontWeight: 700, letterSpacing: '0.5px' }}>
+                        {selectedQuote.insurer_name || 'Verified Underwriter'}
+                      </span>
+                      <span style={{ background: '#10B981', color: '#FFFFFF', padding: '3px 8px', borderRadius: 9999, fontSize: 10, fontWeight: 800 }}>
+                        LIVE GATEWAY
+                      </span>
+                    </div>
+                    <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
+                      {modalStep === 'details' && (selectedQuote.title?.replace('New Policy Alert: ', '') || selectedQuote.title || 'Comprehensive Motor Shield')}
+                      {modalStep === 'payment' && 'Secure Mock Payment & Checkout'}
+                      {modalStep === 'success' && 'Policy Successfully Issued!'}
+                    </h2>
                   </div>
-                  <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
-                    {modalStep === 'details' && (selectedQuote.title?.replace('New Policy Alert: ', '') || selectedQuote.title || 'Comprehensive Motor Shield')}
-                    {modalStep === 'payment' && 'Secure Mock Payment & Checkout'}
-                    {modalStep === 'success' && 'Policy Successfully Issued!'}
-                  </h2>
                 </div>
                 <button
                   onClick={() => {
@@ -1057,7 +1203,9 @@ export default function Navbar() {
                             onChange={() => setPaymentMethod('vault')}
                           />
                           <div>
-                            <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--primary-navy)' }}>⚡ Synova Vault Balance</div>
+                            <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--primary-navy)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                              <Zap size={14} color="#2563EB" /> Synova Vault Balance
+                            </div>
                             <div style={{ fontSize: 11, color: walletBalance < 5780 ? 'var(--status-rose)' : 'var(--text-muted)', fontWeight: walletBalance < 5780 ? 700 : 500 }}>
                               Available Balance: ₹{walletBalance.toLocaleString('en-IN')} {walletBalance < 5780 && '(Low Balance)'}
                             </div>
@@ -1072,8 +1220,8 @@ export default function Navbar() {
                       {paymentMethod === 'vault' && walletBalance < 5780 && (
                         <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 12, padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
                           <div>
-                            <div style={{ color: '#991B1B', fontSize: 12.5, fontWeight: 700 }}>
-                              ⚠️ Insufficient Vault Balance
+                            <div style={{ color: '#991B1B', fontSize: 12.5, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+                              <AlertCircle size={14} color="#DC2626" /> Insufficient Vault Balance
                             </div>
                             <div style={{ color: '#7F1D1D', fontSize: 11.5, marginTop: 2 }}>
                               Need ₹5,780, but available balance is ₹{walletBalance.toLocaleString('en-IN')}.
@@ -1123,7 +1271,9 @@ export default function Navbar() {
                           onChange={() => setPaymentMethod('upi')}
                         />
                         <div>
-                          <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--primary-navy)' }}>📱 Instant UPI / QR Payment</div>
+                          <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--primary-navy)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                            <QrCode size={14} color="#2563EB" /> Instant UPI / QR Payment
+                          </div>
                           <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Google Pay, PhonePe, Paytm, BHIM</div>
                         </div>
                       </label>
@@ -1147,7 +1297,9 @@ export default function Navbar() {
                           onChange={() => setPaymentMethod('card')}
                         />
                         <div>
-                          <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--primary-navy)' }}>💳 Credit / Debit Card</div>
+                          <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--primary-navy)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                            <CreditCard size={14} color="#2563EB" /> Credit / Debit Card
+                          </div>
                           <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Visa, MasterCard, RuPay (Sandbox)</div>
                         </div>
                       </label>
@@ -1155,8 +1307,8 @@ export default function Navbar() {
                   </div>
 
                   {/* Sandbox Banner */}
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 20, textAlign: 'center' }}>
-                    🔒 Sandbox Mock Payment Gateway • Instant Policy Issuance
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 20, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                    <Shield size={13} color="#64748B" /> Sandbox Mock Payment Gateway • Instant Policy Issuance
                   </div>
 
                   {/* Action Buttons */}
@@ -1190,7 +1342,7 @@ export default function Navbar() {
                           <span>Processing Payment...</span>
                         </>
                       ) : (paymentMethod === 'vault' && walletBalance < 5780) ? (
-                        <span>⚠️ Insufficient Balance</span>
+                        <span>Insufficient Balance</span>
                       ) : (
                         <span>Pay ₹5,780 & Issue Policy →</span>
                       )}
@@ -1242,13 +1394,24 @@ export default function Navbar() {
                       type="button"
                       className="btn-pill-secondary"
                       onClick={() => {
-                        setSelectedQuote(null);
-                        setModalStep('details');
+                        if (issuedPolicy) {
+                          downloadPolicyPdf(issuedPolicy);
+                        } else {
+                          downloadPolicyPdf({
+                            policy_number: `SYN-POL-2026-${Math.floor(1000 + Math.random() * 9000)}`,
+                            product_name: selectedQuote?.product_name || selectedQuote?.title || 'Comprehensive Motor Shield',
+                            insurer_name: selectedQuote?.insurer_name || 'ICICI Lombard General',
+                            coverage_amount: 720000,
+                            premium_amount: 5780,
+                          });
+                        }
                       }}
-                      style={{ padding: '10px 20px', fontSize: 13 }}
+                      style={{ padding: '10px 18px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}
                     >
-                      Done
+                      <Download size={15} color="#2563EB" />
+                      <span>Download Policy PDF</span>
                     </button>
+
                     <button
                       type="button"
                       className="btn-pill-primary"
@@ -1257,10 +1420,11 @@ export default function Navbar() {
                         setModalStep('details');
                         navigate('/vault');
                       }}
-                      style={{ padding: '10px 24px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}
+                      style={{ padding: '10px 24px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 8 }}
                     >
-                      <span>Go to Insurance Vault 🛡️</span>
-                      <span>→</span>
+                      <Shield size={15} />
+                      <span>Go to Insurance Vault</span>
+                      <ArrowRight size={15} />
                     </button>
                   </div>
                 </div>
@@ -1270,6 +1434,18 @@ export default function Navbar() {
         </div>,
         document.body
       )}
+
+      {/* Full Payment Gateway Wallet Top-up Modal */}
+      <WalletTopupModal
+        isOpen={showTopupModal}
+        onClose={() => setShowTopupModal(false)}
+        currentBalance={walletBalance}
+        userKey={getUserNotifKey()}
+        onSuccess={(newBal) => {
+          setWalletBalance(newBal);
+          fetchWallet();
+        }}
+      />
     </header>
   );
 }

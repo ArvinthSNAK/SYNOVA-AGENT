@@ -1,0 +1,13 @@
+<svg viewBox="0 0 500 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="500" rx="72" fill="#0B3082"/>
+  <!-- Star Health Emblem -->
+  <g transform="translate(100, 50)">
+    <!-- Golden Star -->
+    <polygon points="150,20 185,115 285,115 205,175 235,270 150,215 65,270 95,175 15,115 115,115" fill="#FFC72C"/>
+    <!-- Red Cross Center -->
+    <circle cx="150" cy="145" r="32" fill="#FFFFFF"/>
+    <path d="M142 125 H158 V137 H170 V153 H158 V165 H142 V153 H130 V137 H142 Z" fill="#DC2626"/>
+  </g>
+  <text x="250" y="390" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="46" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">STAR HEALTH</text>
+  <text x="250" y="435" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" fill="#FFC72C" text-anchor="middle" letter-spacing="4">INSURANCE</text>
+</svg>

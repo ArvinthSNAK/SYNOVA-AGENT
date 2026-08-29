@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { httpClient } from '../api/httpClient';
+import InsurerLogoBadge from '../components/common/InsurerLogoBadge';
 
 export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState('claims');
@@ -1587,15 +1588,18 @@ export default function AdminDashboardPage() {
                       gap: 12,
                     }}
                   >
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <strong style={{ fontSize: 14, color: 'var(--primary-navy)' }}>{p.name}</strong>
-                        <span className={`badge ${p.active ? 'badge-active' : 'badge-danger'}`} style={{ fontSize: 9.5 }}>
-                          {p.active ? 'ACTIVE' : 'INACTIVE'}
-                        </span>
-                      </div>
-                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 3 }}>
-                        {p.insurer_name} • Base Rate: <strong>{p.base_rate}%</strong> • Min: <strong>₹{Number(p.minimum_premium).toLocaleString()}</strong>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                      <InsurerLogoBadge insurerName={p.insurer_name} size={38} rounded={8} />
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <strong style={{ fontSize: 14, color: 'var(--primary-navy)' }}>{p.name}</strong>
+                          <span className={`badge ${p.active ? 'badge-active' : 'badge-danger'}`} style={{ fontSize: 9.5 }}>
+                            {p.active ? 'ACTIVE' : 'INACTIVE'}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 3 }}>
+                          {p.insurer_name} • Base Rate: <strong>{p.base_rate}%</strong> • Min: <strong>₹{Number(p.minimum_premium).toLocaleString()}</strong>
+                        </div>
                       </div>
                     </div>
 

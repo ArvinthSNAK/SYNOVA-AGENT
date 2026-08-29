@@ -15,9 +15,14 @@ const fetchWithFallback = async (endpoint, options = {}) => {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('synova_user');
-    return saved ? JSON.parse(saved) : { id: 1, email: 'demo@example.com', full_name: 'Arvinth Kumar', role: 'customer' };
+    if (!saved) return null;
+    try {
+      return JSON.parse(saved);
+    } catch {
+      return null;
+    }
   });
-  const [token, setToken] = useState(() => localStorage.getItem('synova_token') || 'demo-token');
+  const [token, setToken] = useState(() => localStorage.getItem('synova_token') || null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

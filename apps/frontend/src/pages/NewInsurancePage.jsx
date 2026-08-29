@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { httpClient } from '../api/httpClient';
+import InsurerLogoBadge from '../components/common/InsurerLogoBadge';
+import BuyPolicyModal from '../components/marketplace/BuyPolicyModal';
+import { validateVehicleRegistration, formatVehicleRegistration } from '../utils/validators';
 
 export default function NewInsurancePage() {
   const { user } = useAuth();
@@ -9,30 +12,51 @@ export default function NewInsurancePage() {
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
-  const initialReg = queryParams.get('reg') || 'KA-01-MJ-4092';
+  const storedVoiceAutofill = JSON.parse(sessionStorage.getItem('synova_voice_autofill') || '{}');
+
+  const initialReg = queryParams.get('reg') || storedVoiceAutofill.vehicle_registration || 'KA-01-MJ-4092';
+  const initialMake = queryParams.get('make') || storedVoiceAutofill.vehicle_make || 'Hyundai';
+  const initialModel = queryParams.get('model') || storedVoiceAutofill.vehicle_model || 'Creta SX';
+  const initialAge = queryParams.get('age') || storedVoiceAutofill.vehicle_age_years || 2;
+  const initialIdv = queryParams.get('idv') || storedVoiceAutofill.idv || 650000;
+  const initialNcb = queryParams.get('ncb') || storedVoiceAutofill.ncb_percent || 20;
+  const isAutofilled = queryParams.get('autofill') === 'true' || Boolean(storedVoiceAutofill.vehicle_registration);
 
   const [formData, setFormData] = useState({
-    customer_name: user?.full_name || 'Hariharan Murugesan',
+    customer_name: user?.name || user?.full_name || 'Hariharan Murugesan',
     vehicle_registration: initialReg,
-    vehicle_make: 'Hyundai',
-    vehicle_model: 'Creta SX',
-    vehicle_age_years: 2,
-    idv: 650000,
-    ncb_percent: 20,
+    vehicle_make: initialMake,
+    vehicle_model: initialModel,
+    vehicle_age_years: Number(initialAge) || 2,
+    idv: Number(initialIdv) || 650000,
+    ncb_percent: Number(initialNcb) || 20,
     engine_capacity_cc: 1497,
     has_anti_theft: 1,
     selected_addons: ['Zero Depreciation', 'Engine Protection', 'Roadside Assistance'],
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('insurer_a');
   const [comparisonResults, setComparisonResults] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
+  const [error, setError] = useState(null);
   const [automationStep, setAutomationStep] = useState('');
   const [iframeSrc, setIframeSrc] = useState('http://localhost:9001/quote');
   const [liveAutoPlaying, setLiveAutoPlaying] = useState(false);
   const [purchasing, setPurchasing] = useState(false);
   const [purchaseSuccess, setPurchaseSuccess] = useState(null);
+  const [buyProduct, setBuyProduct] = useState(null);
+
+  const resultsRef = useRef(null);
+
+  useEffect(() => {
+    if (recommendation || comparisonResults) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+    }
+  }, [recommendation, comparisonResults]);
 
   const mockInsurers = [
     { code: 'insurer_a', label: '1', port: 9001, url: 'http://localhost:9001/quote', color: '#1565C0' },
@@ -43,7 +67,20 @@ export default function NewInsurancePage() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'vehicle_registration') {
+      const formatted = formatVehicleRegistration(value);
+      setFormData((prev) => ({ ...prev, [name]: formatted }));
+      if (validationErrors.vehicle_registration) {
+        if (validateVehicleRegistration(formatted).isValid) {
+          setValidationErrors((prev) => ({ ...prev, vehicle_registration: null }));
+        }
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      if (validationErrors[name]) {
+        setValidationErrors((prev) => ({ ...prev, [name]: null }));
+      }
+    }
   };
 
   const handleAddonToggle = (addonName) => {
@@ -213,6 +250,28 @@ export default function NewInsurancePage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const errs = {};
+
+    const regVal = validateVehicleRegistration(formData.vehicle_registration);
+    if (!regVal.isValid) {
+      errs.vehicle_registration = regVal.error;
+    }
+    if (!formData.customer_name || formData.customer_name.trim().length < 3) {
+      errs.customer_name = 'Policyholder name is required (minimum 3 characters)';
+    }
+    if (!formData.vehicle_make || formData.vehicle_make.trim().length < 2) {
+      errs.vehicle_make = 'Vehicle Make is required';
+    }
+    if (!formData.vehicle_model || formData.vehicle_model.trim().length < 2) {
+      errs.vehicle_model = 'Vehicle Model is required';
+    }
+
+    if (Object.keys(errs).length > 0) {
+      setValidationErrors(errs);
+      return;
+    }
+
+    setValidationErrors({});
     setLoading(true);
     setComparisonResults(null);
     setRecommendation(null);
@@ -228,60 +287,22 @@ export default function NewInsurancePage() {
     });
   };
 
-  const handlePurchasePolicy = async (quote) => {
-    setPurchasing(true);
-    try {
-      const payload = {
-        customer_id: user?.id || 1,
-        insurer_name: quote.insurer_name || 'ACKO General Insurance',
-        product_name: quote.product_name || 'Motor Comprehensive Cover',
-        insurance_type: 'motor',
-        premium: quote.premium,
-        idv: quote.idv || parseFloat(formData.idv) || 650000,
-        deductible: 2000,
-        vehicle_registration: formData.vehicle_registration || 'KA-01-MJ-4092',
-        vehicle_make: formData.vehicle_make || 'Hyundai',
-        vehicle_model: formData.vehicle_model || 'Creta SX',
-        ncb_percent: parseFloat(formData.ncb_percent) || 20,
-        addons: quote.addons || formData.selected_addons || ['Zero Depreciation'],
-      };
-
-      const res = await httpClient.post('/policies/', payload);
-      const savedPolicy = (res.data && res.data.policy) ? res.data.policy : {
-        id: Date.now(),
-        policy_number: 'POL-SYN-' + Math.floor(100000 + Math.random() * 900000),
-        insurer_name: quote.insurer_name,
-        product_name: quote.product_name,
-        premium: quote.premium,
-        idv: quote.idv || parseFloat(formData.idv) || 650000,
-        vehicle_registration: formData.vehicle_registration || 'KA-01-MJ-4092',
-        status: 'active',
-      };
-
-      const userKey = user ? (user.id || user.email) : 'guest';
-      const existing = JSON.parse(localStorage.getItem(`synova_vault_policies_${userKey}`) || '[]');
-      localStorage.setItem(`synova_vault_policies_${userKey}`, JSON.stringify([savedPolicy, ...existing]));
-
-      setPurchaseSuccess(savedPolicy);
-    } catch (err) {
-      console.log('Policy creation fallback:', err);
-      const fallbackPolicy = {
-        id: Date.now(),
-        policy_number: 'POL-SYN-' + Math.floor(100000 + Math.random() * 900000),
-        insurer_name: quote.insurer_name,
-        product_name: quote.product_name,
-        premium: quote.premium,
-        idv: quote.idv || parseFloat(formData.idv) || 650000,
-        vehicle_registration: formData.vehicle_registration || 'KA-01-MJ-4092',
-        status: 'active',
-      };
-      const userKey = user ? (user.id || user.email) : 'guest';
-      const existing = JSON.parse(localStorage.getItem(`synova_vault_policies_${userKey}`) || '[]');
-      localStorage.setItem(`synova_vault_policies_${userKey}`, JSON.stringify([fallbackPolicy, ...existing]));
-      setPurchaseSuccess(fallbackPolicy);
-    } finally {
-      setPurchasing(false);
-    }
+  const handlePurchasePolicy = (quote) => {
+    setBuyProduct({
+      id: quote.insurer_id || 1,
+      name: quote.product_name,
+      product_name: quote.product_name,
+      insurer_name: quote.insurer_name,
+      category: 'motor',
+      insurance_type: 'motor',
+      premium: quote.premium,
+      coverage_amount: quote.idv || parseFloat(formData.idv) || 650000,
+      vehicleRegistration: formData.vehicle_registration || 'KA-01-MJ-4092',
+      vehicleMake: formData.vehicle_make || 'Hyundai',
+      vehicleModel: formData.vehicle_model || 'Creta SX',
+      selectedAddons: quote.addons || formData.selected_addons || ['Zero Depreciation'],
+      ncbPercent: formData.ncb_percent || '20',
+    });
   };
 
   return (
@@ -299,6 +320,48 @@ export default function NewInsurancePage() {
         </p>
       </div>
 
+      {/* Voice Advisor Autofill Banner */}
+      {isAutofilled && (
+        <div
+          style={{
+            background: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
+            border: '1px solid #A7F3D0',
+            borderRadius: 14,
+            padding: '14px 18px',
+            marginBottom: 28,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxShadow: '0 2px 8px rgba(16, 185, 129, 0.08)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: 22 }}>🎙️</span>
+            <div>
+              <strong style={{ color: '#065F46', fontSize: 13.5, display: 'block' }}>
+                Form Autofilled by Synova Voice Advisor
+              </strong>
+              <span style={{ color: '#047857', fontSize: 12 }}>
+                Extracted: <strong>{formData.vehicle_make} {formData.vehicle_model}</strong> ({formData.vehicle_registration}) • IDV: <strong>₹{Number(formData.idv).toLocaleString('en-IN')}</strong> • NCB: <strong>{formData.ncb_percent}%</strong>
+              </span>
+            </div>
+          </div>
+          <span
+            style={{
+              background: '#059669',
+              color: '#FFFFFF',
+              fontSize: 11,
+              fontWeight: 700,
+              padding: '5px 12px',
+              borderRadius: 20,
+              boxShadow: '0 2px 4px rgba(5, 150, 105, 0.2)',
+            }}
+          >
+            ✓ Live Voice Data
+          </span>
+        </div>
+      )}
+
       <div className="grid-2" style={{ gap: 28, alignItems: 'start', marginBottom: 40 }}>
         {/* Left Column: Quotation Form */}
         <div className="saas-card" style={{ padding: 28 }}>
@@ -309,51 +372,101 @@ export default function NewInsurancePage() {
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
               <div>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Policyholder Name</label>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>
+                  Policyholder Name *
+                </label>
                 <input
                   type="text"
                   name="customer_name"
                   className="input-field"
                   value={formData.customer_name}
                   onChange={handleInputChange}
+                  placeholder="e.g. Ramesh Patel"
+                  style={{
+                    borderColor: validationErrors.customer_name ? '#E11D48' : undefined,
+                    background: validationErrors.customer_name ? '#FFF1F2' : undefined,
+                  }}
                   required
                 />
+                {validationErrors.customer_name && (
+                  <div style={{ fontSize: 11, color: '#E11D48', marginTop: 3 }}>{validationErrors.customer_name}</div>
+                )}
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Vehicle Registration #</label>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-body)' }}>
+                    Vehicle Registration # *
+                  </label>
+                  {formData.vehicle_registration && validateVehicleRegistration(formData.vehicle_registration).isValid && (
+                    <span style={{ fontSize: 10.5, fontWeight: 700, color: '#059669' }}>
+                      ✓ Valid Format
+                    </span>
+                  )}
+                </div>
                 <input
                   type="text"
                   name="vehicle_registration"
                   className="input-field"
+                  maxLength={14}
                   value={formData.vehicle_registration}
                   onChange={handleInputChange}
+                  placeholder="e.g. KA-01-MJ-4092"
+                  style={{
+                    letterSpacing: '0.4px',
+                    fontWeight: 700,
+                    borderColor: validationErrors.vehicle_registration ? '#E11D48' : undefined,
+                    background: validationErrors.vehicle_registration ? '#FFF1F2' : undefined,
+                  }}
                   required
                 />
+                {validationErrors.vehicle_registration && (
+                  <div style={{ fontSize: 11, color: '#E11D48', marginTop: 3 }}>{validationErrors.vehicle_registration}</div>
+                )}
               </div>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
               <div>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Vehicle Make</label>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>
+                  Vehicle Make *
+                </label>
                 <input
                   type="text"
                   name="vehicle_make"
                   className="input-field"
                   value={formData.vehicle_make}
                   onChange={handleInputChange}
+                  placeholder="e.g. Hyundai, Honda, Maruti"
+                  style={{
+                    borderColor: validationErrors.vehicle_make ? '#E11D48' : undefined,
+                    background: validationErrors.vehicle_make ? '#FFF1F2' : undefined,
+                  }}
                   required
                 />
+                {validationErrors.vehicle_make && (
+                  <div style={{ fontSize: 11, color: '#E11D48', marginTop: 3 }}>{validationErrors.vehicle_make}</div>
+                )}
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Vehicle Model</label>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>
+                  Vehicle Model *
+                </label>
                 <input
                   type="text"
                   name="vehicle_model"
                   className="input-field"
                   value={formData.vehicle_model}
                   onChange={handleInputChange}
+                  placeholder="e.g. Creta SX, City VX"
+                  style={{
+                    borderColor: validationErrors.vehicle_model ? '#E11D48' : undefined,
+                    background: validationErrors.vehicle_model ? '#FFF1F2' : undefined,
+                  }}
                   required
                 />
+                {validationErrors.vehicle_model && (
+                  <div style={{ fontSize: 11, color: '#E11D48', marginTop: 3 }}>{validationErrors.vehicle_model}</div>
+                )}
               </div>
             </div>
 
@@ -523,6 +636,8 @@ export default function NewInsurancePage() {
       {/* AI Recommendation Highlight Card */}
       {recommendation && recommendation.recommended_quote && (
         <div
+          ref={resultsRef}
+          id="quote-recommendation-section"
           style={{
             background: 'linear-gradient(135deg, #0B1F3A 0%, #1565C0 100%)',
             color: '#FFFFFF',
@@ -533,19 +648,27 @@ export default function NewInsurancePage() {
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 20 }}>
-            <div>
-              <span className="badge" style={{ background: 'rgba(255,255,255,0.15)', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.25)', marginBottom: 12 }}>
-                AI RANKED #1 • BEST VALUE
-              </span>
-              <h2 style={{ fontSize: 26, color: '#FFFFFF', margin: '6px 0' }}>
-                {recommendation.recommended_quote.product_name}
-              </h2>
-              <div style={{ fontSize: 14, color: 'var(--text-on-dark-muted)' }}>
-                {recommendation.recommended_quote.insurer_name}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
+              <InsurerLogoBadge
+                insurerName={recommendation.recommended_quote.insurer_name}
+                size={54}
+                rounded={14}
+                style={{ marginTop: 6 }}
+              />
+              <div>
+                <span className="badge" style={{ background: 'rgba(255,255,255,0.15)', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.25)', marginBottom: 10 }}>
+                  AI RANKED #1 • BEST VALUE
+                </span>
+                <h2 style={{ fontSize: 26, color: '#FFFFFF', margin: '6px 0' }}>
+                  {recommendation.recommended_quote.product_name}
+                </h2>
+                <div style={{ fontSize: 14, color: 'var(--text-on-dark-muted)', fontWeight: 600 }}>
+                  {recommendation.recommended_quote.insurer_name}
+                </div>
+                <p style={{ fontSize: 14, color: 'rgba(255, 255, 255, 0.9)', marginTop: 12, maxWidth: 640, lineHeight: 1.6 }}>
+                  {recommendation.rationale}
+                </p>
               </div>
-              <p style={{ fontSize: 14, color: 'rgba(255, 255, 255, 0.9)', marginTop: 12, maxWidth: 640, lineHeight: 1.6 }}>
-                {recommendation.rationale}
-              </p>
             </div>
 
             <div style={{ textAlign: 'right' }}>
@@ -596,8 +719,13 @@ export default function NewInsurancePage() {
                     }}
                   >
                     <td style={{ padding: '14px' }}>
-                      <div style={{ fontWeight: 700, color: 'var(--primary-navy)' }}>{q.product_name}</div>
-                      <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>{q.insurer_name}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <InsurerLogoBadge insurerName={q.insurer_name} size={36} rounded={8} />
+                        <div>
+                          <div style={{ fontWeight: 700, color: 'var(--primary-navy)' }}>{q.product_name}</div>
+                          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>{q.insurer_name}</div>
+                        </div>
+                      </div>
                     </td>
                     <td style={{ padding: '14px', fontWeight: 600, color: 'var(--text-heading)' }}>
                       ₹{Number(q.idv).toLocaleString()}
@@ -720,6 +848,18 @@ export default function NewInsurancePage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Buy Policy Modal with Vault Balance & Gateway Checkout */}
+      {buyProduct && (
+        <BuyPolicyModal
+          product={buyProduct}
+          onClose={() => setBuyProduct(null)}
+          onSuccess={(issued) => {
+            setBuyProduct(null);
+            setPurchaseSuccess(issued);
+          }}
+        />
       )}
     </div>
   );

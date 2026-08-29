@@ -42,7 +42,10 @@ def list_all_notifications(db: Session = Depends(get_db)):
                 "product_name": meta.get("product_name", ""),
                 "notification_type": n.notification_type,
                 "status": n.status or "unread",
-                "created_at": n.created_at.isoformat() if hasattr(n, 'created_at') and n.created_at else None,
+                "created_at": (
+                    (n.created_at.isoformat() + ("Z" if not n.created_at.isoformat().endswith("Z") and "+" not in n.created_at.isoformat() else ""))
+                    if hasattr(n, 'created_at') and n.created_at else None
+                ),
             })
         return res
     except Exception as e:

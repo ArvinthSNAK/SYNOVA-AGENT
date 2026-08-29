@@ -1,0 +1,127 @@
+# ==============================================================================
+#                 SYNOVA PLATFORM - RENDER BLUEPRINT (render.yaml)
+# ==============================================================================
+# Deploy all microservices, databases, and static frontend with 1-Click on Render.
+# Documentation: https://render.com/docs/blueprint-spec
+
+version: "1"
+
+services:
+  # ----------------------------------------------------------------------------
+  # 1. CORE BACKEND API (FastAPI)
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: synova-backend
+    runtime: python
+    region: oregon
+    plan: starter
+    rootDir: apps/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: synova-postgres
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 120
+      - key: AUTOMATION_SERVICE_URL
+        fromService:
+          type: web
+          name: synova-automation-service
+          property: host
+      - key: CORS_ORIGINS
+        value: "*"
+
+  # ----------------------------------------------------------------------------
+  # 2. REALTIME AI VOICE AGENT / ADVISOR
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: synova-voice-agent
+    runtime: python
+    region: oregon
+    plan: starter
+    rootDir: apps/synova-voice-agent
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: BACKEND_API_URL
+        fromService:
+          type: web
+          name: synova-backend
+          property: host
+
+  # ----------------------------------------------------------------------------
+  # 3. AUTOMATION & VISION OCR SERVICE
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: synova-automation-service
+    runtime: python
+    region: oregon
+    plan: starter
+    rootDir: apps/automation-service
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+
+  # ----------------------------------------------------------------------------
+  # 4. REACT + VITE FRONTEND (Static Site SPA)
+  # ----------------------------------------------------------------------------
+  - type: static
+    name: synova-frontend
+    region: oregon
+    rootDir: apps/frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: synova-backend
+          property: host
+      - key: VITE_ADVISOR_URL
+        fromService:
+          type: web
+          name: synova-voice-agent
+          property: host
+
+  # ----------------------------------------------------------------------------
+  # 5. MOCK INSURERS (Underwriting Gateways)
+  # ----------------------------------------------------------------------------
+  - type: web
+    name: synova-mock-insurer-a
+    runtime: python
+    region: oregon
+    plan: starter
+    rootDir: apps/mock-insurers/insurer-a
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+
+  - type: web
+    name: synova-mock-insurer-b
+    runtime: python
+    region: oregon
+    plan: starter
+    rootDir: apps/mock-insurers/insurer-b
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+
+# ------------------------------------------------------------------------------
+# 6. MANAGED POSTGRESQL DATABASE
+# ------------------------------------------------------------------------------
+databases:
+  - name: synova-postgres
+    databaseName: synova_db
+    user: synova_user
+    region: oregon
+    plan: starter

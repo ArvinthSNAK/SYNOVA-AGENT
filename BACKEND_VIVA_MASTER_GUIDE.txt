@@ -1,0 +1,525 @@
+================================================================================
+           SYNOVA AI INSURANCE AGGREGATION & AUTOMATION PLATFORM
+                 BACKEND ARCHITECTURE & VIVA MASTER GUIDE
+================================================================================
+
+TABLE OF CONTENTS:
+1. High-Level Executive Summary & Project Vision
+2. System Architecture & Microservice Breakdown
+3. Complete Technology Stack & Libraries Used
+4. Database Architecture & Entity Relationship (ORM Models)
+5. Core Algorithms & Actuarial Computation Engines
+   5.1 Insured Declared Value (IDV) Engine
+   5.2 No Claim Bonus (NCB) Transfer & Graded Discount Matrix
+   5.3 Multi-Insurer Dynamic Rating & Underwriting Algorithms
+   5.4 Vision OCR & AI Policy Schedule Extraction Pipeline
+   5.5 Natural Language Insurance Recommendation & Scoring Engine
+6. Payment Gateway, Digital KYC & Insurance Vault (Wallet) Ledger
+7. Complete REST API Catalog & Route Breakdown
+8. Multi-Insurer Mock Infrastructure (Underwriting Gateways)
+9. Security, Authentication, Compliance & Statutory Norms
+10. Top 35 Viva Questions & In-Depth Technical Answers
+
+================================================================================
+1. HIGH-LEVEL EXECUTIVE SUMMARY & PROJECT VISION
+================================================================================
+SYNOVA is an Autonomous AI-powered Insurance Aggregation, Quotation, and Lifecycle 
+Management Platform designed for the Indian Insurance Ecosystem (IRDAI compliant).
+
+It solves major inefficiencies in traditional insurance distribution:
+1. Eliminates manual quote comparison by sequentially aggregating real-time 
+   underwriting rates from top national insurers (ICICI Lombard, ACKO, TATA AIG, 
+   HDFC ERGO) in parallel.
+2. Automates policy renewals using Optical Character Recognition (Vision OCR) 
+   and heuristic parsing to extract schedules from legacy policy PDFs in under 3s.
+3. Provides an instant digital policy issuance engine with Bank-Grade Sandbox 
+   Payment Gateways and a 1-Click Digital Insurance Vault (Wallet) ledger.
+4. Integrates digital First Notice of Loss (FNOL) claims submission with cashless 
+   garage tracking and instant digital certificate PDF generation.
+
+================================================================================
+2. SYSTEM ARCHITECTURE & MICROSERVICE BREAKDOWN
+================================================================================
+The platform is built on an Asynchronous Microservices Architecture:
+
++-----------------------------------------------------------------------------+
+|                          CLIENT / FRONTEND LAYER                            |
+|             React 18 + Vite SPA | Port 80 / 5173 | Nginx Web Server         |
++-----------------------------------------------------------------------------+
+                                     |
+                                     | REST (JSON) / Multipart Form-Data
+                                     v
++-----------------------------------------------------------------------------+
+|                     CORE BACKEND API SERVICE (FastAPI)                      |
+|                               Port: 8000                                    |
+|   - Authentication (JWT + Bcrypt)        - Policy Lifecycle Management      |
+|   - Marketplace & Natural Language Search - Multi-Gateway Payment Router    |
+|   - Insurance Vault & Wallet Ledger      - Claims & FNOL Processing         |
++-----------------------------------------------------------------------------+
+         |                                  |
+         | Internal Async HTTP              | Async HTTP Scrapers / Webhooks
+         v                                  v
++-----------------------------------+  +--------------------------------------+
+| AUTOMATION & OCR SERVICE          |  | MOCK INSURER GATEWAYS (4 Endpoints)  |
+| Port: 8001                        |  |                                      |
+| - PyMuPDF (PDF Rasterization)     |  | - Port 9001: Insurer A (ICICI Lomb.) |
+| - EasyOCR (Neural Text Detection) |  | - Port 9002: Insurer B (ACKO Drive)  |
+| - Heuristic Field Extraction RegEx|  | - Port 9003: Insurer C (TATA AIG)    |
+|                                   |  | - Port 9004: Insurer D (HDFC ERGO)   |
++-----------------------------------+  +--------------------------------------+
+         |                                  |
+         +-----------------+----------------+
+                           |
+                           v
++-----------------------------------------------------------------------------+
+|                             PERSISTENCE LAYER                               |
+|              SQLite (dev.db) / PostgreSQL (production)                      |
+|              SQLAlchemy ORM + Alembic Schema Migrations                     |
++-----------------------------------------------------------------------------+
+
+================================================================================
+3. COMPLETE TECHNOLOGY STACK & LIBRARIES USED
+================================================================================
+Backend Languages & Frameworks:
+- Python 3.11+: High-performance asynchronous execution runtime.
+- FastAPI: Modern, high-throughput asynchronous web framework for building APIs.
+- Uvicorn: Lightning-fast ASGI (Asynchronous Server Gateway Interface) server.
+- Pydantic v2: Strict data validation and schema serialization.
+- SQLAlchemy 2.0: Enterprise-grade Object Relational Mapper (ORM).
+- Alembic: Database migration environment.
+
+OCR, Vision & Document Processing:
+- PyMuPDF (fitz): Ultra-fast PDF page rasterization and text layer extraction.
+- EasyOCR: Deep Learning OCR engine based on PyTorch for character detection.
+- Pillow (PIL): Image manipulation, resizing, and bounding-box cropping.
+- PyPDF / ReportLab: Digital PDF policy schedule certificate generation.
+
+Security, Crypto & Auth:
+- Passlib + Bcrypt: Multi-round adaptive password hashing.
+- Python-Jose: JWT (JSON Web Tokens) encoding and RSA/HMAC-SHA256 verification.
+- Python-Multipart: Streaming multi-part form data parser for file uploads.
+
+Networking & Gateway Integration:
+- HTTPX: High-performance async HTTP client with connection pooling and timeouts.
+- Requests / Urllib: Synchronous fallback network utilities.
+
+================================================================================
+4. DATABASE ARCHITECTURE & ENTITY RELATIONSHIP (ORM MODELS)
+================================================================================
+The relational model is designed in SQLAlchemy under `app/models/`:
+
+1. `User` (`users` table):
+   - `id` (PK): Integer
+   - `email`: String(255), Unique, Indexed
+   - `password_hash`: String(255)
+   - `full_name`: String(100)
+   - `role`: Enum('customer', 'admin', 'agent')
+   - `is_active`: Boolean
+   - `created_at`: DateTime
+
+2. `InsuranceProduct` (`insurance_products` table):
+   - `id` (PK): Integer
+   - `insurer_id` (FK -> `insurers.id`): Integer
+   - `name`: String(150)
+   - `insurance_type`: Enum('motor', 'health', 'term')
+   - `premium`: Float
+   - `coverage_amount`: Float
+   - `rating`: Float (0.0 to 5.0)
+   - `maternity_benefit`: Boolean
+   - `opd_cover`: Boolean
+   - `critical_illness_cover`: Boolean
+   - `zero_dep`: Boolean
+   - `ncb_protection`: Boolean
+   - `cashless_garages`: Integer
+
+3. `Policy` (`policies` table):
+   - `id` (PK): Integer
+   - `customer_id` (FK -> `users.id`): Integer
+   - `product_id` (FK -> `insurance_products.id`): Integer
+   - `policy_number`: String(100), Unique, Indexed (e.g. `SYN-MOT-2026-88219`)
+   - `insurance_type`: String(50)
+   - `insurer_name`: String(100)
+   - `product_name`: String(150)
+   - `status`: Enum('active', 'expired', 'claimed', 'cancelled')
+   - `premium`: Float
+   - `coverage_amount`: Float
+   - `idv`: Float
+   - `vehicle_registration`: String(50)
+   - `vehicle_make`: String(50)
+   - `vehicle_model`: String(50)
+   - `ncb_percent`: Float
+   - `addons`: Text
+   - `start_date`: DateTime
+   - `end_date`: DateTime
+   - `active`: Boolean
+
+4. `PolicyVersion` (`policy_versions` table):
+   - `id` (PK): Integer
+   - `policy_id` (FK -> `policies.id`): Integer
+   - `version`: Integer (Audit track of endorsements and renewals)
+   - `effective_from`: DateTime
+   - `data`: JSON (Full snapshot of the policy at version X)
+
+5. `Claim` (`claims` table):
+   - `id` (PK): Integer
+   - `claim_number`: String(100), Unique (e.g. `CLM-2026-9812`)
+   - `policy_id` (FK -> `policies.id`): Integer
+   - `customer_id` (FK -> `users.id`): Integer
+   - `claim_type`: String(50)
+   - `incident_date`: DateTime
+   - `incident_location`: String(150)
+   - `description`: Text
+   - `estimated_loss`: Float
+   - `approved_amount`: Float
+   - `status`: Enum('submitted', 'under_review', 'surveyor_assigned', 'approved', 'settled', 'rejected')
+   - `garage_name`: String(100)
+   - `garage_city`: String(100)
+   - `created_at`: DateTime
+
+6. `PaymentOrder` & `PaymentTransaction` (`payment_orders`, `payment_transactions`):
+   - `order_id` (PK): String(50) (e.g. `ORDER_98A1B2C3`)
+   - `customer_id`: Integer
+   - `product_id`: Integer
+   - `amount`: Float
+   - `currency`: String(10) -> "INR"
+   - `status`: Enum('created', 'processing', 'success', 'failed')
+   - `payment_method`: Enum('wallet', 'upi', 'card', 'netbanking')
+   - `gateway_order_id`: String(100)
+   - `application_data`: JSON
+
+7. `Wallet` & `WalletTransaction` (`wallets`, `wallet_transactions`):
+   - `id` (PK): Integer
+   - `customer_id` (FK -> `users.id`): Integer
+   - `balance`: Float (e.g. 50000.00)
+   - `type`: Enum('CREDIT', 'DEBIT')
+   - `txn_id`: String(100), Unique
+   - `amount`: Float
+   - `description`: Text
+   - `created_at`: DateTime
+
+================================================================================
+5. CORE ALGORITHMS & ACTUARIAL COMPUTATION ENGINES
+================================================================================
+
+5.1 Insured Declared Value (IDV) Calculation Engine
+--------------------------------------------------
+IDV is the maximum sum insured for Own Damage (OD) total loss/theft as mandated 
+by the Indian Motor Tariff depreciation schedule:
+
+Formula:
+  IDV = (Manufacturer Invoice Price - Depreciation %) + (Accessories - Acc Dep %)
+
+Depreciation Schedule Implemented:
+  - Age <= 6 months:        5% depreciation
+  - 6 months to 1 year:    15% depreciation
+  - 1 year to 2 years:     20% depreciation
+  - 2 years to 3 years:    30% depreciation
+  - 3 years to 4 years:    40% depreciation
+  - 4 years to 5 years:    50% depreciation
+  - Above 5 years:         Mutually Agreed Value based on surveyor inspection
+
+5.2 No Claim Bonus (NCB) Transfer & Graded Matrix
+-------------------------------------------------
+NCB is a reward discount on the Own Damage premium for zero claims in preceding years.
+Under GR.27 of Indian Motor Tariff, NCB belongs to the policyholder and is 100% 
+transferrable when switching insurers:
+
+NCB Matrix:
+  - 1 claim-free year:     20% NCB discount
+  - 2 claim-free years:    25% NCB discount
+  - 3 claim-free years:    35% NCB discount
+  - 4 claim-free years:    45% NCB discount
+  - 5+ claim-free years:   50% NCB discount (Maximum ceiling)
+
+5.3 Multi-Insurer Dynamic Rating & Underwriting Algorithms
+----------------------------------------------------------
+Total Motor Premium Formulation:
+  Total Premium = (Base OD Premium + Addon Premium - NCB Discount + TP Premium) * (1 + 18% GST)
+
+1. Insurer A (ICICI Lombard):
+   - Base OD Rate: 3.0% of IDV
+   - Age Surcharge: Age * ₹500
+   - TP Premium: Statutory ₹3,416 (for >1000cc - 1500cc private cars)
+
+2. Insurer B (ACKO Drive):
+   - Digital direct model (Zero intermediary commission): 2.5% Base OD Rate
+   - Tech Discount: ₹800 flat reduction
+
+3. Insurer C (TATA AIG):
+   - Base OD Rate: 3.2% of IDV
+   - Engine CC Factor: ₹1,497 * 0.75
+
+4. Insurer D (HDFC ERGO):
+   - Base OD Rate: 2.8% of IDV
+   - Engine CC Factor: CC * 0.8 + Age * ₹700
+
+5.4 Vision OCR & AI Policy Schedule Extraction Pipeline
+-------------------------------------------------------
+Located in `apps/automation-service/` and `apps/backend/app/services/`:
+1. Document Ingestion: PDF/Image uploaded via multipart stream.
+2. Rasterization: PyMuPDF converts vector PDF pages into 300 DPI high-res bitmaps.
+3. Neural OCR Detection: EasyOCR runs text localization and character recognition.
+4. Heuristic Regular Expression Extraction:
+   - Policy Number: Regex `r'(?:policy\s*(?:no|number|#)?[:\s-]*)([A-Z0-9/-]{8,25})'`
+   - Registration: Regex `r'[A-Z]{2}[-\s]?[0-9]{1,2}[-\s]?[A-Z]{1,3}[-\s]?[0-9]{4}'`
+   - IDV: Regex `r'(?:IDV|Insured\s*Declared\s*Value)[^\d]*([\d,]+(?:\.\d{2})?)'`
+   - NCB: Regex `r'(\b[0-5]?0%|\bNCB[^\d]*(\d{1,2})%)'`
+5. Confidence Scoring: Returns confidence rating (0.0 to 1.0) and triggers fallback.
+
+5.5 Natural Language Insurance Recommendation & Scoring Engine
+--------------------------------------------------------------
+Located in `natural_language_search_service.py`:
+- User prompts like "Find best family health cover with OPD and maternity in Bengaluru"
+- Tokenizer parses keywords against product metadata: `['maternity', 'opd', 'cashless', 'idv']`
+- Multi-Attribute Utility Theory (MAUT) scoring:
+  Score = (0.35 * CoverageScore) + (0.30 * PremiumValueScore) + (0.20 * Rating) + (0.15 * AddonFit)
+- Returns top ranked matches with rationales.
+
+================================================================================
+6. PAYMENT GATEWAY, DIGITAL KYC & INSURANCE VAULT (WALLET) LEDGER
+================================================================================
+Payment Channels Supported:
+1. Synova Digital Insurance Vault (Wallet Balance):
+   - 1-Click Instant Ledger settlement.
+   - Zero gateway surcharge or transaction latency.
+   - Atomically debits wallet balance and creates timestamped DEBIT ledger entry.
+2. Sandbox Payment Gateway:
+   - Instant UPI / Dynamic QR Code generation.
+   - Tokenized Credit / Debit Cards with 256-Bit SSL authorization.
+   - NetBanking across 6 major Indian banks (HDFC, ICICI, SBI, Axis, Kotak, PNB).
+
+Digital KYC Pipeline:
+- Sandbox integration for Central KYC Registry (CKYC), PAN validation & Aadhaar OTP.
+- Section 64VB Compliance: Policy risk commences immediately upon premium receipt.
+
+================================================================================
+7. COMPLETE REST API CATALOG & ROUTE BREAKDOWN
+================================================================================
+
+Authentication & Users:
+- `POST /api/v1/auth/register` -> Creates new user with bcrypt password hash.
+- `POST /api/v1/auth/login` -> Authenticates user and returns JWT Bearer token.
+- `GET  /api/v1/users/me` -> Retrieves authenticated user profile.
+
+Insurance Marketplace & Search:
+- `GET  /api/v1/insurance/categories` -> Returns Motor, Health, and Term categories.
+- `GET  /api/v1/insurance/products` -> Filtered, sorted list of products with add-ons.
+- `POST /api/v1/insurance/search` -> Natural Language AI query search and scoring.
+
+Quotation & Multi-Insurer Aggregation:
+- `POST /api/v1/quotes/compare` -> Scrapes and returns live quotes from Insurers A, B, C, D.
+- `POST /api/v1/quotes/calculate-motor` -> Pure mathematical rate breakdown.
+
+Document Automation & OCR:
+- `POST /api/v1/documents/extract` -> PyMuPDF + EasyOCR extraction from policy PDF.
+- `POST /api/v1/documents/analyze-policy` -> Extracts NCB, IDV, and renewal savings.
+
+Payments & Orders:
+- `POST /api/v1/payments/create-order` -> Generates server-side payment order.
+- `POST /api/v1/payments/verify` -> Verifies payment and automatically issues Policy.
+- `GET  /api/v1/payments/{payment_id}` -> Returns order and transaction receipt.
+
+Digital Policy Vault:
+- `GET  /api/v1/policies/?customer_id={id}` -> Lists all active policies in user vault.
+- `POST /api/v1/policies/` -> Directly creates and commits a policy record.
+- `GET  /api/v1/policies/{policy_id}/download` -> Generates e-Policy Schedule PDF.
+
+Claims Management (FNOL):
+- `POST /api/v1/claims/` -> Logs a new First Notice of Loss (FNOL) claim.
+- `GET  /api/v1/claims/customer/{customer_id}` -> Returns customer claim history.
+- `GET  /api/v1/claims/{claim_id}/track` -> Real-time cashless surveyor status.
+
+Wallet Ledger:
+- `GET  /api/v1/wallet/balance` -> Returns current vault wallet balance.
+- `POST /api/v1/wallet/add-funds` -> Top-up wallet and log CREDIT transaction.
+
+================================================================================
+8. MULTI-INSURER MOCK INFRASTRUCTURE (UNDERWRITING GATEWAYS)
+================================================================================
+4 independent mock microservices simulating private insurer underwriting servers:
+
+1. `apps/mock-insurers/insurer-a` (Port 9001):
+   - Simulates ICICI Lombard General Insurance Underwriting API.
+   - Endpoint: `GET /quote` & `POST /api/underwrite`.
+2. `apps/mock-insurers/insurer-b` (Port 9002):
+   - Simulates ACKO Drive Digital Direct API.
+3. `apps/mock-insurers/insurer-c` (Port 9003):
+   - Simulates TATA AIG Auto Assurance API.
+4. `apps/mock-insurers/insurer-d` (Port 9004):
+   - Simulates HDFC ERGO Optima Motor API.
+
+================================================================================
+9. SECURITY, AUTHENTICATION, COMPLIANCE & STATUTORY NORMS
+================================================================================
+1. Statutory Section 64VB of Insurance Act 1938:
+   - "No risk can be assumed unless premium is received in advance or guaranteed."
+   - Backend enforces atomic transactional verification before updating policy status to `active`.
+
+2. Password Security:
+   - Bcrypt with random salts and 12 hashing rounds. Plaintext is never stored.
+
+3. Stateless API Tokens:
+   - JWT with `HS256` signature algorithm, configured with expiration timestamps (`exp`).
+
+4. CORS Middleware:
+   - Configured in `main.py` with `CORSMiddleware` allowing secure origin communication.
+
+================================================================================
+10. TOP 35 VIVA QUESTIONS & IN-DEPTH TECHNICAL ANSWERS
+================================================================================
+
+Q1: What architecture does the Synova backend follow?
+A1: An Asynchronous Microservices Architecture built with FastAPI, using Uvicorn ASGI 
+    servers, SQLAlchemy ORM, and independent underwriting microservices.
+
+Q2: Why did you choose FastAPI over Flask or Django?
+A2: FastAPI supports native asynchronous request handling (`async`/`await`), has built-in 
+    Pydantic schema validation, automatic OpenAPI/Swagger documentation generation, 
+    and significantly higher request throughput matching NodeJS/Go.
+
+Q3: How does the OCR pipeline extract data from policy PDFs?
+A3: When a PDF is uploaded, PyMuPDF (fitz) rasterizes the pages into high-resolution images. 
+    EasyOCR detects and transcribes text bounding boxes. A heuristic regex parser then 
+    identifies key patterns for Policy Number, IDV, NCB%, Vehicle Registration, and Insurer.
+
+Q4: What is IDV and how is it calculated in your backend?
+A4: IDV (Insured Declared Value) is the maximum insured sum for vehicle total loss or theft. 
+    It is calculated by applying the Indian Motor Tariff depreciation percentage based on 
+    vehicle age to the manufacturer's listed selling price.
+
+Q5: What is NCB and what happens to NCB when a user switches insurers?
+A5: No Claim Bonus (NCB) is an earned discount on Own Damage premium (20% to 50%) for 
+    claim-free policy years. Under Indian insurance law, NCB belongs to the customer, not 
+    the insurer; our backend transfers the full NCB credit to the new selected insurer.
+
+Q6: How does the parallel multi-insurer quote comparison work?
+A6: The backend triggers asynchronous concurrent HTTP requests (`httpx.AsyncClient`) to 
+    all 4 insurer underwriting endpoints (ports 9001 to 9004), aggregates response 
+    payloads, and ranks them by lowest net premium.
+
+Q7: What happens during the payment verification step?
+A7: The endpoint `POST /api/v1/payments/verify` validates the order and signature. If valid, 
+    it updates the PaymentOrder to `success`, creates a new `Policy` row with status `active`, 
+    generates a `PolicyVersion` audit record, deducts wallet balance if applicable, and emits 
+    a push notification.
+
+Q8: How does the Insurance Vault (Wallet) maintain ledger integrity?
+A8: Every wallet balance modification is atomic. Balance additions generate a `CREDIT` 
+    transaction, while policy checkouts generate a `DEBIT` transaction with a unique 
+    reference (`SYN-DEBIT-...`).
+
+Q9: What is Section 64VB of the Insurance Act 1938?
+A9: It is a statutory Indian insurance rule stating that risk commencement only occurs 
+    after the insurer receives the premium. The backend enforces this by withholding policy 
+    activation until payment verification succeeds.
+
+Q10: What is an ASGI server and why is Uvicorn used?
+A10: ASGI stands for Asynchronous Server Gateway Interface. Uvicorn is an ASGI web server 
+     that allows FastAPI to handle thousands of concurrent I/O-bound requests asynchronously 
+     on a single Python event loop.
+
+Q11: How do you handle password security?
+A11: Using `passlib` with `bcrypt`. When a user registers, their plaintext password is 
+     salted and hashed with 12 rounds before storing in the database.
+
+Q12: How are JWT tokens verified on protected endpoints?
+A12: FastAPI's `Depends(oauth2_scheme)` extracts the Bearer token from the Authorization 
+     header. `jose.jwt.decode` verifies the token signature using the server's `SECRET_KEY` 
+     and checks token expiration (`exp`).
+
+Q13: What is the purpose of `PolicyVersion` model?
+A13: Insurance policies can undergo endorsements (address change, nominee change, renewals). 
+     `PolicyVersion` stores point-in-time JSON snapshots for statutory audit trails.
+
+Q14: How does Natural Language Policy Search work?
+A14: It breaks down free-form user text into semantic tokens (e.g. maternity, OPD, zero-dep), 
+     filters qualifying insurance products, and computes a multi-attribute utility score 
+     ranking them from highest to lowest match.
+
+Q15: How are First Notice of Loss (FNOL) claims processed?
+A15: The user submits incident date, estimated loss, photos, and garage preference. The 
+     backend creates a `Claim` record with status `submitted`, generates a unique claim ID 
+     (`CLM-2026-...`), and links it to the active policy.
+
+Q16: How do you prevent duplicate policy numbers?
+A16: Policy numbers are generated with unique prefixes and cryptographically random hexadecimal 
+     strings, enforced with a `UNIQUE` database index on `policies.policy_number`.
+
+Q17: What database is used in development versus production?
+A17: SQLite (`dev.db`) is used for lightweight local development, while PostgreSQL is used 
+     in production for concurrency, transactional ACID compliance, and high availability.
+
+Q18: What is Pydantic and how is it used here?
+A18: Pydantic is a data validation library. All request bodies (payloads) and response models 
+     are strictly typed with Pydantic schemas, preventing SQL injection and malformed input.
+
+Q19: How is CORS handled?
+A19: FastAPI `CORSMiddleware` allows explicit HTTP methods (`GET`, `POST`, `PUT`, `DELETE`), 
+     headers (`Authorization`, `Content-Type`), and origins (`http://localhost:5173`, etc.).
+
+Q20: How are PDF certificates generated on the fly?
+A20: The system uses dynamic PDF generation engines (jsPDF on frontend / ReportLab on backend) 
+     to render IRDAI-compliant certificates with watermarks, insurer branding, and policy details.
+
+Q21: What are mock insurers and why are they needed?
+A21: Real insurance carriers require enterprise API keys and NDA credentials. The 4 mock 
+     services replicate official underwriter rating calculations for end-to-end testing.
+
+Q22: How is the database seeded with initial data?
+A22: The script `apps/backend/seed_data.py` populates the database with 40+ realistic insurance 
+     products across Motor, Health, and Term Life categories, complete with pricing rules.
+
+Q23: How do you deploy the entire platform?
+A23: Using Docker Compose (`docker compose up -d --build`), which spins up all 7 microservices 
+     with bridge networking, persistent volumes, and port mappings.
+
+Q24: What is the difference between Third-Party (TP) and Own Damage (OD) motor cover?
+A24: TP is mandatory legal cover for third-party injury/property damage with statutory rates. 
+     OD covers accidental damage, fire, and theft to the insured vehicle itself.
+
+Q25: What is Zero Depreciation add-on?
+A25: A rider where the insurer pays full replacement cost for plastic, rubber, and glass parts 
+     without deducting standard depreciation during a claim.
+
+Q26: What is the role of `Alembic` in the project?
+A26: Alembic manages schema migrations, tracking database model changes over time and 
+     applying incremental upgrades/rollbacks.
+
+Q27: How does the backend handle file uploads?
+A27: Endpoints use FastAPI's `UploadFile` with `python-multipart` to stream bytes into memory 
+     or save to `/app/uploads` without buffering entire files in RAM.
+
+Q28: How does the backend calculate GST on insurance premiums?
+A28: Insurance in India attracts an 18% Goods and Services Tax (statutory). The formula 
+     `Total = Base * 1.18` is applied across all quotes and invoices.
+
+Q29: How do push notifications work?
+A29: The `Notification` model logs system alerts (Policy Issued, Claim Approved, Wallet Top-up) 
+     accessible via `GET /api/v1/notifications/`.
+
+Q30: What is Cashless Claim Settlement?
+A30: When a policyholder repairs their car at a network garage or visits a network hospital, 
+     the insurer settles bills directly with the provider without out-of-pocket expense.
+
+Q31: What happens if an insurer gateway fails or times out?
+A31: The async quotation aggregator uses individual timeouts with fallback default calculations, 
+     ensuring that one failing insurer doesn't break the user's quote comparison.
+
+Q32: How is user session maintained across browser tabs?
+A32: JWT tokens are stored in browser localStorage and dispatched in HTTP `Authorization: Bearer <TOKEN>` 
+     headers; window `storage` events synchronize state across active tabs.
+
+Q33: What is the purpose of the `shared_notifications.json` file?
+A33: It serves as a cross-process communication bus for asynchronous worker notifications 
+     between the automation service and the main API backend.
+
+Q34: How is Docker multi-stage build used in the frontend?
+A34: Stage 1 uses `node:20-alpine` to compile the Vite React bundle. Stage 2 copies the 
+     minimal `/dist` artifacts into a clean `nginx:alpine` image, reducing image size to <30MB.
+
+Q35: What is the most innovative technical highlight of this project?
+A35: The autonomous combination of Neural OCR document parsing with parallel multi-insurer 
+     rate scraping, instant wallet settlement, and automated digital policy schedule issuance.
+================================================================================
+                    END OF SYNOVA BACKEND VIVA GUIDE
+================================================================================

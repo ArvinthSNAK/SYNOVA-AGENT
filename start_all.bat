@@ -21,10 +21,14 @@ start "Insurer C - TATA AIG (9003)" cmd /k "cd apps\mock-insurers\insurer-c && u
 REM 6. Insurer D: HDFC ERGO (Port 9004)
 start "Insurer D - HDFC ERGO (9004)" cmd /k "cd apps\mock-insurers\insurer-d && uvicorn app.main:app --host 127.0.0.1 --port 9004 --reload"
 
-REM 7. Frontend Vite Dev Server (Port 5173)
+REM 7. Realtime AI Voice Agent / Advisor (Port 8011)
+start "SYNOVA Voice Agent (8011)" cmd /k "cd apps\synova-voice-agent && uvicorn app.main:app --host 127.0.0.1 --port 8011 --reload"
+
+REM 8. Frontend Vite Dev Server (Port 5173)
 start "SYNOVA Frontend (5173)" cmd /k "cd apps\frontend && npm run dev"
 
-echo All services started in separate windows!
-echo Frontend:           http://localhost:5173
-echo Backend API:        http://localhost:8000/docs
-echo Automation Service: http://localhost:8001/docs
+echo All 8 services started in separate windows!
+echo Frontend Web App:     http://localhost:5173
+echo Realtime Voice Agent: http://localhost:8011
+echo Backend API:          http://localhost:8000/docs
+echo Automation Service:   http://localhost:8001/docs

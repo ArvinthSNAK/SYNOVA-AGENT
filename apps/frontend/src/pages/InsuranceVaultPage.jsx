@@ -1,17 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { httpClient } from '../api/httpClient';
+import InsurerLogoBadge from '../components/common/InsurerLogoBadge';
+import WalletTopupModal from '../components/wallet/WalletTopupModal';
+import BuyPolicyModal from '../components/marketplace/BuyPolicyModal';
+import { downloadPolicyPdf } from '../utils/generatePolicyPdf';
+import { Car, HeartPulse, Shield, FileText, ClipboardList, ArrowRight, ShieldCheck, CreditCard, Plus, Download, RefreshCw } from 'lucide-react';
 
 export default function InsuranceVaultPage() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState('active');
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('policies');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [policies, setPolicies] = useState([]);
   const [claims, setClaims] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFNOLModal, setShowFNOLModal] = useState(false);
   const [fnolSubmitting, setFnolSubmitting] = useState(false);
   const [fnolSuccess, setFnolSuccess] = useState('');
+  const [renewProduct, setRenewProduct] = useState(null);
+  
+  // Wallet State
+  const [walletBalance, setWalletBalance] = useState(25000);
+  const [showTopupModal, setShowTopupModal] = useState(false);
 
   const [fnolForm, setFnolForm] = useState({
     policy_id: '',
@@ -24,41 +36,60 @@ export default function InsuranceVaultPage() {
     garage_city: 'Bangalore',
   });
 
-  const userKey = user ? (user.id || user.email) : 'guest';
+  const getUserVaultKey = () => {
+    if (user?.id) return `user_${user.id}`;
+    if (user?.email) return `user_${user.email}`;
+    return 'guest';
+  };
+
+  const userKey = getUserVaultKey();
+
+  const fetchWallet = () => {
+    const uKey = getUserVaultKey();
+    const stored = localStorage.getItem(`synova_wallet_balance_${uKey}`);
+    if (stored !== null) {
+      setWalletBalance(parseFloat(stored));
+    }
+  };
 
   useEffect(() => {
+    fetchWallet();
     fetchVaultPolicies();
     fetchClaimsData();
 
     const handlePolicyUpdate = () => {
+      fetchWallet();
       fetchVaultPolicies();
       fetchClaimsData();
     };
     window.addEventListener('synova_policy_purchased', handlePolicyUpdate);
+    window.addEventListener('synova_wallet_updated', handlePolicyUpdate);
     window.addEventListener('storage', handlePolicyUpdate);
 
     return () => {
       window.removeEventListener('synova_policy_purchased', handlePolicyUpdate);
+      window.removeEventListener('synova_wallet_updated', handlePolicyUpdate);
       window.removeEventListener('storage', handlePolicyUpdate);
     };
   }, [userKey]);
 
   const fetchVaultPolicies = async () => {
     setLoading(true);
-    const uKey = user ? (user.id || user.email) : 'guest';
-    const rawKeys = [
-      `synova_vault_policies_${uKey}`,
-      `synova_vault_policies_user_${uKey}`,
-      user?.id ? `synova_vault_policies_${user.id}` : null,
-      user?.id ? `synova_vault_policies_user_${user.id}` : null,
-      user?.email ? `synova_vault_policies_${user.email}` : null,
-      user?.email ? `synova_vault_policies_user_${user.email}` : null,
-      !user ? 'synova_vault_policies_guest' : null,
-    ].filter(Boolean);
+    const uKey = getUserVaultKey();
+    const userKeys = uKey === 'guest'
+      ? ['synova_vault_policies_guest']
+      : [
+          `synova_vault_policies_${uKey}`,
+          `synova_vault_policies_user_${uKey}`,
+          user?.id ? `synova_vault_policies_${user.id}` : null,
+          user?.id ? `synova_vault_policies_user_${user.id}` : null,
+          user?.email ? `synova_vault_policies_${user.email}` : null,
+          user?.email ? `synova_vault_policies_user_${user.email}` : null,
+        ].filter(Boolean);
 
     let localPols = [];
     const seenLocal = new Set();
-    for (const k of rawKeys) {
+    for (const k of userKeys) {
       try {
         const items = JSON.parse(localStorage.getItem(k) || '[]');
         if (Array.isArray(items)) {
@@ -70,32 +101,30 @@ export default function InsuranceVaultPage() {
             }
           }
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     try {
+      let serverPolicies = [];
       if (user && user.id) {
         const res = await httpClient.get(`/policies/?customer_id=${user.id}`);
-        const serverPolicies = Array.isArray(res.data) ? res.data : [];
-        const combined = [...localPols, ...serverPolicies];
+        if (Array.isArray(res.data)) {
+          serverPolicies = res.data;
+        }
+      }
+      const combined = [...localPols, ...serverPolicies];
 
-        const unique = [];
-        const seen = new Set();
-        for (const p of combined) {
-          if (p.policy_number && !seen.has(p.policy_number)) {
-            seen.add(p.policy_number);
-            unique.push(p);
-          }
+      const unique = [];
+      const seen = new Set();
+      for (const p of combined) {
+        if (p.policy_number && !seen.has(p.policy_number)) {
+          seen.add(p.policy_number);
+          unique.push(p);
         }
-        setPolicies(unique);
-        if (unique.length > 0) {
-          setFnolForm((prev) => ({ ...prev, policy_id: unique[0].id }));
-        }
-      } else {
-        setPolicies(localPols);
-        if (localPols.length > 0) {
-          setFnolForm((prev) => ({ ...prev, policy_id: localPols[0].id }));
-        }
+      }
+      setPolicies(unique);
+      if (unique.length > 0) {
+        setFnolForm((prev) => ({ ...prev, policy_id: unique[0].id }));
       }
     } catch (err) {
       setPolicies(localPols);
@@ -108,13 +137,23 @@ export default function InsuranceVaultPage() {
   };
 
   const fetchClaimsData = async () => {
-    const localClaims = JSON.parse(localStorage.getItem(`synova_vault_claims_${userKey}`) || '[]');
+    const uKey = getUserVaultKey();
+    const localClaims = JSON.parse(localStorage.getItem(`synova_vault_claims_${uKey}`) || '[]');
     try {
       if (user && user.id) {
         const res = await httpClient.get(`/claims/customer/${user.id}`);
         const serverClaims = Array.isArray(res.data) ? res.data : [];
         const combined = [...localClaims, ...serverClaims];
-        setClaims(combined);
+        const uniqueClaims = [];
+        const seenClaimIds = new Set();
+        for (const c of combined) {
+          const cid = c.claim_number || c.id;
+          if (cid && !seenClaimIds.has(cid)) {
+            seenClaimIds.add(cid);
+            uniqueClaims.push(c);
+          }
+        }
+        setClaims(uniqueClaims);
       } else {
         setClaims(localClaims);
       }
@@ -139,221 +178,506 @@ export default function InsuranceVaultPage() {
       insurer_name: selectedPolicy.insurer_name || 'ICICI Lombard General Insurance',
       customer_id: user?.id || 1,
       customer_name: user?.full_name || 'Hariharan Murugesan',
-      customer_email: user?.email || 'customer@synova.io',
-      vehicle_details: `${selectedPolicy.vehicle_make || 'Hyundai'} ${selectedPolicy.vehicle_model || 'Creta SX'} (${selectedPolicy.vehicle_registration || 'KA-01-MJ-4092'})`,
+      customer_email: user?.email || 'hariharan@synova.ai',
       claim_type: fnolForm.claim_type,
       incident_date: fnolForm.incident_date,
       incident_location: fnolForm.incident_location,
       description: fnolForm.description,
       estimated_loss: parseFloat(fnolForm.estimated_loss) || 28000,
       approved_amount: 0,
-      net_payout: 0,
-      garage_name: fnolForm.garage_name || 'Authorized Cashless Service Hub',
-      garage_city: fnolForm.garage_city || 'Bangalore',
-      status: 'UNDER REVIEW',
+      status: 'submitted',
       created_at: new Date().toISOString(),
     };
 
-    // Save claim locally for this user
-    const existingClaims = JSON.parse(localStorage.getItem(`synova_vault_claims_${userKey}`) || '[]');
-    localStorage.setItem(`synova_vault_claims_${userKey}`, JSON.stringify([newClaimObj, ...existingClaims]));
-    setClaims((prev) => [newClaimObj, ...prev]);
-
     try {
-      await httpClient.post('/claims/fnol', {
-        policy_id: parseInt(fnolForm.policy_id) || 1,
-        claim_type: fnolForm.claim_type,
-        incident_date: fnolForm.incident_date,
-        incident_location: fnolForm.incident_location,
-        description: fnolForm.description,
-        estimated_loss: parseFloat(fnolForm.estimated_loss),
-        garage_name: fnolForm.garage_name,
-        garage_city: fnolForm.garage_city,
-      });
+      await httpClient.post('/claims/', newClaimObj);
     } catch (err) {
-      console.log('Claim saved locally:', err);
-    } finally {
-      setFnolSuccess(`✓ First Notice of Loss submitted! Claim Ref #${newClaimNumber}`);
-      setFnolSubmitting(false);
-      setTimeout(() => {
-        setShowFNOLModal(false);
-        setFnolSuccess('');
-        setActiveTab('claims');
-      }, 2000);
+      // Local fallback
+      const existingClaims = JSON.parse(localStorage.getItem(`synova_vault_claims_${userKey}`) || '[]');
+      existingClaims.unshift(newClaimObj);
+      localStorage.setItem(`synova_vault_claims_${userKey}`, JSON.stringify(existingClaims));
     }
+
+    setClaims(prev => [newClaimObj, ...prev]);
+    setFnolSubmitting(false);
+    setFnolSuccess(`Claim ${newClaimNumber} logged successfully! Cashless inspection initiated.`);
+    setTimeout(() => {
+      setShowFNOLModal(false);
+      setFnolSuccess('');
+      setActiveTab('claims');
+    }, 2000);
+  };
+
+  const getFilteredPolicies = () => {
+    if (selectedCategory === 'all') return policies;
+    return policies.filter((p) => {
+      const type = (p.insurance_type || p.category || 'motor').toLowerCase();
+      if (selectedCategory === 'motor') return type.includes('motor') || type.includes('car') || type.includes('bike');
+      if (selectedCategory === 'health') return type.includes('health') || type.includes('medical');
+      if (selectedCategory === 'term') return type.includes('term') || type.includes('life');
+      return true;
+    });
+  };
+
+  const filtered = getFilteredPolicies();
+
+  const getCategoryTag = (type) => {
+    const t = (type || 'motor').toLowerCase();
+    if (t.includes('health')) return { label: 'Health', bg: '#ECFDF5', color: '#047857' };
+    if (t.includes('term')) return { label: 'Term Life', bg: '#F5F3FF', color: '#6D28D9' };
+    return { label: 'Motor', bg: '#EFF6FF', color: '#1D4ED8' };
+  };
+
+  const formatCurrency = (val) => {
+    if (!val) return '₹0';
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
   };
 
   return (
-    <div className="page-container" style={{ paddingTop: 32, paddingBottom: 64 }}>
-      {/* Header with Title & Action */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
+    <div className="container" style={{ padding: '40px 24px 80px', maxWidth: 1200, margin: '0 auto' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <span className="badge badge-ai" style={{ marginBottom: 8 }}>INTELLIGENT VAULT</span>
-          <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: 'var(--primary-navy)', letterSpacing: '-0.03em' }}>
-            Digital Policy Vault & Claims
+          <span style={{ color: '#2563EB', fontWeight: 800, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Personal Coverage Dashboard
+          </span>
+          <h1 style={{ fontSize: 32, fontWeight: 900, color: '#0F172A', margin: '4px 0 0', letterSpacing: '-0.02em' }}>
+            Digital Insurance Vault
           </h1>
-          <p style={{ fontSize: 15, color: 'var(--text-muted)', marginTop: 4 }}>
-            Manage active insurance contracts, inspect coverage limits, and submit instant First Notice of Loss (FNOL) claims.
+          <p style={{ fontSize: 14, color: '#64748B', margin: '6px 0 0' }}>
+            Store, track, and manage all your active Motor, Health, and Term Life policies in one central hub.
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: 12 }}>
-          <button onClick={() => setShowFNOLModal(true)} className="btn-pill-primary" style={{ padding: '12px 24px', fontSize: 14 }}>
-            File FNOL Claim →
+        <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+          {/* Vault Wallet Balance Widget */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '8px 16px',
+              borderRadius: 16,
+              background: '#FFFFFF',
+              border: '1.5px solid rgba(21, 101, 192, 0.2)',
+              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 10.5, fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
+                Vault Balance
+              </div>
+              <div style={{ fontSize: 16, fontWeight: 900, color: '#1565C0' }}>
+                ₹{Number(walletBalance).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowTopupModal(true)}
+              style={{
+                padding: '6px 12px',
+                borderRadius: 10,
+                border: 'none',
+                background: 'linear-gradient(135deg, #1565C0 0%, #0D47A1 100%)',
+                color: '#FFFFFF',
+                fontSize: 12,
+                fontWeight: 800,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4,
+              }}
+            >
+              <Plus size={13} strokeWidth={3} />
+              <span>Add Funds</span>
+            </button>
+          </div>
+
+          <button
+            onClick={() => setShowFNOLModal(true)}
+            style={{
+              padding: '12px 22px',
+              borderRadius: 14,
+              border: 'none',
+              background: '#2563EB',
+              color: '#FFFFFF',
+              fontWeight: 800,
+              fontSize: 13.5,
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)',
+            }}
+          >
+            File FNOL Claim ➔
           </button>
-          <Link to="/new-insurance" className="btn-pill-secondary" style={{ padding: '12px 22px', fontSize: 14 }}>
-            + Add New Policy
+          <Link
+            to="/policies"
+            style={{
+              padding: '12px 20px',
+              borderRadius: 14,
+              border: '1px solid #CBD5E1',
+              background: '#FFFFFF',
+              color: '#0F172A',
+              fontWeight: 700,
+              fontSize: 13.5,
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            + Marketplace Hub
           </Link>
         </div>
       </div>
 
-      {/* Vault Tabs */}
-      <div style={{ display: 'flex', gap: 10, borderBottom: '1px solid rgba(11, 31, 58, 0.08)', paddingBottom: 16, marginBottom: 28 }}>
+      {/* Main Tabs */}
+      <div style={{ display: 'flex', gap: 12, borderBottom: '1px solid #E2E8F0', paddingBottom: 16, marginBottom: 24 }}>
         <button
-          onClick={() => setActiveTab('active')}
-          className={activeTab === 'active' ? 'btn-pill-primary' : 'btn-pill-secondary'}
-          style={{ padding: '8px 20px', fontSize: 13 }}
+          onClick={() => setActiveTab('policies')}
+          style={{
+            padding: '10px 24px',
+            borderRadius: 20,
+            border: 'none',
+            background: activeTab === 'policies' ? '#2563EB' : '#F1F5F9',
+            color: activeTab === 'policies' ? '#FFFFFF' : '#475569',
+            fontWeight: 700,
+            fontSize: 14,
+            cursor: 'pointer',
+          }}
         >
-          Active Policies ({policies.length})
+          My Policies ({policies.length})
         </button>
         <button
           onClick={() => setActiveTab('claims')}
-          className={activeTab === 'claims' ? 'btn-pill-primary' : 'btn-pill-secondary'}
-          style={{ padding: '8px 20px', fontSize: 13 }}
+          style={{
+            padding: '10px 24px',
+            borderRadius: 20,
+            border: 'none',
+            background: activeTab === 'claims' ? '#2563EB' : '#F1F5F9',
+            color: activeTab === 'claims' ? '#FFFFFF' : '#475569',
+            fontWeight: 700,
+            fontSize: 14,
+            cursor: 'pointer',
+          }}
         >
           Claims History ({claims.length})
         </button>
       </div>
 
-      {/* Tab 1: Policies Grid */}
-      {activeTab === 'active' && (
-        policies.length === 0 ? (
-          <div className="saas-card" style={{ padding: '64px 32px', textAlign: 'center' }}>
-            <div
+      {/* Category Pills (Motor, Health, Term) */}
+      {activeTab === 'policies' && (
+        <div style={{ display: 'flex', gap: 10, marginBottom: 28, flexWrap: 'wrap' }}>
+          {[
+            { id: 'all', label: 'All Categories', count: policies.length, icon: null },
+            { id: 'motor', label: 'Motor', count: policies.filter(p => (p.insurance_type || '').includes('motor')).length, icon: <Car size={14} /> },
+            { id: 'health', label: 'Health', count: policies.filter(p => (p.insurance_type || '').includes('health')).length, icon: <HeartPulse size={14} /> },
+            { id: 'term', label: 'Term Life', count: policies.filter(p => (p.insurance_type || '').includes('term')).length, icon: <Shield size={14} /> },
+          ].map((c) => (
+            <button
+              key={c.id}
+              onClick={() => setSelectedCategory(c.id)}
               style={{
-                width: 56,
-                height: 56,
-                borderRadius: '50%',
-                background: 'var(--bg-tinted)',
+                padding: '8px 18px',
+                borderRadius: 12,
+                border: selectedCategory === c.id ? '2px solid #2563EB' : '1px solid #CBD5E1',
+                background: selectedCategory === c.id ? '#EFF6FF' : '#FFFFFF',
+                color: selectedCategory === c.id ? '#1E40AF' : '#475569',
+                fontWeight: 700,
+                fontSize: 13,
+                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 16px',
+                gap: 6
               }}
             >
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--blue-primary)" strokeWidth="2">
-                <rect x="3" y="4" width="18" height="16" rx="3" />
-                <path d="M7 8h10M7 12h6" />
-              </svg>
-            </div>
-            <h3 style={{ fontSize: 20, fontWeight: 700, color: 'var(--primary-navy)', margin: '0 0 8px' }}>
-              Your Digital Policy Vault is Empty
-            </h3>
-            <p style={{ fontSize: 14, color: 'var(--text-muted)', maxWidth: 460, margin: '0 auto 24px', lineHeight: 1.6 }}>
-              You don't have any active policies stored yet. Compare real-time quotes or upload your existing policy document to get started.
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
-              <Link to="/new-insurance" className="btn-pill-primary" style={{ padding: '12px 24px', fontSize: 14 }}>
-                + Compare New Insurance
-              </Link>
-              <Link to="/renew-insurance" className="btn-pill-secondary" style={{ padding: '12px 24px', fontSize: 14 }}>
-                Upload Existing Policy
-              </Link>
-            </div>
-          </div>
-        ) : (
-        <div className="grid-2" style={{ gap: 24 }}>
-          {policies.map((p) => (
-            <div key={p.id} className="saas-card" style={{ padding: 28, borderTop: '4px solid var(--blue-primary)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-                <div>
-                  <span className="badge badge-active" style={{ marginBottom: 6 }}>ACTIVE COVERAGE</span>
-                  <h3 style={{ fontSize: 20, fontWeight: 700, color: 'var(--primary-navy)', margin: '4px 0 2px' }}>
-                    {p.product_name || p.plan_name || p.policy_type || 'Motor Comprehensive Cover'}
-                  </h3>
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{p.insurer_name || p.insurer || 'ICICI Lombard General'}</div>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Annual Premium</div>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--primary-navy)' }}>
-                    ₹{Number(p.premium || p.premium_amount || 5780).toLocaleString()}
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ background: 'var(--bg-tinted)', borderRadius: 14, padding: '16px 18px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: 13, color: 'var(--text-body)', marginBottom: 20 }}>
-                <div>
-                  <span style={{ color: 'var(--text-muted)' }}>Policy Number: </span>
-                  <strong style={{ color: 'var(--primary-navy)' }}>{p.policy_number}</strong>
-                </div>
-                <div>
-                  <span style={{ color: 'var(--text-muted)' }}>Insured IDV: </span>
-                  <strong style={{ color: 'var(--blue-primary)' }}>₹{Number(p.idv || p.idv_amount || p.coverage_amount || 720000).toLocaleString()}</strong>
-                </div>
-                <div>
-                  <span style={{ color: 'var(--text-muted)' }}>Vehicle Reg: </span>
-                  <strong style={{ color: 'var(--primary-navy)' }}>{p.vehicle_registration || p.vehicle_number || 'KA-01-MJ-8821'}</strong>
-                </div>
-                <div>
-                  <span style={{ color: 'var(--text-muted)' }}>NCB Discount: </span>
-                  <strong style={{ color: 'var(--status-emerald)' }}>{p.ncb_percent || 20}%</strong>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-                  Expires: <strong>{p.end_date || '2026-08-15'}</strong>
-                </div>
-                <button
-                  onClick={() => {
-                    setFnolForm((prev) => ({ ...prev, policy_id: p.id }));
-                    setShowFNOLModal(true);
-                  }}
-                  className="btn-pill-secondary"
-                  style={{ padding: '8px 18px', fontSize: 12.5 }}
-                >
-                  File Claim on this Policy
-                </button>
-              </div>
-            </div>
+              {c.icon}
+              <span>{c.label} ({c.count})</span>
+            </button>
           ))}
         </div>
+      )}
+
+      {/* Policies List */}
+      {activeTab === 'policies' && (
+        filtered.length === 0 ? (
+          <div style={{ padding: '64px 32px', textAlign: 'center', background: '#FFFFFF', borderRadius: 24, border: '1px solid #E2E8F0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#EFF6FF', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+              <ShieldCheck size={32} />
+            </div>
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0F172A', margin: '0 0 8px' }}>
+              No policies in this category
+            </h3>
+            <p style={{ fontSize: 14, color: '#64748B', maxWidth: 460, margin: '0 auto 24px' }}>
+              Explore over 40+ insurance policies across Motor, Health, and Term Life on our digital marketplace.
+            </p>
+            <Link
+              to="/policies"
+              style={{
+                padding: '12px 24px',
+                borderRadius: 12,
+                background: '#2563EB',
+                color: '#FFFFFF',
+                fontWeight: 700,
+                fontSize: 14,
+                textDecoration: 'none',
+                display: 'inline-block',
+              }}
+            >
+              Explore All Policies ➔
+            </Link>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 24 }}>
+            {filtered.map((p) => {
+              const tag = getCategoryTag(p.insurance_type || p.category);
+              const isExpiring = p.is_expiring_soon;
+
+              return (
+                <div
+                  key={p.id || p.policy_number}
+                  style={{
+                    background: '#FFFFFF',
+                    borderRadius: 20,
+                    border: '1px solid #E2E8F0',
+                    padding: 24,
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>
+                    {/* Header */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+                      <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                        <InsurerLogoBadge insurerName={p.insurer_name} size={42} rounded={10} />
+                        <div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                            <span
+                              style={{
+                                background: tag.bg,
+                                color: tag.color,
+                                padding: '2px 8px',
+                                borderRadius: 12,
+                                fontSize: 11,
+                                fontWeight: 700,
+                              }}
+                            >
+                              {tag.label}
+                            </span>
+                            <span
+                              style={{
+                                background: isExpiring ? '#FEF3C7' : '#ECFDF5',
+                                color: isExpiring ? '#D97706' : '#059669',
+                                padding: '2px 8px',
+                                borderRadius: 12,
+                                fontSize: 11,
+                                fontWeight: 800,
+                              }}
+                            >
+                              {isExpiring ? 'EXPIRING SOON' : 'ACTIVE'}
+                            </span>
+                          </div>
+                          <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0F172A', margin: 0 }}>
+                            {p.product_name || p.name || 'Comprehensive Coverage'}
+                          </h3>
+                          <div style={{ fontSize: 12, color: '#64748B', fontWeight: 600, marginTop: 2 }}>{p.insurer_name}</div>
+                        </div>
+                      </div>
+
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontSize: 11, color: '#64748B' }}>Annual Premium</div>
+                        <div style={{ fontSize: 18, fontWeight: 900, color: '#0F172A', marginTop: 2 }}>
+                          {formatCurrency(p.premium)}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Meta Grid */}
+                    <div style={{ background: '#F8FAFC', borderRadius: 14, padding: 14, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 12, marginBottom: 16 }}>
+                      <div>
+                        <span style={{ color: '#64748B' }}>Policy Number:</span>
+                        <div style={{ fontWeight: 800, color: '#0F172A', marginTop: 2 }}>{p.policy_number}</div>
+                      </div>
+
+                      <div>
+                        <span style={{ color: '#64748B' }}>Coverage Cover:</span>
+                        <div style={{ fontWeight: 800, color: '#2563EB', marginTop: 2 }}>
+                          {formatCurrency(p.coverage_amount || p.idv)}
+                        </div>
+                      </div>
+
+                      {p.vehicle_registration && (
+                        <div>
+                          <span style={{ color: '#64748B' }}>Vehicle:</span>
+                          <div style={{ fontWeight: 700, color: '#0F172A', marginTop: 2 }}>{p.vehicle_registration}</div>
+                        </div>
+                      )}
+
+                      {p.end_date && (
+                        <div>
+                          <span style={{ color: '#64748B' }}>Valid Till:</span>
+                          <div style={{ fontWeight: 700, color: '#0F172A', marginTop: 2 }}>
+                            {new Date(p.end_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {p.notes && (
+                      <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 16px', lineHeight: 1.5 }}>
+                        {p.notes}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Actions */}
+                  <div style={{ display: 'flex', gap: 10, paddingTop: 14, borderTop: '1px solid #F1F5F9' }}>
+                    <button
+                      type="button"
+                      onClick={() => downloadPolicyPdf(p)}
+                      style={{
+                        flex: 1,
+                        padding: '10px 14px',
+                        borderRadius: 10,
+                        border: '1px solid #CBD5E1',
+                        background: '#FFFFFF',
+                        color: '#1E293B',
+                        fontSize: 13,
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 6,
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      <Download size={15} color="#2563EB" />
+                      <span>Download e-Policy</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRenewProduct({
+                          id: p.id || p.product_id || 1,
+                          name: `${p.product_name || p.name || 'Comprehensive Coverage'} (Annual Renewal)`,
+                          product_name: p.product_name || p.name || 'Comprehensive Coverage',
+                          insurer_name: p.insurer_name || 'ICICI Lombard General',
+                          category: p.insurance_type || p.category || 'motor',
+                          insurance_type: p.insurance_type || p.category || 'motor',
+                          premium: Math.round((p.premium || 12000) * 0.95), // 5% renewal loyalty discount
+                          coverage_amount: p.coverage_amount || p.idv || 1000000,
+                          vehicleRegistration: p.vehicle_registration,
+                          policy_number: p.policy_number,
+                          isRenewal: true,
+                        });
+                      }}
+                      style={{
+                        padding: '10px 18px',
+                        borderRadius: 10,
+                        border: 'none',
+                        background: '#2563EB',
+                        color: '#FFFFFF',
+                        fontSize: 13,
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        boxShadow: '0 2px 8px rgba(37, 99, 235, 0.25)',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      <RefreshCw size={14} />
+                      <span>Renew Policy ➔</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         )
       )}
 
-      {/* Tab 2: Claims History */}
+      {/* Claims Tab */}
       {activeTab === 'claims' && (
-        <div className="saas-card" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--primary-navy)', marginBottom: 16 }}>
-            First Notice of Loss & Claims Processing
-          </h2>
-          {claims.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '48px 20px', color: 'var(--text-muted)' }}>
-              <div style={{ width: 48, height: 48, margin: '0 auto 12px', borderRadius: '50%', background: 'var(--bg-tinted)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue-primary)" strokeWidth="2">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--primary-navy)' }}>No Active Claims</div>
-              <p style={{ fontSize: 13, marginTop: 4 }}>You have a clean 100% claim-free record eligible for maximum NCB transfer savings.</p>
+        claims.length === 0 ? (
+          <div style={{ padding: '64px 32px', textAlign: 'center', background: '#FFFFFF', borderRadius: 24, border: '1px solid #E2E8F0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#EFF6FF', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+              <ClipboardList size={32} />
             </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {claims.map((c) => (
-                <div key={c.id} style={{ padding: 18, borderRadius: 14, background: '#F8FAFD', border: '1px solid rgba(11,31,58,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <div style={{ fontWeight: 700, color: 'var(--primary-navy)', fontSize: 15 }}>Claim #{c.claim_number}</div>
-                    <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>{c.claim_type} • {c.incident_location}</div>
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0F172A', margin: '0 0 8px' }}>
+              No Claims on Record
+            </h3>
+            <p style={{ fontSize: 14, color: '#64748B', maxWidth: 460, margin: '0 auto 24px' }}>
+              You have a 100% clean claim track record. Enjoy your full No Claim Bonus (NCB) benefits.
+            </p>
+            <button
+              onClick={() => setShowFNOLModal(true)}
+              style={{
+                padding: '12px 24px',
+                borderRadius: 12,
+                border: 'none',
+                background: '#2563EB',
+                color: '#FFFFFF',
+                fontWeight: 700,
+                fontSize: 14,
+                cursor: 'pointer',
+              }}
+            >
+              File FNOL Claim ➔
+            </button>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {claims.map((c) => (
+              <div
+                key={c.id || c.claim_number}
+                style={{
+                  background: '#FFFFFF',
+                  borderRadius: 16,
+                  border: '1px solid #E2E8F0',
+                  padding: 20,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: 16,
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: '#2563EB' }}>{c.claim_number}</span>
+                    <span style={{ color: '#E2E8F0' }}>•</span>
+                    <span style={{ fontSize: 12, color: '#64748B' }}>{c.claim_type}</span>
                   </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <span className="badge badge-warning">{c.status || 'UNDER REVIEW'}</span>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--primary-navy)', marginTop: 4 }}>₹{Number(c.estimated_loss || 28000).toLocaleString()}</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>{c.description}</div>
+                  <div style={{ fontSize: 12, color: '#64748B', marginTop: 2 }}>{c.insurer_name} • Policy: {c.policy_number}</div>
+                </div>
+
+                <div style={{ textAlign: 'right' }}>
+                  <span
+                    style={{
+                      background: '#ECFDF5',
+                      color: '#059669',
+                      padding: '4px 12px',
+                      borderRadius: 20,
+                      fontSize: 12,
+                      fontWeight: 800,
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {c.status || 'SUBMITTED'}
+                  </span>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', marginTop: 6 }}>
+                    {formatCurrency(c.estimated_loss || 28000)}
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
+              </div>
+            ))}
+          </div>
+        )
       )}
 
       {/* FNOL Modal */}
@@ -362,121 +686,130 @@ export default function InsuranceVaultPage() {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(11, 31, 58, 0.65)',
+            backgroundColor: 'rgba(15, 23, 42, 0.8)',
             backdropFilter: 'blur(8px)',
+            zIndex: 9999,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 1000,
             padding: 20,
           }}
+          onClick={() => setShowFNOLModal(false)}
         >
           <div
-            className="saas-card"
             style={{
-              width: '100%',
-              maxWidth: 580,
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              padding: 32,
+              background: '#FFFFFF',
               borderRadius: 24,
+              maxWidth: 550,
+              width: '100%',
+              padding: 28,
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
             }}
+            onClick={(e) => e.stopPropagation()}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary-navy)' }}>
-                First Notice of Loss (FNOL) Claim Filing
-              </h2>
-              <button onClick={() => setShowFNOLModal(false)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 18 }}>
+              <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0F172A', margin: 0 }}>
+                File FNOL Claim Notice
+              </h3>
+              <button
+                onClick={() => setShowFNOLModal(false)}
+                style={{ background: 'none', border: 'none', fontSize: 18, color: '#64748B', cursor: 'pointer' }}
+              >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleFNOLSubmit}>
-              <div style={{ marginBottom: 14 }}>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Select Covered Policy</label>
-                <select
-                  className="input-field"
-                  value={fnolForm.policy_id}
-                  onChange={(e) => setFnolForm({ ...fnolForm, policy_id: e.target.value })}
-                  required
+            {fnolSuccess ? (
+              <div style={{ padding: 16, background: '#ECFDF5', borderRadius: 12, color: '#047857', textAlign: 'center', fontWeight: 700 }}>
+                {fnolSuccess}
+              </div>
+            ) : (
+              <form onSubmit={handleFNOLSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>Select Policy</label>
+                  <select
+                    value={fnolForm.policy_id}
+                    onChange={(e) => setFnolForm({ ...fnolForm, policy_id: e.target.value })}
+                    style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #CBD5E1', fontSize: 14 }}
+                  >
+                    {policies.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.policy_number} - {p.product_name || p.name} ({p.insurer_name})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>Claim Type</label>
+                  <select
+                    value={fnolForm.claim_type}
+                    onChange={(e) => setFnolForm({ ...fnolForm, claim_type: e.target.value })}
+                    style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #CBD5E1', fontSize: 14 }}
+                  >
+                    <option value="Accidental Damage (Own Damage)">Accidental Vehicle Damage</option>
+                    <option value="Cashless Hospitalization">Cashless Hospitalization (Health)</option>
+                    <option value="Critical Illness Cash Benefit">Critical Illness Lump Sum (Health)</option>
+                    <option value="Term Life Claim">Term Life Claim Notification</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>Incident Details / Loss Description</label>
+                  <textarea
+                    rows={3}
+                    value={fnolForm.description}
+                    onChange={(e) => setFnolForm({ ...fnolForm, description: e.target.value })}
+                    style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #CBD5E1', fontSize: 14 }}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={fnolSubmitting}
+                  style={{
+                    marginTop: 10,
+                    padding: '12px 20px',
+                    borderRadius: 12,
+                    border: 'none',
+                    background: '#2563EB',
+                    color: '#FFFFFF',
+                    fontWeight: 700,
+                    fontSize: 14,
+                    cursor: 'pointer',
+                  }}
                 >
-                  {policies.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.policy_number} - {p.vehicle_registration || p.product_name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Incident Date</label>
-                  <input
-                    type="date"
-                    className="input-field"
-                    value={fnolForm.incident_date}
-                    onChange={(e) => setFnolForm({ ...fnolForm, incident_date: e.target.value })}
-                    required
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Incident Location</label>
-                  <input
-                    type="text"
-                    className="input-field"
-                    value={fnolForm.incident_location}
-                    onChange={(e) => setFnolForm({ ...fnolForm, incident_location: e.target.value })}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div style={{ marginBottom: 14 }}>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Damage Description</label>
-                <textarea
-                  className="input-field"
-                  rows="3"
-                  value={fnolForm.description}
-                  onChange={(e) => setFnolForm({ ...fnolForm, description: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Estimated Loss (₹)</label>
-                  <input
-                    type="number"
-                    className="input-field"
-                    value={fnolForm.estimated_loss}
-                    onChange={(e) => setFnolForm({ ...fnolForm, estimated_loss: e.target.value })}
-                    required
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4 }}>Preferred Cashless Garage</label>
-                  <input
-                    type="text"
-                    className="input-field"
-                    value={fnolForm.garage_name}
-                    onChange={(e) => setFnolForm({ ...fnolForm, garage_name: e.target.value })}
-                    required
-                  />
-                </div>
-              </div>
-
-              {fnolSuccess && (
-                <div style={{ padding: 12, background: 'var(--status-emerald-bg)', border: '1px solid var(--status-emerald-border)', borderRadius: 10, color: 'var(--status-emerald)', fontSize: 13, fontWeight: 600, marginBottom: 16 }}>
-                  {fnolSuccess}
-                </div>
-              )}
-
-              <button type="submit" className="btn-pill-primary" style={{ width: '100%', padding: '14px', fontSize: 14 }} disabled={fnolSubmitting}>
-                {fnolSubmitting ? 'Submitting to Insurer...' : 'Submit Claim Dispatch →'}
-              </button>
-            </form>
+                  {fnolSubmitting ? 'Submitting Notice...' : 'Submit FNOL Claim ➔'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
+      )}
+
+      {/* Wallet Top-up Modal with Full Payment Gateway Flow */}
+      <WalletTopupModal
+        isOpen={showTopupModal}
+        onClose={() => setShowTopupModal(false)}
+        currentBalance={walletBalance}
+        userKey={userKey}
+        onSuccess={(newBal) => {
+          setWalletBalance(newBal);
+          fetchWallet();
+        }}
+      />
+
+      {/* Instant Policy Renewal / Buy Modal */}
+      {renewProduct && (
+        <BuyPolicyModal
+          product={renewProduct}
+          onClose={() => setRenewProduct(null)}
+          onSuccess={(newIssued) => {
+            setRenewProduct(null);
+            fetchVaultPolicies();
+            fetchWallet();
+          }}
+        />
       )}
     </div>
   );

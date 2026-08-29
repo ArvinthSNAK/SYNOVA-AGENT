@@ -136,7 +136,7 @@ class NotificationService:
             customer_email = customer.email if customer else "customer@example.com"
             customer_name = customer.full_name if customer and customer.full_name else "Valued Customer"
 
-            subject = f"🌟 Better Insurance Coverage Alert: {product.name}"
+            subject = f"Notice: Enhanced Insurance Coverage Available - {product.name}"
             body_text = self._build_plain_message(customer_name, policy, product, benefit_reasons)
             body_html = self._build_html_message(customer_name, policy, product, benefit_reasons)
 

@@ -1,0 +1,13 @@
+<svg viewBox="0 0 500 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="500" rx="72" fill="#0079C1"/>
+  <!-- Niva Bupa Health Organic Heart/Leaf Emblem -->
+  <g transform="translate(100, 70)">
+    <circle cx="150" cy="140" r="110" fill="#FFFFFF" opacity="0.15"/>
+    <!-- Leaf / Smile Arc -->
+    <path d="M70 170 C100 230 200 240 230 160 C210 200 130 200 90 150 Z" fill="#78BE20"/>
+    <!-- Bupa Iconic Heart Beat / Cross -->
+    <path d="M150 70 C170 40 220 50 220 95 C220 150 150 190 150 190 C150 190 80 150 80 95 C80 50 130 40 150 70 Z" fill="#FFFFFF"/>
+  </g>
+  <text x="250" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="52" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">NIVA</text>
+  <text x="250" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="56" font-weight="900" fill="#78BE20" text-anchor="middle" letter-spacing="1">bupa</text>
+</svg>

@@ -1,0 +1,142 @@
+version: "3.9"
+
+services:
+  # -------------------------------------------------------------
+  # 1. Synova Frontend (Vite + Nginx Production Web Application)
+  # -------------------------------------------------------------
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    container_name: synova-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "5173:80"
+    depends_on:
+      - backend
+      - automation-service
+    networks:
+      - synova-net
+
+  # -------------------------------------------------------------
+  # 2. Synova Core Backend API (FastAPI + SQL Engine)
+  # -------------------------------------------------------------
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    container_name: synova-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      - backend_data:/app/uploads
+    networks:
+      - synova-net
+
+  # -------------------------------------------------------------
+  # 3. Policy Automation & OCR Inspection Service
+  # -------------------------------------------------------------
+  automation-service:
+    build:
+      context: ./apps/automation-service
+      dockerfile: Dockerfile
+    container_name: synova-automation
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      - ENVIRONMENT=production
+      - PORT=8001
+    depends_on:
+      - backend
+    networks:
+      - synova-net
+
+  # -------------------------------------------------------------
+  # 4. Realtime AI Voice Agent & Conversational Advisor
+  # -------------------------------------------------------------
+  voice-agent:
+    build:
+      context: ./apps/synova-voice-agent
+      dockerfile: Dockerfile
+    container_name: synova-voice-agent
+    restart: unless-stopped
+    ports:
+      - "8011:8011"
+    environment:
+      - APP_ENV=production
+      - PORT=8011
+      - BACKEND_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    networks:
+      - synova-net
+
+  # -------------------------------------------------------------
+  # 5. Mock Insurer A: ICICI Lombard General (Port 9001)
+  # -------------------------------------------------------------
+  insurer-a:
+    build:
+      context: ./apps/mock-insurers/insurer-a
+      dockerfile: Dockerfile
+    container_name: synova-insurer-a-icici
+    restart: unless-stopped
+    ports:
+      - "9001:9001"
+    networks:
+      - synova-net
+
+  # -------------------------------------------------------------
+  # 5. Mock Insurer B: ACKO Drive (Port 9002)
+  # -------------------------------------------------------------
+  insurer-b:
+    build:
+      context: ./apps/mock-insurers/insurer-b
+      dockerfile: Dockerfile
+    container_name: synova-insurer-b-acko
+    restart: unless-stopped
+    ports:
+      - "9002:9002"
+    networks:
+      - synova-net
+
+  # -------------------------------------------------------------
+  # 6. Mock Insurer C: TATA AIG General (Port 9003)
+  # -------------------------------------------------------------
+  insurer-c:
+    build:
+      context: ./apps/mock-insurers/insurer-c
+      dockerfile: Dockerfile
+    container_name: synova-insurer-c-tata
+    restart: unless-stopped
+    ports:
+      - "9003:9003"
+    networks:
+      - synova-net
+
+  # -------------------------------------------------------------
+  # 7. Mock Insurer D: HDFC ERGO (Port 9004)
+  # -------------------------------------------------------------
+  insurer-d:
+    build:
+      context: ./apps/mock-insurers/insurer-d
+      dockerfile: Dockerfile
+    container_name: synova-insurer-d-hdfc
+    restart: unless-stopped
+    ports:
+      - "9004:9004"
+    networks:
+      - synova-net
+
+networks:
+  synova-net:
+    driver: bridge
+
+volumes:
+  backend_data:

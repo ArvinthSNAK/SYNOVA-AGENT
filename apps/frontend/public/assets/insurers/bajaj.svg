@@ -1,0 +1,14 @@
+<svg viewBox="0 0 500 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="500" rx="72" fill="#005696"/>
+  <!-- Allianz / Bajaj Shield Crest -->
+  <g transform="translate(100, 70)">
+    <!-- Shield Outline -->
+    <path d="M150 40 L260 90 C260 220 150 290 150 290 C150 290 40 220 40 90 Z" fill="#0072CE" stroke="#FFFFFF" stroke-width="12"/>
+    <!-- Allianz 3 Iconic Pillars inside shield -->
+    <rect x="100" y="120" width="22" height="95" rx="11" fill="#FFFFFF"/>
+    <rect x="139" y="100" width="22" height="125" rx="11" fill="#FFFFFF"/>
+    <rect x="178" y="120" width="22" height="95" rx="11" fill="#FFFFFF"/>
+  </g>
+  <text x="250" y="425" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="52" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">BAJAJ</text>
+  <text x="250" y="465" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" fill="#7DD3FC" text-anchor="middle" letter-spacing="3">allianz</text>
+</svg>

@@ -1,5 +1,82 @@
 [
   {
+    "id": 1787889264003,
+    "title": "New Policy Alert: demo policy 6",
+    "subject": "New Policy Alert: demo policy 6",
+    "message": "TATA AIG Assurance has launched 'demo policy 6' (Base Rate: 3.5%, Starting from \u20b918,900) with NCB Protector benefits.",
+    "insurer_name": "TATA AIG Assurance",
+    "product_name": "demo policy 6",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-28T09:24:24.003777Z"
+  },
+  {
+    "id": 1787873801237,
+    "title": "New Policy Alert: demo policy 5",
+    "subject": "New Policy Alert: demo policy 5",
+    "message": "TATA AIG Assurance has launched 'demo policy 5' (Base Rate: 3.5%, Starting from \u20b918,900) with NCB Protector benefits.",
+    "insurer_name": "TATA AIG Assurance",
+    "product_name": "demo policy 5",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-28T05:06:41.237628Z"
+  },
+  {
+    "id": 1787873774084,
+    "title": "New Policy Alert: demo policy 4",
+    "subject": "New Policy Alert: demo policy 4",
+    "message": "TATA AIG Assurance has launched 'demo policy 4' (Base Rate: 3.5%, Starting from \u20b918,900) with NCB Protector benefits.",
+    "insurer_name": "TATA AIG Assurance",
+    "product_name": "demo policy 4",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-28T05:06:14.084866Z"
+  },
+  {
+    "id": 1787870754673,
+    "title": "New Policy Alert: demo policy 4",
+    "subject": "New Policy Alert: demo policy 4",
+    "message": "TATA AIG Assurance has launched 'demo policy 4' (Base Rate: 3.5%, Starting from \u20b918,900) with NCB Protector benefits.",
+    "insurer_name": "TATA AIG Assurance",
+    "product_name": "demo policy 4",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-28T04:15:54.674734Z"
+  },
+  {
+    "id": 1787868588756,
+    "title": "New Policy Alert: demo policy 3",
+    "subject": "New Policy Alert: demo policy 3",
+    "message": "ACKO General Insurance has launched 'demo policy 3' (Base Rate: 2.5%, Starting from \u20b914,200) with Engine Protector benefits.",
+    "insurer_name": "ACKO General Insurance",
+    "product_name": "demo policy 3",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-28T03:39:48.756636Z"
+  },
+  {
+    "id": 1787819419095,
+    "title": "New Policy Alert: testpolicy4",
+    "subject": "New Policy Alert: testpolicy4",
+    "message": "ICICI Lombard General has launched 'testpolicy4' (Base Rate: 3.0%, Starting from \u20b916,500) with Zero Depreciation benefits.",
+    "insurer_name": "ICICI Lombard General",
+    "product_name": "testpolicy4",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-27T14:00:19.096797Z"
+  },
+  {
+    "id": 1787703888821,
+    "title": "New Policy Alert: motor insurance 2",
+    "subject": "New Policy Alert: motor insurance 2",
+    "message": "ACKO General Insurance has launched 'motor insurance 2' (Base Rate: 2.5%, Starting from \u20b914,200) with Engine Protector benefits.",
+    "insurer_name": "ACKO General Insurance",
+    "product_name": "motor insurance 2",
+    "notification_type": "NEW_POLICY_LAUNCH",
+    "status": "unread",
+    "created_at": "2026-08-26T05:54:48.821479Z"
+  },
+  {
     "id": 1787663228573,
     "title": "New Policy Alert: testpolicyacko2",
     "subject": "New Policy Alert: testpolicyacko2",

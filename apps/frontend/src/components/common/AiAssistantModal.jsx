@@ -1,80 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-function EulerOwlIcon({ size = 20, color = 'currentColor' }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* 1. Owl Head & Body with Iconic Ear Horns */}
-      <path
-        d="M4.5 8L6.8 3.8C8.3 4.7 10.1 5.2 12 5.2C13.9 5.2 15.7 4.7 17.2 3.8L19.5 8C20.8 10.8 20.8 14.2 19.5 17.2C18.2 20.2 15.2 22 12 22C8.8 22 5.8 20.2 4.5 17.2C3.2 14.2 3.2 10.8 4.5 8Z"
-        stroke={color}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {/* 2. Iconic Owl Eyebrow / Facial Mask Arc */}
-      <path
-        d="M5.5 7.5C7.2 6.2 10.2 6.8 12 9.2C13.8 6.8 16.8 6.2 18.5 7.5"
-        stroke={color}
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-
-      {/* 3. Left Eye: Large Disc & Pupil */}
-      <circle cx="8.5" cy="12" r="2.8" stroke={color} strokeWidth="1.5" />
-      <circle cx="8.5" cy="12" r="1.3" fill={color} />
-
-      {/* 4. Right Eye: Large Disc & Pupil */}
-      <circle cx="15.5" cy="12" r="2.8" stroke={color} strokeWidth="1.5" />
-      <circle cx="15.5" cy="12" r="1.3" fill={color} />
-
-      {/* 5. Center Beak */}
-      <path
-        d="M12 11.5L10.4 14.5H13.6L12 11.5Z"
-        fill={color}
-        stroke={color}
-        strokeWidth="0.5"
-      />
-
-      {/* 6. Wing Creases */}
-      <path
-        d="M4.8 13.5C5.8 16.5 7.5 19 9.5 20.8"
-        stroke={color}
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-      <path
-        d="M19.2 13.5C18.2 16.5 16.5 19 14.5 20.8"
-        stroke={color}
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-
-      {/* 7. Chest Feather Plumage */}
-      <path
-        d="M10.2 17C11 17.8 13 17.8 13.8 17"
-        stroke={color}
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-      <path
-        d="M10.8 19.2C11.4 19.8 12.6 19.8 13.2 19.2"
-        stroke={color}
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-
-      {/* 8. Little Perching Talons */}
-      <path
-        d="M9 22V23.5M10.5 22V23.5 M13.5 22V23.5M15 22V23.5"
-        stroke={color}
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
+import FormalEulerAiLogo from './FormalEulerAiLogo';
 
 export default function AiAssistantModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +8,7 @@ export default function AiAssistantModal() {
     {
       id: 1,
       sender: 'ai',
-      text: 'Hello! I am Euler. I can analyze your policy coverage, compare live quotes across providers, or help you maximize your renewal savings.',
+      text: 'Hello! I am Euler, your AI Insurance Copilot. I can analyze your policy terms, compare live quotes across underwriters, or help you maximize your renewal NCB savings.',
       time: 'Just now',
     },
   ]);
@@ -169,15 +95,15 @@ export default function AiAssistantModal() {
           style={{
             padding: '12px 22px',
             fontSize: 14,
-            fontWeight: 700,
-            boxShadow: '0 8px 30px rgba(108, 99, 255, 0.45)',
+            fontWeight: 800,
+            boxShadow: '0 8px 30px rgba(37, 99, 235, 0.45)',
             border: '1px solid rgba(255, 255, 255, 0.25)',
             display: 'inline-flex',
             alignItems: 'center',
             gap: 10,
           }}
         >
-          <EulerOwlIcon size={20} color="#FFFFFF" />
+          <FormalEulerAiLogo size={20} color="#FFFFFF" glowColor="#93C5FD" />
           <span>Ask Euler</span>
         </button>
       </div>
@@ -215,22 +141,22 @@ export default function AiAssistantModal() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <div
                 style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 12,
+                  width: 40,
+                  height: 40,
+                  borderRadius: 14,
                   background: 'rgba(255, 255, 255, 0.15)',
                   backdropFilter: 'blur(8px)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  border: '1px solid rgba(255, 255, 255, 0.25)',
                 }}
               >
-                <EulerOwlIcon size={22} color="#FFFFFF" />
+                <FormalEulerAiLogo size={24} color="#FFFFFF" glowColor="#93C5FD" />
               </div>
               <div>
-                <div style={{ fontWeight: 700, fontSize: 15, letterSpacing: '-0.01em' }}>Euler AI Copilot</div>
-                <div style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.75)' }}>Autonomous Policy Intelligence</div>
+                <div style={{ fontWeight: 800, fontSize: 15.5, letterSpacing: '-0.01em' }}>Euler AI Copilot</div>
+                <div style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.85)', fontWeight: 600 }}>Autonomous Policy Intelligence</div>
               </div>
             </div>
 
@@ -275,8 +201,8 @@ export default function AiAssistantModal() {
               >
                 {m.sender === 'ai' && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                    <EulerOwlIcon size={14} color="var(--ai-accent)" />
-                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--ai-accent)' }}>Euler</span>
+                    <FormalEulerAiLogo size={15} color="var(--ai-accent)" glowColor="#38BDF8" />
+                    <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--ai-accent)' }}>Euler AI</span>
                   </div>
                 )}
                 <div
@@ -308,7 +234,7 @@ export default function AiAssistantModal() {
 
             {isTyping && (
               <div style={{ alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#FFFFFF', borderRadius: 14, fontSize: 12, color: 'var(--text-muted)' }}>
-                <EulerOwlIcon size={15} color="var(--ai-accent)" />
+                <FormalEulerAiLogo size={16} color="var(--ai-accent)" glowColor="#38BDF8" />
                 <span>Euler is analyzing policies...</span>
               </div>
             )}
