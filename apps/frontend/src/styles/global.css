@@ -1601,3 +1601,211 @@ a {
     height: 34px;
   }
 }
+
+/* ==========================================================================
+   SYNOVA 5-COLOR GLASSMORPHIC ANIMATION SUITE
+   ========================================================================== */
+
+@keyframes synovaFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes synovaFadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes synovaFadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes synovaScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes synovaFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes synovaPulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(222, 216, 237, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(222, 216, 237, 0);
+  }
+}
+
+@keyframes synovaShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes synovaBadgeGlow {
+  0%, 100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.anim-fade-in {
+  animation: synovaFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-fade-in-left {
+  animation: synovaFadeInLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-fade-in-right {
+  animation: synovaFadeInRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-scale-in {
+  animation: synovaScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-float {
+  animation: synovaFloat 3.5s ease-in-out infinite;
+}
+
+.anim-pulse-glow {
+  animation: synovaPulseGlow 2.5s infinite;
+}
+
+.anim-badge-glow {
+  animation: synovaBadgeGlow 2s ease-in-out infinite;
+}
+
+/* Stagger delays */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
+
+/* Interactive Hover Lift & Specular Glow */
+.glass-interactive-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  will-change: transform, box-shadow;
+}
+
+.glass-interactive-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 20px 48px rgba(17, 17, 17, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Button Micro-interactions with Shimmer Sheen & Spring Feedback */
+.glass-btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.22s ease,
+              border-color 0.22s ease,
+              color 0.15s ease;
+  will-change: transform, box-shadow;
+}
+
+/* Diagonal glass light sheen that sweeps across button on hover */
+.glass-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -80%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(222, 216, 237, 0.38) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  transition: none;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.glass-btn:hover::after {
+  left: 150%;
+  opacity: 1;
+  transition: left 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.glass-btn:hover {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow: 0 10px 26px rgba(17, 17, 17, 0.38), inset 0 1px 0 rgba(222, 216, 237, 0.4) !important;
+}
+
+.glass-btn:active {
+  transform: translateY(1px) scale(0.97) !important;
+  box-shadow: 0 2px 8px rgba(17, 17, 17, 0.25) !important;
+}
+
+/* Sub-icon nudges forward on hover */
+.glass-btn svg {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block;
+}
+
+.glass-btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* Ambient Breathing Glow for Primary CTA Buttons */
+.btn-pulse-cta {
+  animation: synovaPulseCta 3.2s infinite ease-in-out;
+}
+
+@keyframes synovaPulseCta {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(17, 17, 17, 0.32), 0 0 0 0 rgba(222, 216, 237, 0.45);
+  }
+  50% {
+    box-shadow: 0 12px 30px rgba(17, 17, 17, 0.42), 0 0 0 8px rgba(222, 216, 237, 0);
+  }
+}
+

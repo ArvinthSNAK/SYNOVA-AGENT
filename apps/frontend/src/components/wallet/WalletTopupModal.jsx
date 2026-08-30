@@ -166,7 +166,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
         <div
           style={{
             padding: '20px 24px',
-            background: 'linear-gradient(135deg, #0B1F3A 0%, #1565C0 100%)',
+            background: 'linear-gradient(135deg, #111111 0%, #2A2A2A 100%)',
             color: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
@@ -238,7 +238,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                   padding: '4px 16px',
                 }}
               >
-                <span style={{ fontSize: 24, fontWeight: 900, color: '#0B1F3A', marginRight: 8 }}>₹</span>
+                <span style={{ fontSize: 24, fontWeight: 900, color: '#111111', marginRight: 8 }}>₹</span>
                 <input
                   type="number"
                   value={customAmount}
@@ -253,7 +253,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                     padding: '12px 0',
                     fontSize: 22,
                     fontWeight: 800,
-                    color: '#0B1F3A',
+                    color: '#111111',
                     border: 'none',
                     outline: 'none',
                     background: 'transparent',
@@ -314,9 +314,9 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 <span>GST (18%)</span>
                 <span style={{ fontWeight: 700, color: '#059669' }}>₹0.00</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, fontWeight: 900, color: '#0B1F3A' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, fontWeight: 900, color: '#111111' }}>
                 <span>Total Amount Payable</span>
-                <span style={{ color: '#1565C0' }}>₹{amount.toLocaleString('en-IN')}</span>
+                <span style={{ color: '#111111' }}>₹{amount.toLocaleString('en-IN')}</span>
               </div>
             </div>
 
@@ -367,7 +367,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 </button>
                 <span style={{ fontSize: 14, fontWeight: 800, color: '#0F172A' }}>Select Payment Method</span>
               </div>
-              <div style={{ fontSize: 16, fontWeight: 900, color: '#1565C0' }}>
+              <div style={{ fontSize: 16, fontWeight: 900, color: '#111111' }}>
                 ₹{amount.toLocaleString('en-IN')}
               </div>
             </div>
@@ -630,7 +630,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 margin: '0 auto 24px',
               }}
             />
-            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0B1F3A', margin: '0 0 8px' }}>
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#111111', margin: '0 0 8px' }}>
               Authorizing Payment...
             </h3>
             <p style={{ fontSize: 14, color: '#64748B', maxWidth: 360, margin: '0 auto', lineHeight: 1.5 }}>
@@ -660,7 +660,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
               <Check size={36} strokeWidth={3} />
             </div>
 
-            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#0B1F3A', margin: '0 0 6px' }}>
+            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#111111', margin: '0 0 6px' }}>
               Funds Added Successfully!
             </h3>
             <p style={{ fontSize: 14, color: '#64748B', margin: '0 0 24px' }}>
@@ -680,11 +680,11 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: '#64748B', marginBottom: 8 }}>
                 <span>Transaction Ref ID</span>
-                <span style={{ fontWeight: 700, color: '#0B1F3A' }}>{txnId}</span>
+                <span style={{ fontWeight: 700, color: '#111111' }}>{txnId}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: '#64748B', marginBottom: 8 }}>
                 <span>Payment Mode</span>
-                <span style={{ fontWeight: 700, color: '#0B1F3A' }}>
+                <span style={{ fontWeight: 700, color: '#111111' }}>
                   {paymentMethod === 'upi' ? 'UPI Instant Transfer' : (paymentMethod === 'card' ? 'Debit/Credit Card' : `NetBanking (${selectedBank})`)}
                 </span>
               </div>
@@ -692,9 +692,9 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 <span>Amount Paid</span>
                 <span style={{ fontWeight: 800, color: '#059669' }}>+ ₹{amount.toLocaleString('en-IN')}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, fontWeight: 900, color: '#0B1F3A' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, fontWeight: 900, color: '#111111' }}>
                 <span>Updated Vault Balance</span>
-                <span style={{ color: '#1565C0' }}>₹{newBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                <span style={{ color: '#111111' }}>₹{newBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
               </div>
             </div>
 

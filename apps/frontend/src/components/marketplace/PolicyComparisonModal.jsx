@@ -13,6 +13,21 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
   const rawCat = (products[0]?.insurance_type || products[0]?.category || 'motor').toLowerCase();
   const isHealth = rawCat.includes('health') || rawCat.includes('med');
   const isTerm = rawCat.includes('term') || rawCat.includes('life');
+  const parseFeatureList = (features) => {
+    if (Array.isArray(features)) return features;
+    if (typeof features === 'string') {
+      try {
+        const parsed = JSON.parse(features);
+        if (Array.isArray(parsed)) return parsed;
+      } catch (_) {}
+      if (features.includes('•')) return features.split('•').map((s) => s.trim()).filter(Boolean);
+      if (features.includes(',')) return features.split(',').map((s) => s.trim()).filter(Boolean);
+      if (features.includes('\n')) return features.split('\n').map((s) => s.trim()).filter(Boolean);
+      return [features];
+    }
+    return ['Cashless Claim Settlement', 'Paperless Instant Issue', '24x7 Support'];
+  };
+
   const isMotor = !isHealth && !isTerm;
   const categoryTitle = isHealth ? 'Health Insurance' : isTerm ? 'Term Life Insurance' : 'Motor Insurance';
 
@@ -51,17 +66,17 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
         <div
           style={{
             padding: '24px 32px 18px',
-            borderBottom: '1px solid #E2E8F0',
+            borderBottom: '1px solid rgba(17, 17, 17, 0.08)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            background: 'linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%)',
+            background: '#FFFFFF',
           }}
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <h2 style={{ fontSize: 22, fontWeight: 800, color: '#0F172A', margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Scale size={24} color="#2563EB" /> Side-by-Side Comparison ({products.length} Selected)
+              <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1C1C1C', margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <Scale size={24} color="#111111" /> Side-by-Side Comparison ({products.length} Selected)
               </h2>
               <span
                 style={{
@@ -69,8 +84,8 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                   fontWeight: 800,
                   padding: '3px 10px',
                   borderRadius: 999,
-                  background: isHealth ? '#ECFDF5' : isTerm ? '#F5F3FF' : '#EFF6FF',
-                  color: isHealth ? '#047857' : isTerm ? '#6D28D9' : '#1D4ED8',
+                  background: '#DED8ED',
+                  color: '#111111',
                   letterSpacing: '0.4px',
                   textTransform: 'uppercase',
                   display: 'flex',
@@ -78,11 +93,11 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                   gap: 4,
                 }}
               >
-                {isHealth ? <HeartPulse size={12} /> : isTerm ? <Shield size={12} /> : <Car size={12} />}
+                {isHealth ? <HeartPulse size={12} color="#111111" /> : isTerm ? <Shield size={12} color="#111111" /> : <Car size={12} color="#111111" />}
                 {categoryTitle}
               </span>
             </div>
-            <p style={{ fontSize: 13, color: '#64748B', margin: '4px 0 0' }}>
+            <p style={{ fontSize: 13, color: '#666666', margin: '4px 0 0' }}>
               Compare coverage, premium, insurer credibility, and category-specific policy benefits.
             </p>
           </div>
@@ -90,7 +105,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
           <button
             onClick={onClose}
             style={{
-              background: '#F1F5F9',
+              background: '#EBEBEB',
               border: 'none',
               borderRadius: '50%',
               width: 36,
@@ -100,7 +115,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
               justifyContent: 'center',
               cursor: 'pointer',
               fontSize: 18,
-              color: '#64748B',
+              color: '#1C1C1C',
             }}
           >
             ✕
@@ -112,25 +127,25 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
           style={{
             margin: '16px 28px 0',
             padding: '12px 18px',
-            background: '#F8FAFC',
-            border: '1px solid #CBD5E1',
+            background: '#EBEBEB',
+            border: '1px solid rgba(17, 17, 17, 0.08)',
             borderRadius: 14,
             display: 'flex',
             alignItems: 'flex-start',
             gap: 12,
             fontSize: 12.5,
-            color: '#334155',
+            color: '#1C1C1C',
             lineHeight: 1.5,
           }}
         >
-          <Info size={18} color="#2563EB" style={{ flexShrink: 0, marginTop: 1 }} />
+          <Info size={18} color="#111111" style={{ flexShrink: 0, marginTop: 1 }} />
           <div>
-            <strong style={{ color: '#0F172A' }}>Category Policy Disclaimer:</strong> Only <strong>{categoryTitle}</strong> plans are shown for side-by-side spec evaluation. Cross-category comparison (e.g. Motor vs Health vs Term Life) is strictly prohibited because insurance classes have distinct evaluation metrics (such as Vehicle IDV vs Cashless Hospital Network vs Life Cover).
+            <strong style={{ color: '#111111' }}>Category Policy Disclaimer:</strong> Only <strong>{categoryTitle}</strong> plans are shown for side-by-side spec evaluation. Cross-category comparison (e.g. Motor vs Health vs Term Life) is strictly prohibited because insurance classes have distinct evaluation metrics (such as Vehicle IDV vs Cashless Hospital Network vs Life Cover).
           </div>
         </div>
 
         {/* Comparison Table */}
-        <div style={{ padding: 24, overflowX: 'auto', overflowY: 'auto', flex: 1 }}>
+        <div style={{ padding: 24, overflowX: 'auto', overflowY: 'auto', flex: 1, background: '#FFFFFF' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
             <thead>
               <tr>
@@ -139,10 +154,10 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                     textAlign: 'left',
                     padding: '16px 20px',
                     width: 220,
-                    background: '#F8FAFC',
-                    borderBottom: '2px solid #E2E8F0',
-                    color: '#64748B',
-                    fontWeight: 700,
+                    background: '#EBEBEB',
+                    borderBottom: '2px solid rgba(17, 17, 17, 0.12)',
+                    color: '#1C1C1C',
+                    fontWeight: 800,
                   }}
                 >
                   Feature / Parameter
@@ -153,14 +168,14 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                     style={{
                       textAlign: 'left',
                       padding: '16px 20px',
-                      borderBottom: '2px solid #E2E8F0',
+                      borderBottom: '2px solid rgba(17, 17, 17, 0.12)',
                       verticalAlign: 'top',
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <InsurerLogoBadge insurerName={p.insurer_name} size={32} rounded={8} />
-                        <div style={{ fontSize: 12, color: '#0F172A', fontWeight: 700 }}>{p.insurer_name}</div>
+                        <div style={{ fontSize: 12, color: '#1C1C1C', fontWeight: 800 }}>{p.insurer_name}</div>
                       </div>
                       {products.length > 2 && (
                         <button
@@ -168,7 +183,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                           style={{
                             border: 'none',
                             background: 'none',
-                            color: '#94A3B8',
+                            color: '#666666',
                             cursor: 'pointer',
                             fontSize: 14,
                           }}
@@ -177,12 +192,12 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                         </button>
                       )}
                     </div>
-                    <div style={{ fontSize: 15, fontWeight: 800, color: '#0F172A', marginTop: 8 }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: '#1C1C1C', marginTop: 8 }}>
                       {p.name}
                     </div>
-                    <div style={{ fontSize: 18, fontWeight: 900, color: '#2563EB', marginTop: 8 }}>
+                    <div style={{ fontSize: 18, fontWeight: 900, color: '#111111', marginTop: 8 }}>
                       {formatCurrency(p.premium)}
-                      <span style={{ fontSize: 12, color: '#64748B', fontWeight: 500 }}>/{p.premium_frequency || 'yr'}</span>
+                      <span style={{ fontSize: 12, color: '#666666', fontWeight: 600 }}>/{p.premium_frequency || 'yr'}</span>
                     </div>
                     <button
                       onClick={() => onBuyNow && onBuyNow(p)}
@@ -190,13 +205,14 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                         marginTop: 12,
                         width: '100%',
                         padding: '8px 16px',
-                        background: '#2563EB',
-                        color: '#FFFFFF',
+                        background: '#111111',
+                        color: '#DED8ED',
                         border: 'none',
                         borderRadius: 10,
-                        fontWeight: 700,
+                        fontWeight: 800,
                         fontSize: 13,
                         cursor: 'pointer',
+                        boxShadow: '0 2px 8px rgba(17, 17, 17, 0.25)',
                       }}
                     >
                       Buy Now
@@ -208,11 +224,11 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
             <tbody>
               {/* Coverage Amount */}
               <tr>
-                <td style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+                <td style={{ padding: '14px 20px', fontWeight: 800, color: '#1C1C1C', background: '#EBEBEB', borderBottom: '1px solid rgba(17, 17, 17, 0.08)' }}>
                   {isMotor ? 'IDV Cover Value' : isTerm ? 'Life Sum Assured' : 'Sum Insured Coverage'}
                 </td>
                 {products.map((p) => (
-                  <td key={p.id} style={{ padding: '14px 20px', fontWeight: 800, color: '#0F172A', borderBottom: '1px solid #E2E8F0' }}>
+                  <td key={p.id} style={{ padding: '14px 20px', fontWeight: 900, color: '#1C1C1C', borderBottom: '1px solid rgba(17, 17, 17, 0.08)' }}>
                     {formatCurrency(p.coverage_amount || 720000)}
                   </td>
                 ))}
@@ -220,25 +236,25 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
 
               {/* Rating & CSR */}
               <tr>
-                <td style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+                <td style={{ padding: '14px 20px', fontWeight: 800, color: '#1C1C1C', background: '#EBEBEB', borderBottom: '1px solid rgba(17, 17, 17, 0.08)' }}>
                   Claim Settlement & Rating
                 </td>
                 {products.map((p) => (
-                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0' }}>
-                    <span style={{ color: '#F59E0B', fontWeight: 700 }}>★ {p.rating || 4.8}</span>
-                    <span style={{ color: '#64748B', margin: '0 6px' }}>•</span>
-                    <span style={{ color: '#10B981', fontWeight: 700 }}>{p.claim_settlement_ratio || '98.4%'} CSR</span>
+                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid rgba(17, 17, 17, 0.08)', color: '#1C1C1C' }}>
+                    <span style={{ color: '#111111', fontWeight: 800 }}>★ {p.rating || 4.8}</span>
+                    <span style={{ color: '#A0A0A0', margin: '0 6px' }}>•</span>
+                    <span style={{ color: '#111111', fontWeight: 800 }}>{p.claim_settlement_ratio || '98.4%'} CSR</span>
                   </td>
                 ))}
               </tr>
 
               {/* Cashless Garages or Hospitals */}
               <tr>
-                <td style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+                <td style={{ padding: '14px 20px', fontWeight: 800, color: '#1C1C1C', background: '#EBEBEB', borderBottom: '1px solid rgba(17, 17, 17, 0.08)' }}>
                   {isMotor ? 'Cashless Garages' : isTerm ? 'Medical Centers / Digital KYC' : 'Cashless Hospitals Network'}
                 </td>
                 {products.map((p) => (
-                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0', color: '#0F172A', fontWeight: 600 }}>
+                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid rgba(17, 17, 17, 0.08)', color: '#1C1C1C', fontWeight: 600 }}>
                     {isMotor
                       ? (p.cashless_garages_count ? `${p.cashless_garages_count.toLocaleString()}+ Garages` : '7,500+ Authorized Garages')
                       : isTerm
@@ -250,18 +266,18 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
 
               {/* Category Specific Metric 1 */}
               <tr>
-                <td style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+                <td style={{ padding: '14px 20px', fontWeight: 800, color: '#1C1C1C', background: '#EBEBEB', borderBottom: '1px solid rgba(17, 17, 17, 0.08)' }}>
                   {isMotor ? 'Zero Depreciation Cover' : isTerm ? 'Critical Illness Rider' : 'Pre-existing Waiting Period'}
                 </td>
                 {products.map((p) => (
-                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0' }}>
+                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid rgba(17, 17, 17, 0.08)', color: '#1C1C1C' }}>
                     {isMotor ? (
-                      <span style={{ color: '#059669', fontWeight: 700 }}>✓ Zero Dep Included</span>
+                      <span style={{ color: '#111111', fontWeight: 800 }}>✓ Zero Dep Included</span>
                     ) : isTerm ? (
-                      <span style={{ color: '#059669', fontWeight: 700 }}>✓ 64 Critical Illnesses Covered</span>
+                      <span style={{ color: '#111111', fontWeight: 800 }}>✓ 64 Critical Illnesses Covered</span>
                     ) : (
                       p.waiting_period_months === 0 ? (
-                        <span style={{ color: '#059669', fontWeight: 700 }}>0 Months (Day 1 Cover)</span>
+                        <span style={{ color: '#111111', fontWeight: 800 }}>0 Months (Day 1 Cover)</span>
                       ) : (
                         <span>{p.waiting_period_months || 24} Months</span>
                       )
@@ -272,11 +288,11 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
 
               {/* Category Specific Metric 2 */}
               <tr>
-                <td style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+                <td style={{ padding: '14px 20px', fontWeight: 800, color: '#1C1C1C', background: '#EBEBEB', borderBottom: '1px solid rgba(17, 17, 17, 0.08)' }}>
                   {isMotor ? 'Roadside Assistance & Engine Protect' : isTerm ? 'Terminal Illness 100% Payout' : 'Room Rent Limit'}
                 </td>
                 {products.map((p) => (
-                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0', fontWeight: 600, color: '#0F172A' }}>
+                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid rgba(17, 17, 17, 0.08)', fontWeight: 600, color: '#1C1C1C' }}>
                     {isMotor
                       ? '✓ 24x7 Nationwide RSA & Hydrostatic Lock Cover'
                       : isTerm
@@ -288,20 +304,20 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
 
               {/* Category Specific Metric 3 */}
               <tr>
-                <td style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+                <td style={{ padding: '14px 20px', fontWeight: 800, color: '#1C1C1C', background: '#EBEBEB', borderBottom: '1px solid rgba(17, 17, 17, 0.08)' }}>
                   {isMotor ? 'No Claim Bonus (NCB) Retention' : isTerm ? 'Accidental Death & Disability' : 'Maternity & Newborn Cover'}
                 </td>
                 {products.map((p) => (
-                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0' }}>
+                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid rgba(17, 17, 17, 0.08)', color: '#1C1C1C' }}>
                     {isMotor ? (
-                      <span style={{ color: '#059669', fontWeight: 700 }}>Up to 50% NCB Discount Transfer</span>
+                      <span style={{ color: '#111111', fontWeight: 800 }}>Up to 50% NCB Discount Transfer</span>
                     ) : isTerm ? (
-                      <span style={{ color: '#059669', fontWeight: 700 }}>✓ Double Payout on Accidental Loss</span>
+                      <span style={{ color: '#111111', fontWeight: 800 }}>✓ Double Payout on Accidental Loss</span>
                     ) : (
                       p.maternity_covered ? (
-                        <span style={{ color: '#059669', fontWeight: 700 }}>✓ Covered from Day 1</span>
+                        <span style={{ color: '#111111', fontWeight: 800 }}>✓ Covered from Day 1</span>
                       ) : (
-                        <span style={{ color: '#94A3B8' }}>✕ Not Covered</span>
+                        <span style={{ color: '#888888' }}>✕ Not Covered</span>
                       )
                     )}
                   </td>
@@ -310,13 +326,13 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
 
               {/* Key Features */}
               <tr>
-                <td style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+                <td style={{ padding: '14px 20px', fontWeight: 800, color: '#1C1C1C', background: '#EBEBEB', borderBottom: '1px solid rgba(17, 17, 17, 0.08)' }}>
                   Key Policy Benefits
                 </td>
                 {products.map((p) => (
-                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0', verticalAlign: 'top' }}>
-                    <ul style={{ margin: 0, paddingLeft: 18, color: '#334155', lineHeight: '1.6' }}>
-                      {(p.features || []).slice(0, 3).map((f, idx) => (
+                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid rgba(17, 17, 17, 0.08)', verticalAlign: 'top' }}>
+                    <ul style={{ margin: 0, paddingLeft: 18, color: '#1C1C1C', lineHeight: '1.6' }}>
+                      {parseFeatureList(p.features).slice(0, 3).map((f, idx) => (
                         <li key={idx} style={{ fontSize: 13 }}>{f}</li>
                       ))}
                     </ul>

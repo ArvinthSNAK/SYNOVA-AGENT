@@ -14,11 +14,26 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
 
   const getCategoryBadge = (cat) => {
     const map = {
-      motor: { label: 'Motor Insurance', bg: '#EFF6FF', color: '#1D4ED8', icon: <Car size={14} /> },
-      health: { label: 'Health Insurance', bg: '#ECFDF5', color: '#047857', icon: <HeartPulse size={14} /> },
-      term: { label: 'Term Life', bg: '#F5F3FF', color: '#6D28D9', icon: <Shield size={14} /> },
+      motor: { label: 'Motor Insurance', bg: '#DED8ED', color: '#111111', icon: <Car size={14} color="#111111" /> },
+      health: { label: 'Health Insurance', bg: '#DED8ED', color: '#111111', icon: <HeartPulse size={14} color="#111111" /> },
+      term: { label: 'Term Life', bg: '#DED8ED', color: '#111111', icon: <Shield size={14} color="#111111" /> },
     };
-    return map[cat?.toLowerCase()] || { label: cat, bg: '#F3F4F6', color: '#374151', icon: null };
+    return map[cat?.toLowerCase()] || { label: cat, bg: '#DED8ED', color: '#111111', icon: null };
+  };
+
+  const parseFeatureList = (features) => {
+    if (Array.isArray(features)) return features;
+    if (typeof features === 'string') {
+      try {
+        const parsed = JSON.parse(features);
+        if (Array.isArray(parsed)) return parsed;
+      } catch (_) {}
+      if (features.includes('•')) return features.split('•').map((s) => s.trim()).filter(Boolean);
+      if (features.includes(',')) return features.split(',').map((s) => s.trim()).filter(Boolean);
+      if (features.includes('\n')) return features.split('\n').map((s) => s.trim()).filter(Boolean);
+      return [features];
+    }
+    return ['Cashless Claim Settlement', 'Paperless Instant Issue', '24x7 Support'];
   };
 
   const badge = getCategoryBadge(product.category || product.insurance_type);
@@ -58,8 +73,8 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
         <div
           style={{
             padding: '24px 32px',
-            borderBottom: '1px solid #E2E8F0',
-            background: 'linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%)',
+            borderBottom: '1px solid rgba(17, 17, 17, 0.08)',
+            background: '#FFFFFF',
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
@@ -77,26 +92,26 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                     padding: '4px 12px',
                     borderRadius: 20,
                     fontSize: 12,
-                    fontWeight: 700,
+                    fontWeight: 800,
                   }}
                 >
                   {badge.label}
                 </span>
-                <span style={{ fontSize: 13, color: '#0F172A', fontWeight: 700 }}>
+                <span style={{ fontSize: 13, color: '#1C1C1C', fontWeight: 800 }}>
                   {product.insurer_name}
                 </span>
-                <span style={{ color: '#E2E8F0' }}>•</span>
-                <span style={{ fontSize: 13, color: '#F59E0B', fontWeight: 700 }}>
+                <span style={{ color: '#A0A0A0' }}>•</span>
+                <span style={{ fontSize: 13, color: '#111111', fontWeight: 800 }}>
                   ★ {product.rating || 4.8}
                 </span>
-                <span style={{ fontSize: 12, color: '#10B981', fontWeight: 600 }}>
+                <span style={{ fontSize: 12, color: '#111111', fontWeight: 700 }}>
                   CSR: {product.claim_settlement_ratio || '98.4%'}
                 </span>
               </div>
-              <h2 style={{ fontSize: 24, fontWeight: 800, color: '#0F172A', margin: 0, letterSpacing: '-0.02em' }}>
+              <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1C1C1C', margin: 0, letterSpacing: '-0.02em' }}>
                 {product.name}
               </h2>
-              <p style={{ fontSize: 14, color: '#64748B', margin: '4px 0 0' }}>
+              <p style={{ fontSize: 14, color: '#666666', margin: '4px 0 0' }}>
                 {product.description}
               </p>
             </div>
@@ -105,7 +120,7 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
           <button
             onClick={onClose}
             style={{
-              background: '#F1F5F9',
+              background: '#EBEBEB',
               border: 'none',
               borderRadius: '50%',
               width: 36,
@@ -115,7 +130,7 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
               justifyContent: 'center',
               cursor: 'pointer',
               fontSize: 18,
-              color: '#64748B',
+              color: '#1C1C1C',
               flexShrink: 0,
             }}
           >
@@ -124,7 +139,7 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
         </div>
 
         {/* Tab Navigation */}
-        <div style={{ display: 'flex', borderBottom: '1px solid #E2E8F0', padding: '0 32px', background: '#FFFFFF' }}>
+        <div style={{ display: 'flex', borderBottom: '1px solid rgba(17, 17, 17, 0.08)', padding: '0 32px', background: '#FFFFFF' }}>
           {[
             { id: 'overview', label: 'Overview & Coverage' },
             { id: 'features', label: 'Key Inclusions' },
@@ -138,9 +153,9 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                 padding: '14px 20px',
                 background: 'none',
                 border: 'none',
-                borderBottom: activeTab === t.id ? '2px solid #2563EB' : '2px solid transparent',
-                color: activeTab === t.id ? '#2563EB' : '#64748B',
-                fontWeight: activeTab === t.id ? 700 : 500,
+                borderBottom: activeTab === t.id ? '2.5px solid #111111' : '2.5px solid transparent',
+                color: activeTab === t.id ? '#111111' : '#666666',
+                fontWeight: activeTab === t.id ? 800 : 500,
                 fontSize: 14,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
@@ -152,7 +167,7 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
         </div>
 
         {/* Modal Body */}
-        <div style={{ padding: '28px 32px', overflowY: 'auto', flex: 1 }}>
+        <div style={{ padding: '28px 32px', overflowY: 'auto', flex: 1, background: '#FFFFFF' }}>
           {activeTab === 'overview' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {/* Financial Snapshot */}
@@ -163,25 +178,25 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                   gap: 16,
                 }}
               >
-                <div style={{ background: '#F8FAFC', padding: '16px 20px', borderRadius: 16, border: '1px solid #E2E8F0' }}>
-                  <div style={{ fontSize: 12, color: '#64748B', fontWeight: 600 }}>Default Coverage Amount</div>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: '#0F172A', marginTop: 4 }}>
+                <div style={{ background: '#EBEBEB', padding: '16px 20px', borderRadius: 16, border: '1px solid rgba(17, 17, 17, 0.06)' }}>
+                  <div style={{ fontSize: 12, color: '#666666', fontWeight: 700 }}>Default Coverage Amount</div>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: '#1C1C1C', marginTop: 4 }}>
                     {formatCurrency(product.coverage_amount)}
                   </div>
                 </div>
 
-                <div style={{ background: '#EFF6FF', padding: '16px 20px', borderRadius: 16, border: '1px solid #BFDBFE' }}>
-                  <div style={{ fontSize: 12, color: '#1E40AF', fontWeight: 600 }}>Indicative Starting Premium</div>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: '#1D4ED8', marginTop: 4 }}>
+                <div style={{ background: '#DED8ED', padding: '16px 20px', borderRadius: 16, border: '1.5px solid #111111' }}>
+                  <div style={{ fontSize: 12, color: '#111111', fontWeight: 800 }}>Indicative Starting Premium</div>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: '#111111', marginTop: 4 }}>
                     {formatCurrency(product.premium)}
-                    <span style={{ fontSize: 13, fontWeight: 600 }}>/{product.premium_frequency || 'mo'}</span>
+                    <span style={{ fontSize: 13, fontWeight: 700 }}>/{product.premium_frequency || 'mo'}</span>
                   </div>
                 </div>
 
                 {product.cashless_hospitals_count > 0 && (
-                  <div style={{ background: '#ECFDF5', padding: '16px 20px', borderRadius: 16, border: '1px solid #A7F3D0' }}>
-                    <div style={{ fontSize: 12, color: '#065F46', fontWeight: 600 }}>Cashless Hospitals</div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: '#047857', marginTop: 4 }}>
+                  <div style={{ background: '#EBEBEB', padding: '16px 20px', borderRadius: 16, border: '1px solid rgba(17, 17, 17, 0.06)' }}>
+                    <div style={{ fontSize: 12, color: '#666666', fontWeight: 700 }}>Cashless Hospitals</div>
+                    <div style={{ fontSize: 22, fontWeight: 900, color: '#1C1C1C', marginTop: 4 }}>
                       {product.cashless_hospitals_count.toLocaleString()}+ Network
                     </div>
                   </div>
@@ -189,26 +204,26 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
               </div>
 
               {/* Policy Specific Attributes */}
-              <div style={{ background: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: 16, padding: 20 }}>
-                <h4 style={{ fontSize: 15, fontWeight: 700, margin: '0 0 14px', color: '#0F172A' }}>Key Plan Parameters</h4>
+              <div style={{ background: '#FFFFFF', border: '1px solid rgba(17, 17, 17, 0.08)', borderRadius: 16, padding: 20 }}>
+                <h4 style={{ fontSize: 15, fontWeight: 800, margin: '0 0 14px', color: '#1C1C1C' }}>Key Plan Parameters</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: 14 }}>
                   <div>
-                    <span style={{ color: '#64748B' }}>Room Rent Limit: </span>
-                    <strong style={{ color: '#0F172A' }}>{product.room_rent_limit || 'Single Private AC Room'}</strong>
+                    <span style={{ color: '#666666' }}>Room Rent Limit: </span>
+                    <strong style={{ color: '#1C1C1C' }}>{product.room_rent_limit || 'Single Private AC Room'}</strong>
                   </div>
                   <div>
-                    <span style={{ color: '#64748B' }}>Pre-existing Waiting: </span>
-                    <strong style={{ color: '#0F172A' }}>{product.waiting_period_months ? `${product.waiting_period_months} Months` : '0 Months (Day 1)'}</strong>
+                    <span style={{ color: '#666666' }}>Pre-existing Waiting: </span>
+                    <strong style={{ color: '#1C1C1C' }}>{product.waiting_period_months ? `${product.waiting_period_months} Months` : '0 Months (Day 1)'}</strong>
                   </div>
                   <div>
-                    <span style={{ color: '#64748B' }}>Maternity Covered: </span>
-                    <strong style={{ color: product.maternity_covered ? '#059669' : '#DC2626' }}>
+                    <span style={{ color: '#666666' }}>Maternity Covered: </span>
+                    <strong style={{ color: '#111111' }}>
                       {product.maternity_covered ? '✓ Yes (Normal & C-Sec)' : '✕ No'}
                     </strong>
                   </div>
                   <div>
-                    <span style={{ color: '#64748B' }}>Day Care & OPD: </span>
-                    <strong style={{ color: product.opd_covered ? '#059669' : '#64748B' }}>
+                    <span style={{ color: '#666666' }}>Day Care & OPD: </span>
+                    <strong style={{ color: '#111111' }}>
                       {product.opd_covered ? '✓ Covered' : '✕ Hospitalization only'}
                     </strong>
                   </div>
@@ -219,11 +234,11 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
 
           {activeTab === 'features' && (
             <div>
-              <h4 style={{ fontSize: 15, fontWeight: 700, margin: '0 0 16px', color: '#0F172A' }}>
+              <h4 style={{ fontSize: 15, fontWeight: 800, margin: '0 0 16px', color: '#1C1C1C' }}>
                 Included Coverage & Highlights
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {(product.features || []).map((feat, idx) => (
+                {parseFeatureList(product.features).map((feat, idx) => (
                   <div
                     key={idx}
                     style={{
@@ -231,13 +246,13 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                       alignItems: 'center',
                       gap: 12,
                       padding: '12px 16px',
-                      background: '#F8FAFC',
+                      background: '#EBEBEB',
                       borderRadius: 12,
                       fontSize: 14,
-                      color: '#1E293B',
+                      color: '#1C1C1C',
                     }}
                   >
-                    <span style={{ color: '#10B981', fontWeight: 800, fontSize: 16 }}>✓</span>
+                    <span style={{ color: '#111111', fontWeight: 900, fontSize: 16 }}>✓</span>
                     <span>{feat}</span>
                   </div>
                 ))}
@@ -247,11 +262,11 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
 
           {activeTab === 'exclusions' && (
             <div>
-              <h4 style={{ fontSize: 15, fontWeight: 700, margin: '0 0 16px', color: '#DC2626' }}>
+              <h4 style={{ fontSize: 15, fontWeight: 800, margin: '0 0 16px', color: '#111111' }}>
                 Standard Exclusions
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {(product.exclusions || ['Cosmetic / aesthetic procedures', 'Self-inflicted injuries', 'Breach of law with criminal intent']).map((ex, idx) => (
+                {parseFeatureList(product.exclusions || ['Cosmetic / aesthetic procedures', 'Self-inflicted injuries', 'Breach of law with criminal intent']).map((ex, idx) => (
                   <div
                     key={idx}
                     style={{
@@ -259,13 +274,13 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                       alignItems: 'center',
                       gap: 12,
                       padding: '12px 16px',
-                      background: '#FEF2F2',
+                      background: '#EBEBEB',
                       borderRadius: 12,
                       fontSize: 14,
-                      color: '#991B1B',
+                      color: '#1C1C1C',
                     }}
                   >
-                    <span style={{ color: '#DC2626', fontWeight: 800, fontSize: 16 }}>✕</span>
+                    <span style={{ color: '#111111', fontWeight: 900, fontSize: 16 }}>✕</span>
                     <span>{ex}</span>
                   </div>
                 ))}
@@ -275,36 +290,36 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
 
           {activeTab === 'claims' && (
             <div>
-              <h4 style={{ fontSize: 15, fontWeight: 700, margin: '0 0 16px', color: '#0F172A' }}>
+              <h4 style={{ fontSize: 15, fontWeight: 800, margin: '0 0 16px', color: '#1C1C1C' }}>
                 Paperless Digital Claim Settlement
               </h4>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-                <div style={{ padding: 16, background: '#F8FAFC', borderRadius: 14, border: '1px solid #E2E8F0' }}>
-                  <div style={{ color: '#2563EB', marginBottom: 8 }}>
+                <div style={{ padding: 16, background: '#EBEBEB', borderRadius: 14, border: '1px solid rgba(17, 17, 17, 0.06)' }}>
+                  <div style={{ color: '#111111', marginBottom: 8 }}>
                     <Building2 size={24} />
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: '#0F172A' }}>1. Show Health Card</div>
-                  <div style={{ fontSize: 12, color: '#64748B', marginTop: 4 }}>
+                  <div style={{ fontWeight: 800, fontSize: 14, color: '#1C1C1C' }}>1. Show Health Card</div>
+                  <div style={{ fontSize: 12, color: '#666666', marginTop: 4 }}>
                     Present digital health e-card at hospital insurance desk.
                   </div>
                 </div>
 
-                <div style={{ padding: 16, background: '#F8FAFC', borderRadius: 14, border: '1px solid #E2E8F0' }}>
-                  <div style={{ color: '#2563EB', marginBottom: 8 }}>
+                <div style={{ padding: 16, background: '#EBEBEB', borderRadius: 14, border: '1px solid rgba(17, 17, 17, 0.06)' }}>
+                  <div style={{ color: '#111111', marginBottom: 8 }}>
                     <Zap size={24} />
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: '#0F172A' }}>2. 30-Min Pre-Auth</div>
-                  <div style={{ fontSize: 12, color: '#64748B', marginTop: 4 }}>
+                  <div style={{ fontWeight: 800, fontSize: 14, color: '#1C1C1C' }}>2. 30-Min Pre-Auth</div>
+                  <div style={{ fontSize: 12, color: '#666666', marginTop: 4 }}>
                     Hospital submits claim for express 30-minute cashless approval.
                   </div>
                 </div>
 
-                <div style={{ padding: 16, background: '#F8FAFC', borderRadius: 14, border: '1px solid #E2E8F0' }}>
-                  <div style={{ color: '#2563EB', marginBottom: 8 }}>
+                <div style={{ padding: 16, background: '#EBEBEB', borderRadius: 14, border: '1px solid rgba(17, 17, 17, 0.06)' }}>
+                  <div style={{ color: '#111111', marginBottom: 8 }}>
                     <CreditCard size={24} />
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: '#0F172A' }}>3. Zero Out-of-Pocket</div>
-                  <div style={{ fontSize: 12, color: '#64748B', marginTop: 4 }}>
+                  <div style={{ fontWeight: 800, fontSize: 14, color: '#1C1C1C' }}>3. Zero Out-of-Pocket</div>
+                  <div style={{ fontSize: 12, color: '#666666', marginTop: 4 }}>
                     Direct bill settlement with hospital network on discharge.
                   </div>
                 </div>
@@ -317,8 +332,8 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
         <div
           style={{
             padding: '20px 32px',
-            borderTop: '1px solid #E2E8F0',
-            background: '#F8FAFC',
+            borderTop: '1px solid rgba(17, 17, 17, 0.08)',
+            background: '#EBEBEB',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -329,15 +344,16 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
             style={{
               padding: '12px 20px',
               borderRadius: 12,
-              border: '1px solid #CBD5E1',
-              background: isCompared ? '#EFF6FF' : '#FFFFFF',
-              color: isCompared ? '#2563EB' : '#475569',
+              border: isCompared ? '1.5px solid #111111' : '1px solid rgba(17, 17, 17, 0.2)',
+              background: isCompared ? '#DED8ED' : '#FFFFFF',
+              color: isCompared ? '#111111' : '#1C1C1C',
               fontSize: 14,
-              fontWeight: 700,
+              fontWeight: 800,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: 8,
+              transition: 'all 0.15s ease',
             }}
           >
             {isCompared ? (
@@ -353,10 +369,10 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 11, color: '#64748B', fontWeight: 600 }}>Starting from</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#0F172A' }}>
+              <div style={{ fontSize: 11, color: '#666666', fontWeight: 700 }}>Starting from</div>
+              <div style={{ fontSize: 20, fontWeight: 900, color: '#111111' }}>
                 {formatCurrency(product.premium)}
-                <span style={{ fontSize: 13, color: '#64748B', fontWeight: 500 }}>/{product.premium_frequency || 'mo'}</span>
+                <span style={{ fontSize: 13, color: '#666666', fontWeight: 600 }}>/{product.premium_frequency || 'mo'}</span>
               </div>
             </div>
 
@@ -369,15 +385,16 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                 padding: '14px 28px',
                 borderRadius: 14,
                 border: 'none',
-                background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
+                background: '#111111',
                 color: '#FFFFFF',
                 fontSize: 15,
-                fontWeight: 700,
+                fontWeight: 800,
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(37, 99, 235, 0.4)',
+                boxShadow: '0 4px 14px rgba(17, 17, 17, 0.3)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
+                transition: 'all 0.15s ease',
               }}
             >
               Buy Now ➔
