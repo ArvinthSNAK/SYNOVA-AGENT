@@ -1,0 +1,281 @@
+/* ═══════════════════════════════════════════════════════════
+   Modern Glass WelcomeSection Styles
+   ═══════════════════════════════════════════════════════════ */
+
+.welcome-hero-banner {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(226, 236, 236, 0.9);
+  border-radius: var(--radius-xl);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 30px -4px rgba(15, 110, 110, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-hero-banner::after {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -60px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(15, 110, 110, 0.08) 0%, rgba(208, 106, 78, 0.04) 50%, transparent 70%);
+  pointer-events: none;
+}
+
+.welcome-hero-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.welcome-hero-greeting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.welcome-user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.welcome-avatar-pill {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-deep));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 19px;
+  box-shadow: 0 4px 12px rgba(15, 110, 110, 0.25);
+  flex-shrink: 0;
+}
+
+.welcome-online-pulse {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+.welcome-hero-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.welcome-title-accent {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome-hero-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-top: 3px;
+}
+
+.welcome-hero-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.welcome-vehicle-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(240, 246, 246, 0.8);
+  border: 1px solid var(--color-border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.welcome-chip-icon {
+  color: var(--color-primary);
+}
+
+.welcome-reg-tag {
+  background: #fff;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary-deep);
+  border: 1px solid rgba(15, 110, 110, 0.2);
+  letter-spacing: 0.05em;
+}
+
+.welcome-hero-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-success-tint);
+  border: 1px solid rgba(47, 163, 107, 0.25);
+  color: var(--color-success);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.welcome-hero-status-icon {
+  flex-shrink: 0;
+}
+
+/* ─── Bento Quick Actions ─────────────────────────────────── */
+.welcome-bento-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.welcome-bento-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(16, 24, 40, 0.03);
+}
+
+.welcome-bento-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: 0 8px 20px -4px rgba(15, 110, 110, 0.1);
+}
+
+.welcome-bento-card--primary:hover {
+  border-color: var(--color-primary);
+  background: linear-gradient(135deg, #ffffff 0%, var(--color-primary-tint) 100%);
+}
+
+.welcome-bento-card--accent:hover {
+  border-color: var(--color-accent);
+  background: linear-gradient(135deg, #ffffff 0%, var(--color-accent-tint) 100%);
+}
+
+.welcome-bento-card--ai:hover {
+  border-color: #8b5cf6;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+}
+
+.welcome-bento-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.welcome-bento-card:hover .welcome-bento-icon-wrap {
+  transform: scale(1.08);
+}
+
+.welcome-bento-icon--primary {
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+
+.welcome-bento-icon--accent {
+  background: var(--color-accent-tint);
+  color: var(--color-accent);
+}
+
+.welcome-bento-icon--teal {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.welcome-bento-icon--sparkle {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.welcome-bento-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.welcome-bento-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.welcome-bento-desc {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.welcome-bento-arrow {
+  color: var(--color-text-subtle);
+  opacity: 0.6;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.welcome-bento-card:hover .welcome-bento-arrow {
+  opacity: 1;
+  transform: translateX(3px);
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 1100px) {
+  .welcome-bento-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .welcome-hero-banner {
+    padding: 18px 16px;
+  }
+  .welcome-bento-actions {
+    grid-template-columns: 1fr;
+  }
+  .welcome-hero-title {
+    font-size: 20px;
+  }
+}

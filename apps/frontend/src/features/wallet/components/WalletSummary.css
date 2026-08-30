@@ -1,0 +1,94 @@
+/* Wallet Summary Cards */
+.wallet-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  animation: fadeInUp 0.5s ease 0.1s both;
+}
+
+.wallet-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 236, 236, 0.9);
+  border-radius: var(--radius-lg);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(15, 110, 110, 0.03);
+}
+
+.wallet-summary-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-border-strong);
+  box-shadow: 0 10px 25px -5px rgba(15, 110, 110, 0.1);
+}
+
+.wallet-summary-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wallet-summary-card--primary .wallet-summary-icon {
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+
+.wallet-summary-card--success .wallet-summary-icon {
+  background: var(--color-success-tint);
+  color: var(--color-success);
+}
+
+.wallet-summary-card--warning .wallet-summary-icon {
+  background: var(--color-warning-tint);
+  color: var(--color-warning);
+}
+
+.wallet-summary-card--accent .wallet-summary-icon {
+  background: var(--color-accent-tint);
+  color: var(--color-accent);
+}
+
+.wallet-summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wallet-summary-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.wallet-summary-value {
+  font-size: var(--text-xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 1023px) {
+  .wallet-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .wallet-summary {
+    grid-template-columns: 1fr;
+  }
+  .wallet-summary-value {
+    font-size: var(--text-lg);
+  }
+}

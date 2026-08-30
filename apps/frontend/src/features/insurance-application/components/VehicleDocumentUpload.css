@@ -1,0 +1,242 @@
+/* VehicleDocumentUpload.css */
+
+.vdu-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vdu-dropzone {
+  border: 2px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--color-surface-alt);
+  outline: none;
+}
+
+.vdu-dropzone:hover,
+.vdu-dropzone:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-primary-tint);
+}
+
+.vdu-dropzone--drag {
+  border-color: var(--color-primary);
+  background: var(--color-primary-tint);
+}
+
+.vdu-file-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+}
+
+.vdu-dropzone-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.vdu-dropzone-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.vdu-dropzone-sub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.vdu-dropzone-types {
+  font-size: 12px;
+  color: var(--color-text-subtle);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  display: inline-block;
+  padding: 3px 12px;
+}
+
+.vdu-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-error);
+  background: var(--color-error-tint);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+}
+
+.vdu-security-note {
+  font-size: 12px;
+  color: var(--color-text-subtle);
+  line-height: 1.5;
+}
+
+.vdu-manual-link {
+  font-size: 13px;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: left;
+  padding: 0;
+}
+
+/* Processing state */
+.vdu-processing {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vdu-processing-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.vdu-processing-file svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.vdu-file-size {
+  font-size: 12px;
+  color: var(--color-text-subtle);
+  font-weight: 400;
+  margin-left: auto;
+}
+
+.vdu-processing-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.vdu-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-border-strong);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.vdu-progress-bar {
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.vdu-progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 2px;
+}
+
+.vdu-progress-fill--uploading {
+  width: 40%;
+  animation: vduProgress 1.5s ease-in-out infinite;
+}
+
+.vdu-progress-fill--processing {
+  width: 70%;
+  animation: vduProgress 1.5s ease-in-out infinite;
+}
+
+@keyframes vduProgress {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Error state */
+.vdu-error-state {
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  border-radius: var(--radius-lg);
+  background: var(--color-error-tint);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.vdu-error-state svg {
+  color: var(--color-error);
+}
+
+.vdu-error-state h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+.vdu-error-state p {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.vdu-error-actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Completed */
+.vdu-completed-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-success);
+  margin-bottom: 12px;
+}
+
+.vdu-complete-check {
+  color: var(--color-success);
+}
+
+.vdu-extracted-fields {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: 0 16px;
+  margin-bottom: 16px;
+}

@@ -1,0 +1,168 @@
+/* InsuranceStepper.css */
+
+.ins-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Desktop: horizontal stepper */
+.ins-stepper-step {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.ins-stepper-step:last-child {
+  flex: 0;
+}
+
+.ins-stepper-step-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 6px 0;
+  transition: opacity var(--transition-fast);
+}
+
+.ins-stepper-step-inner:hover .ins-stepper-number {
+  border-color: var(--color-primary);
+}
+
+.ins-stepper-step-inner[disabled] {
+  cursor: default;
+}
+
+.ins-stepper-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-subtle);
+  background: var(--color-background);
+  transition: all var(--transition-base);
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+
+.ins-stepper-step--active .ins-stepper-number {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.ins-stepper-step--complete .ins-stepper-number {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: white;
+}
+
+.ins-stepper-label-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ins-stepper-step-num {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.ins-stepper-step--active .ins-stepper-step-num {
+  color: var(--color-primary);
+}
+
+.ins-stepper-step--complete .ins-stepper-step-num {
+  color: var(--color-success);
+}
+
+.ins-stepper-step-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-subtle);
+  white-space: nowrap;
+}
+
+.ins-stepper-step--active .ins-stepper-step-label {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.ins-stepper-step--complete .ins-stepper-step-label {
+  color: var(--color-text-muted);
+}
+
+/* Connector line between steps */
+.ins-stepper-connector {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+  margin: 0 12px;
+  transition: background var(--transition-base);
+  min-width: 20px;
+}
+
+.ins-stepper-connector--complete {
+  background: var(--color-success);
+}
+
+/* Mobile: compact progress */
+.ins-stepper-mobile {
+  display: none;
+  align-items: center;
+  gap: 12px;
+}
+
+.ins-stepper-mobile-progress {
+  display: flex;
+  gap: 4px;
+}
+
+.ins-stepper-mobile-dot {
+  width: 24px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-border);
+  transition: background var(--transition-base);
+}
+
+.ins-stepper-mobile-dot--active {
+  background: var(--color-primary);
+}
+
+.ins-stepper-mobile-dot--complete {
+  background: var(--color-success);
+}
+
+.ins-stepper-mobile-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.ins-stepper-mobile-label strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .ins-stepper {
+    display: none;
+  }
+
+  .ins-stepper-mobile {
+    display: flex;
+  }
+}
