@@ -111,11 +111,7 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
               <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1C1C1C', margin: 0, letterSpacing: '-0.02em' }}>
                 {product.name}
               </h2>
-<<<<<<< HEAD
-              <p style={{ fontSize: 14, color: '#6B6B6B', margin: '4px 0 0' }}>
-=======
               <p style={{ fontSize: 14, color: '#666666', margin: '4px 0 0' }}>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 {product.description}
               </p>
             </div>
@@ -134,11 +130,7 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
               justifyContent: 'center',
               cursor: 'pointer',
               fontSize: 18,
-<<<<<<< HEAD
-              color: '#6B6B6B',
-=======
               color: '#1C1C1C',
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
               flexShrink: 0,
             }}
           >
@@ -161,15 +153,9 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                 padding: '14px 20px',
                 background: 'none',
                 border: 'none',
-<<<<<<< HEAD
-                borderBottom: activeTab === t.id ? '2px solid #2563EB' : '2px solid transparent',
-                color: activeTab === t.id ? '#2563EB' : '#6B6B6B',
-                fontWeight: activeTab === t.id ? 700 : 500,
-=======
                 borderBottom: activeTab === t.id ? '2.5px solid #111111' : '2.5px solid transparent',
                 color: activeTab === t.id ? '#111111' : '#666666',
                 fontWeight: activeTab === t.id ? 800 : 500,
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 fontSize: 14,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
@@ -192,15 +178,9 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                   gap: 16,
                 }}
               >
-<<<<<<< HEAD
-                <div style={{ background: '#F8FAFC', padding: '16px 20px', borderRadius: 16, border: '1px solid #E2E8F0' }}>
-                  <div style={{ fontSize: 12, color: '#6B6B6B', fontWeight: 600 }}>Default Coverage Amount</div>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: '#0F172A', marginTop: 4 }}>
-=======
                 <div style={{ background: '#EBEBEB', padding: '16px 20px', borderRadius: 16, border: '1px solid rgba(17, 17, 17, 0.06)' }}>
                   <div style={{ fontSize: 12, color: '#666666', fontWeight: 700 }}>Default Coverage Amount</div>
                   <div style={{ fontSize: 22, fontWeight: 900, color: '#1C1C1C', marginTop: 4 }}>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                     {formatCurrency(product.coverage_amount)}
                   </div>
                 </div>
@@ -228,18 +208,6 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                 <h4 style={{ fontSize: 15, fontWeight: 800, margin: '0 0 14px', color: '#1C1C1C' }}>Key Plan Parameters</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: 14 }}>
                   <div>
-<<<<<<< HEAD
-                    <span style={{ color: '#6B6B6B' }}>Room Rent Limit: </span>
-                    <strong style={{ color: '#0F172A' }}>{product.room_rent_limit || 'Single Private AC Room'}</strong>
-                  </div>
-                  <div>
-                    <span style={{ color: '#6B6B6B' }}>Pre-existing Waiting: </span>
-                    <strong style={{ color: '#0F172A' }}>{product.waiting_period_months ? `${product.waiting_period_months} Months` : '0 Months (Day 1)'}</strong>
-                  </div>
-                  <div>
-                    <span style={{ color: '#6B6B6B' }}>Maternity Covered: </span>
-                    <strong style={{ color: product.maternity_covered ? '#059669' : '#DC2626' }}>
-=======
                     <span style={{ color: '#666666' }}>Room Rent Limit: </span>
                     <strong style={{ color: '#1C1C1C' }}>{product.room_rent_limit || 'Single Private AC Room'}</strong>
                   </div>
@@ -250,18 +218,12 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                   <div>
                     <span style={{ color: '#666666' }}>Maternity Covered: </span>
                     <strong style={{ color: '#111111' }}>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                       {product.maternity_covered ? '✓ Yes (Normal & C-Sec)' : '✕ No'}
                     </strong>
                   </div>
                   <div>
-<<<<<<< HEAD
-                    <span style={{ color: '#6B6B6B' }}>Day Care & OPD: </span>
-                    <strong style={{ color: product.opd_covered ? '#059669' : '#6B6B6B' }}>
-=======
                     <span style={{ color: '#666666' }}>Day Care & OPD: </span>
                     <strong style={{ color: '#111111' }}>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                       {product.opd_covered ? '✓ Covered' : '✕ Hospitalization only'}
                     </strong>
                   </div>
@@ -336,13 +298,8 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                   <div style={{ color: '#111111', marginBottom: 8 }}>
                     <Building2 size={24} />
                   </div>
-<<<<<<< HEAD
-                  <div style={{ fontWeight: 700, fontSize: 14, color: '#0F172A' }}>1. Show Health Card</div>
-                  <div style={{ fontSize: 12, color: '#6B6B6B', marginTop: 4 }}>
-=======
                   <div style={{ fontWeight: 800, fontSize: 14, color: '#1C1C1C' }}>1. Show Health Card</div>
                   <div style={{ fontSize: 12, color: '#666666', marginTop: 4 }}>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                     Present digital health e-card at hospital insurance desk.
                   </div>
                 </div>
@@ -351,13 +308,8 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                   <div style={{ color: '#111111', marginBottom: 8 }}>
                     <Zap size={24} />
                   </div>
-<<<<<<< HEAD
-                  <div style={{ fontWeight: 700, fontSize: 14, color: '#0F172A' }}>2. 30-Min Pre-Auth</div>
-                  <div style={{ fontSize: 12, color: '#6B6B6B', marginTop: 4 }}>
-=======
                   <div style={{ fontWeight: 800, fontSize: 14, color: '#1C1C1C' }}>2. 30-Min Pre-Auth</div>
                   <div style={{ fontSize: 12, color: '#666666', marginTop: 4 }}>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                     Hospital submits claim for express 30-minute cashless approval.
                   </div>
                 </div>
@@ -366,13 +318,8 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                   <div style={{ color: '#111111', marginBottom: 8 }}>
                     <CreditCard size={24} />
                   </div>
-<<<<<<< HEAD
-                  <div style={{ fontWeight: 700, fontSize: 14, color: '#0F172A' }}>3. Zero Out-of-Pocket</div>
-                  <div style={{ fontSize: 12, color: '#6B6B6B', marginTop: 4 }}>
-=======
                   <div style={{ fontWeight: 800, fontSize: 14, color: '#1C1C1C' }}>3. Zero Out-of-Pocket</div>
                   <div style={{ fontSize: 12, color: '#666666', marginTop: 4 }}>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                     Direct bill settlement with hospital network on discharge.
                   </div>
                 </div>
@@ -422,17 +369,10 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ textAlign: 'right' }}>
-<<<<<<< HEAD
-              <div style={{ fontSize: 11, color: '#6B6B6B', fontWeight: 600 }}>Starting from</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#0F172A' }}>
-                {formatCurrency(product.premium)}
-                <span style={{ fontSize: 13, color: '#6B6B6B', fontWeight: 500 }}>/{product.premium_frequency || 'mo'}</span>
-=======
               <div style={{ fontSize: 11, color: '#666666', fontWeight: 700 }}>Starting from</div>
               <div style={{ fontSize: 20, fontWeight: 900, color: '#111111' }}>
                 {formatCurrency(product.premium)}
                 <span style={{ fontSize: 13, color: '#666666', fontWeight: 600 }}>/{product.premium_frequency || 'mo'}</span>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
               </div>
             </div>
 

@@ -510,15 +510,9 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   )}
                 </select>
 
-<<<<<<< HEAD
-                <div style={{ marginTop: 12, padding: '10px 14px', background: '#F8FAFC', borderRadius: 12, border: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12.5 }}>
-                  <span style={{ color: '#6B6B6B' }}>Net Payable (incl. Base + 18% GST):</span>
-                  <strong style={{ color: '#059669', fontSize: 14 }}>{formatCurrency(premiums.total)}</strong>
-=======
                 <div style={{ marginTop: 12, padding: '10px 14px', background: '#DED8ED', borderRadius: 12, border: '1px solid #111111', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12.5 }}>
                   <span style={{ color: '#111111', fontWeight: 700 }}>Net Payable (incl. Base + 18% GST):</span>
                   <strong style={{ color: '#111111', fontSize: 15, fontWeight: 900 }}>{formatCurrency(premiums.total)}</strong>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
               </div>
             </div>
@@ -980,21 +974,12 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
               <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 16, padding: 18 }}>
                 <h4 style={{ fontSize: 14, fontWeight: 800, margin: '0 0 12px', color: '#0F172A', textTransform: 'uppercase' }}>Summary</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 13 }}>
-<<<<<<< HEAD
-                  <div><span style={{ color: '#6B6B6B' }}>Insurer:</span> <strong>{product.insurer_name}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Plan:</span> <strong>{product.name}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Proposer:</span> <strong>{formData.fullName}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Nominee:</span> <strong>{formData.nomineeName} ({formData.nomineeRelation})</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Coverage:</span> <strong style={{ color: '#2563EB' }}>{formatCurrency(formData.sumInsured)}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Tenure:</span> <strong>1 Year (Renewable)</strong></div>
-=======
                   <div><span style={{ color: '#64748B' }}>Insurer:</span> <strong>{product.insurer_name}</strong></div>
                   <div><span style={{ color: '#64748B' }}>Plan:</span> <strong>{product.name}</strong></div>
                   <div><span style={{ color: '#64748B' }}>Proposer:</span> <strong>{formData.fullName}</strong></div>
                   <div><span style={{ color: '#64748B' }}>Nominee:</span> <strong>{formData.nomineeName} ({formData.nomineeRelation})</strong></div>
                   <div><span style={{ color: '#666666' }}>Coverage:</span> <strong style={{ color: '#111111', fontWeight: 800 }}>{formatCurrency(formData.sumInsured)}</strong></div>
                   <div><span style={{ color: '#64748B' }}>Tenure:</span> <strong>1 Year (Renewable)</strong></div>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
               </div>
             </div>
@@ -1087,11 +1072,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                         )}
                         <div>{m.icon}</div>
                         <div style={{ fontWeight: 800 }}>{m.label}</div>
-<<<<<<< HEAD
-                        <div style={{ fontSize: 10.5, color: isSelected ? '#2563EB' : '#9A9A9A' }}>{m.sub}</div>
-=======
                         <div style={{ fontSize: 10.5, color: isSelected ? '#111111' : '#666666' }}>{m.sub}</div>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                       </button>
                     );
                   })}
@@ -1362,15 +1343,6 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                 Your payment has been verified server-side. Your digital policy certificate is active and saved in your Insurance Vault.
               </p>
 
-<<<<<<< HEAD
-              <div style={{ padding: 18, background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 16, textAlign: 'left', maxWidth: 450, margin: '0 auto 24px' }}>
-                <div style={{ fontSize: 12, color: '#6B6B6B' }}>Policy Number</div>
-                <div style={{ fontSize: 18, fontWeight: 900, color: '#2563EB', marginTop: 2 }}>{issuedPolicy.policy_number}</div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 12, fontSize: 13 }}>
-                  <div><span style={{ color: '#6B6B6B' }}>Insurer:</span> <strong>{issuedPolicy.insurer_name}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Status:</span> <strong style={{ color: '#059669' }}>ACTIVE</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Coverage:</span> <strong>{formatCurrency(issuedPolicy.coverage_amount)}</strong></div>
-=======
               <div style={{ padding: 18, background: '#EBEBEB', border: '1px solid rgba(17, 17, 17, 0.08)', borderRadius: 16, textAlign: 'left', maxWidth: 450, margin: '0 auto 24px' }}>
                 <div style={{ fontSize: 12, color: '#666666', fontWeight: 700 }}>Policy Number</div>
                 <div style={{ fontSize: 18, fontWeight: 900, color: '#111111', marginTop: 2 }}>{issuedPolicy.policy_number}</div>
@@ -1378,7 +1350,6 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   <div><span style={{ color: '#666666' }}>Insurer:</span> <strong style={{ color: '#1C1C1C' }}>{issuedPolicy.insurer_name}</strong></div>
                   <div><span style={{ color: '#666666' }}>Status:</span> <strong style={{ color: '#111111' }}>ACTIVE</strong></div>
                   <div><span style={{ color: '#666666' }}>Coverage:</span> <strong style={{ color: '#1C1C1C' }}>{formatCurrency(issuedPolicy.coverage_amount)}</strong></div>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
               </div>
 
