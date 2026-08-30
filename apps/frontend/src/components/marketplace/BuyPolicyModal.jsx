@@ -391,10 +391,10 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <div>
-              <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#2563EB' }}>
+              <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#111111', background: '#DED8ED', padding: '3px 10px', borderRadius: 20 }}>
                 Step {step <= 7 ? step : step === 8 ? '8 of 10' : 'Complete'}
               </span>
-              <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0F172A', margin: '2px 0 0' }}>
+              <h3 style={{ fontSize: 18, fontWeight: 800, color: '#1C1C1C', margin: '6px 0 0' }}>
                 {step === 1 && '1. Plan Confirmation'}
                 {step === 2 && '2. Proposer & Contact Details'}
                 {step === 3 && '3. Underwriting & Health Details'}
@@ -423,12 +423,12 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
             </button>
           </div>
 
-          <div style={{ width: '100%', height: 6, background: '#E2E8F0', borderRadius: 3, overflow: 'hidden' }}>
+          <div style={{ width: '100%', height: 6, background: '#EBEBEB', borderRadius: 3, overflow: 'hidden' }}>
             <div
               style={{
                 width: `${(step / 10) * 100}%`,
                 height: '100%',
-                background: 'linear-gradient(90deg, #2563EB 0%, #38BDF8 100%)',
+                background: '#111111',
                 transition: 'width 0.3s ease',
               }}
             />
@@ -446,21 +446,21 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
           {/* STEP 1: Plan Confirmation */}
           {step === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              <div style={{ padding: 18, background: '#EFF6FF', borderRadius: 16, border: '1px solid #BFDBFE', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ padding: 18, background: '#EBEBEB', borderRadius: 16, border: '1px solid rgba(17, 17, 17, 0.08)', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
                 <InsurerLogoBadge insurerName={product.insurer_name} size={48} rounded={12} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 12, color: '#1E40AF', fontWeight: 700, textTransform: 'uppercase' }}>Selected Product</div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: '#1E3A8A', marginTop: 2 }}>{product.name}</div>
-                  <div style={{ fontSize: 13, color: '#3B82F6', marginTop: 2 }}>{product.insurer_name} • ★ {product.rating || '4.8'}</div>
+                  <div style={{ fontSize: 12, color: '#111111', fontWeight: 800, textTransform: 'uppercase' }}>Selected Product</div>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: '#1C1C1C', marginTop: 2 }}>{product.name}</div>
+                  <div style={{ fontSize: 13, color: '#666666', marginTop: 2 }}>{product.insurer_name} • ★ {product.rating || '4.8'}</div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12, paddingTop: 12, borderTop: '1px solid #DBEAFE' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(17, 17, 17, 0.08)' }}>
                     <div>
-                      <div style={{ fontSize: 11, color: '#1E40AF', fontWeight: 600 }}>Active Sum Insured / Cover</div>
-                      <div style={{ fontSize: 16, fontWeight: 900, color: '#1E3A8A', marginTop: 2 }}>{formatCurrency(formData.sumInsured)}</div>
+                      <div style={{ fontSize: 11, color: '#666666', fontWeight: 700 }}>Active Sum Insured / Cover</div>
+                      <div style={{ fontSize: 16, fontWeight: 900, color: '#1C1C1C', marginTop: 2 }}>{formatCurrency(formData.sumInsured)}</div>
                     </div>
                     <div>
-                      <div style={{ fontSize: 11, color: '#1E40AF', fontWeight: 600 }}>Total Annual Premium (incl. GST)</div>
-                      <div style={{ fontSize: 16, fontWeight: 900, color: '#059669', marginTop: 2 }}>{formatCurrency(premiums.total)}</div>
+                      <div style={{ fontSize: 11, color: '#666666', fontWeight: 700 }}>Total Annual Premium (incl. GST)</div>
+                      <div style={{ fontSize: 16, fontWeight: 900, color: '#111111', marginTop: 2 }}>{formatCurrency(premiums.total)}</div>
                     </div>
                   </div>
                 </div>
@@ -468,10 +468,10 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
 
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                  <label style={{ fontSize: 13, fontWeight: 800, color: '#0F172A', display: 'block' }}>
+                  <label style={{ fontSize: 13, fontWeight: 800, color: '#1C1C1C', display: 'block' }}>
                     {isMotor ? 'Select Insured Declared Value (IDV)' : isTermLife ? 'Select Term Life Cover Amount' : 'Choose Health Coverage / Sum Insured'}
                   </label>
-                  <span style={{ fontSize: 11.5, color: '#2563EB', fontWeight: 700, background: '#EFF6FF', padding: '2px 8px', borderRadius: 10 }}>
+                  <span style={{ fontSize: 11.5, color: '#111111', fontWeight: 800, background: '#DED8ED', padding: '3px 10px', borderRadius: 12 }}>
                     ⚡ Real-Time Premium Adjuster
                   </span>
                 </div>
@@ -479,7 +479,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                 <select
                   value={formData.sumInsured}
                   onChange={(e) => setFormData({ ...formData, sumInsured: Number(e.target.value) })}
-                  style={{ width: '100%', padding: '13px 14px', borderRadius: 12, border: '1.5px solid #2563EB', fontSize: 14, fontWeight: 700, color: '#0F172A', background: '#FFFFFF', cursor: 'pointer' }}
+                  style={{ width: '100%', padding: '13px 14px', borderRadius: 12, border: '1.5px solid #111111', fontSize: 14, fontWeight: 700, color: '#1C1C1C', background: '#FFFFFF', cursor: 'pointer' }}
                 >
                   {isTermLife ? (
                     <>
@@ -510,9 +510,15 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   )}
                 </select>
 
+<<<<<<< HEAD
                 <div style={{ marginTop: 12, padding: '10px 14px', background: '#F8FAFC', borderRadius: 12, border: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12.5 }}>
                   <span style={{ color: '#6B6B6B' }}>Net Payable (incl. Base + 18% GST):</span>
                   <strong style={{ color: '#059669', fontSize: 14 }}>{formatCurrency(premiums.total)}</strong>
+=======
+                <div style={{ marginTop: 12, padding: '10px 14px', background: '#DED8ED', borderRadius: 12, border: '1px solid #111111', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12.5 }}>
+                  <span style={{ color: '#111111', fontWeight: 700 }}>Net Payable (incl. Base + 18% GST):</span>
+                  <strong style={{ color: '#111111', fontSize: 15, fontWeight: 900 }}>{formatCurrency(premiums.total)}</strong>
+>>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
               </div>
             </div>
@@ -955,8 +961,8 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
           {/* STEP 5: KYC Verification */}
           {step === 5 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, textAlign: 'center', padding: '20px 0', alignItems: 'center' }}>
-              <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#EFF6FF', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <ShieldCheck size={36} />
+              <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#DED8ED', color: '#111111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <ShieldCheck size={36} color="#111111" />
               </div>
               <h4 style={{ fontSize: 18, fontWeight: 800, color: '#0F172A', margin: 0 }}>Instant Paperless Digital KYC</h4>
               <p style={{ fontSize: 14, color: '#6B6B6B', maxWidth: 450, margin: '0 auto' }}>
@@ -974,12 +980,21 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
               <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 16, padding: 18 }}>
                 <h4 style={{ fontSize: 14, fontWeight: 800, margin: '0 0 12px', color: '#0F172A', textTransform: 'uppercase' }}>Summary</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 13 }}>
+<<<<<<< HEAD
                   <div><span style={{ color: '#6B6B6B' }}>Insurer:</span> <strong>{product.insurer_name}</strong></div>
                   <div><span style={{ color: '#6B6B6B' }}>Plan:</span> <strong>{product.name}</strong></div>
                   <div><span style={{ color: '#6B6B6B' }}>Proposer:</span> <strong>{formData.fullName}</strong></div>
                   <div><span style={{ color: '#6B6B6B' }}>Nominee:</span> <strong>{formData.nomineeName} ({formData.nomineeRelation})</strong></div>
                   <div><span style={{ color: '#6B6B6B' }}>Coverage:</span> <strong style={{ color: '#2563EB' }}>{formatCurrency(formData.sumInsured)}</strong></div>
                   <div><span style={{ color: '#6B6B6B' }}>Tenure:</span> <strong>1 Year (Renewable)</strong></div>
+=======
+                  <div><span style={{ color: '#64748B' }}>Insurer:</span> <strong>{product.insurer_name}</strong></div>
+                  <div><span style={{ color: '#64748B' }}>Plan:</span> <strong>{product.name}</strong></div>
+                  <div><span style={{ color: '#64748B' }}>Proposer:</span> <strong>{formData.fullName}</strong></div>
+                  <div><span style={{ color: '#64748B' }}>Nominee:</span> <strong>{formData.nomineeName} ({formData.nomineeRelation})</strong></div>
+                  <div><span style={{ color: '#666666' }}>Coverage:</span> <strong style={{ color: '#111111', fontWeight: 800 }}>{formatCurrency(formData.sumInsured)}</strong></div>
+                  <div><span style={{ color: '#64748B' }}>Tenure:</span> <strong>1 Year (Renewable)</strong></div>
+>>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
               </div>
             </div>
@@ -997,9 +1012,9 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   <span style={{ color: '#6B6B6B' }}>GST (18% Statutory)</span>
                   <span style={{ fontWeight: 700 }}>{formatCurrency(premiums.gst)}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 12, borderTop: '2px dashed #CBD5E1', fontSize: 18 }}>
-                  <span style={{ fontWeight: 800, color: '#0F172A' }}>Total Payable Amount</span>
-                  <span style={{ fontWeight: 900, color: '#2563EB' }}>{formatCurrency(premiums.total)}</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 12, borderTop: '2px dashed rgba(17, 17, 17, 0.15)', fontSize: 18 }}>
+                  <span style={{ fontWeight: 800, color: '#1C1C1C' }}>Total Payable Amount</span>
+                  <span style={{ fontWeight: 900, color: '#111111' }}>{formatCurrency(premiums.total)}</span>
                 </div>
               </div>
 
@@ -1036,10 +1051,10 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                         style={{
                           padding: '14px 10px',
                           borderRadius: 14,
-                          border: isSelected ? '2px solid #2563EB' : '1px solid #CBD5E1',
-                          background: isSelected ? '#EFF6FF' : '#FFFFFF',
-                          color: isSelected ? '#1E40AF' : '#475569',
-                          fontWeight: 700,
+                          border: isSelected ? '2px solid #111111' : '1px solid rgba(17, 17, 17, 0.15)',
+                          background: isSelected ? '#DED8ED' : '#FFFFFF',
+                          color: isSelected ? '#111111' : '#1C1C1C',
+                          fontWeight: 800,
                           fontSize: 12.5,
                           cursor: 'pointer',
                           textAlign: 'center',
@@ -1050,7 +1065,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                           gap: 6,
                           position: 'relative',
                           transition: 'all 0.15s ease',
-                          boxShadow: isSelected ? '0 4px 14px rgba(37, 99, 235, 0.15)' : 'none',
+                          boxShadow: isSelected ? '0 4px 14px rgba(17, 17, 17, 0.15)' : 'none',
                         }}
                       >
                         {m.isWallet && (
@@ -1072,7 +1087,11 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                         )}
                         <div>{m.icon}</div>
                         <div style={{ fontWeight: 800 }}>{m.label}</div>
+<<<<<<< HEAD
                         <div style={{ fontSize: 10.5, color: isSelected ? '#2563EB' : '#9A9A9A' }}>{m.sub}</div>
+=======
+                        <div style={{ fontSize: 10.5, color: isSelected ? '#111111' : '#666666' }}>{m.sub}</div>
+>>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                       </button>
                     );
                   })}
@@ -1343,6 +1362,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                 Your payment has been verified server-side. Your digital policy certificate is active and saved in your Insurance Vault.
               </p>
 
+<<<<<<< HEAD
               <div style={{ padding: 18, background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 16, textAlign: 'left', maxWidth: 450, margin: '0 auto 24px' }}>
                 <div style={{ fontSize: 12, color: '#6B6B6B' }}>Policy Number</div>
                 <div style={{ fontSize: 18, fontWeight: 900, color: '#2563EB', marginTop: 2 }}>{issuedPolicy.policy_number}</div>
@@ -1350,6 +1370,15 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   <div><span style={{ color: '#6B6B6B' }}>Insurer:</span> <strong>{issuedPolicy.insurer_name}</strong></div>
                   <div><span style={{ color: '#6B6B6B' }}>Status:</span> <strong style={{ color: '#059669' }}>ACTIVE</strong></div>
                   <div><span style={{ color: '#6B6B6B' }}>Coverage:</span> <strong>{formatCurrency(issuedPolicy.coverage_amount)}</strong></div>
+=======
+              <div style={{ padding: 18, background: '#EBEBEB', border: '1px solid rgba(17, 17, 17, 0.08)', borderRadius: 16, textAlign: 'left', maxWidth: 450, margin: '0 auto 24px' }}>
+                <div style={{ fontSize: 12, color: '#666666', fontWeight: 700 }}>Policy Number</div>
+                <div style={{ fontSize: 18, fontWeight: 900, color: '#111111', marginTop: 2 }}>{issuedPolicy.policy_number}</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 12, fontSize: 13 }}>
+                  <div><span style={{ color: '#666666' }}>Insurer:</span> <strong style={{ color: '#1C1C1C' }}>{issuedPolicy.insurer_name}</strong></div>
+                  <div><span style={{ color: '#666666' }}>Status:</span> <strong style={{ color: '#111111' }}>ACTIVE</strong></div>
+                  <div><span style={{ color: '#666666' }}>Coverage:</span> <strong style={{ color: '#1C1C1C' }}>{formatCurrency(issuedPolicy.coverage_amount)}</strong></div>
+>>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
               </div>
 
@@ -1360,9 +1389,9 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   style={{
                     padding: '14px 24px',
                     borderRadius: 14,
-                    border: '1.5px solid #CBD5E1',
-                    background: '#FFFFFF',
-                    color: '#0F172A',
+                    border: '1.5px solid #111111',
+                    background: '#DED8ED',
+                    color: '#111111',
                     fontWeight: 800,
                     fontSize: 14.5,
                     cursor: 'pointer',
@@ -1371,7 +1400,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                     gap: 8,
                   }}
                 >
-                  <Download size={18} color="#2563EB" />
+                  <Download size={18} color="#111111" />
                   <span>Download Policy PDF</span>
                 </button>
 
@@ -1384,11 +1413,12 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                     padding: '14px 28px',
                     borderRadius: 14,
                     border: 'none',
-                    background: '#2563EB',
+                    background: '#111111',
                     color: '#FFFFFF',
                     fontWeight: 800,
                     fontSize: 14.5,
                     cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(17, 17, 17, 0.3)',
                   }}
                 >
                   View in Insurance Vault ➔
@@ -1440,14 +1470,16 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   }
                 }}
                 style={{
-                  padding: '12px 24px',
-                  borderRadius: 12,
+                  padding: '12px 26px',
+                  borderRadius: 14,
                   border: 'none',
-                  background: '#2563EB',
-                  color: '#FFFFFF',
-                  fontWeight: 700,
+                  background: '#111111',
+                  color: '#DED8ED',
+                  fontWeight: 800,
                   fontSize: 14,
                   cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(17, 17, 17, 0.3)',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 Continue ➔
@@ -1459,13 +1491,15 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                 onClick={handleInitiatePayment}
                 style={{
                   padding: '12px 28px',
-                  borderRadius: 12,
+                  borderRadius: 14,
                   border: 'none',
-                  background: '#10B981',
-                  color: '#FFFFFF',
-                  fontWeight: 700,
+                  background: '#111111',
+                  color: '#DED8ED',
+                  fontWeight: 800,
                   fontSize: 15,
                   cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(17, 17, 17, 0.3)',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 {loading ? 'Creating Order...' : `Proceed to Pay ${formatCurrency(premiums.total)} ➔`}

@@ -271,6 +271,17 @@
                             const ncbInput = document.getElementById('ncb_percent');
                             if (ncbInput) ncbInput.value = ncb;
 
+                            // Ensure product_id is selected
+                            const pSelect = document.getElementById('product_id');
+                            if (pSelect) {
+                                const pid = params.get('product_id');
+                                if (pid && pSelect.querySelector('option[value="' + pid + '"]')) {
+                                    pSelect.value = pid;
+                                } else if (!pSelect.value && pSelect.options.length > 0) {
+                                    pSelect.selectedIndex = 0;
+                                }
+                            }
+
                             if (params.get('submit') === 'true') {
                                 const btn = document.getElementById('btn-submit');
                                 if (btn) {
