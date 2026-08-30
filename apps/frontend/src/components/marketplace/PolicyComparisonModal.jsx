@@ -82,7 +82,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                 {categoryTitle}
               </span>
             </div>
-            <p style={{ fontSize: 13, color: '#64748B', margin: '4px 0 0' }}>
+            <p style={{ fontSize: 13, color: '#6B6B6B', margin: '4px 0 0' }}>
               Compare coverage, premium, insurer credibility, and category-specific policy benefits.
             </p>
           </div>
@@ -100,7 +100,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
               justifyContent: 'center',
               cursor: 'pointer',
               fontSize: 18,
-              color: '#64748B',
+              color: '#6B6B6B',
             }}
           >
             ✕
@@ -119,7 +119,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
             alignItems: 'flex-start',
             gap: 12,
             fontSize: 12.5,
-            color: '#334155',
+            color: '#1C1C1C',
             lineHeight: 1.5,
           }}
         >
@@ -141,7 +141,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                     width: 220,
                     background: '#F8FAFC',
                     borderBottom: '2px solid #E2E8F0',
-                    color: '#64748B',
+                    color: '#6B6B6B',
                     fontWeight: 700,
                   }}
                 >
@@ -168,7 +168,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                           style={{
                             border: 'none',
                             background: 'none',
-                            color: '#94A3B8',
+                            color: '#9A9A9A',
                             cursor: 'pointer',
                             fontSize: 14,
                           }}
@@ -182,7 +182,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                     </div>
                     <div style={{ fontSize: 18, fontWeight: 900, color: '#2563EB', marginTop: 8 }}>
                       {formatCurrency(p.premium)}
-                      <span style={{ fontSize: 12, color: '#64748B', fontWeight: 500 }}>/{p.premium_frequency || 'yr'}</span>
+                      <span style={{ fontSize: 12, color: '#6B6B6B', fontWeight: 500 }}>/{p.premium_frequency || 'yr'}</span>
                     </div>
                     <button
                       onClick={() => onBuyNow && onBuyNow(p)}
@@ -226,7 +226,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                 {products.map((p) => (
                   <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0' }}>
                     <span style={{ color: '#F59E0B', fontWeight: 700 }}>★ {p.rating || 4.8}</span>
-                    <span style={{ color: '#64748B', margin: '0 6px' }}>•</span>
+                    <span style={{ color: '#6B6B6B', margin: '0 6px' }}>•</span>
                     <span style={{ color: '#10B981', fontWeight: 700 }}>{p.claim_settlement_ratio || '98.4%'} CSR</span>
                   </td>
                 ))}
@@ -301,7 +301,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                       p.maternity_covered ? (
                         <span style={{ color: '#059669', fontWeight: 700 }}>✓ Covered from Day 1</span>
                       ) : (
-                        <span style={{ color: '#94A3B8' }}>✕ Not Covered</span>
+                        <span style={{ color: '#9A9A9A' }}>✕ Not Covered</span>
                       )
                     )}
                   </td>
@@ -315,7 +315,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                 </td>
                 {products.map((p) => (
                   <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0', verticalAlign: 'top' }}>
-                    <ul style={{ margin: 0, paddingLeft: 18, color: '#334155', lineHeight: '1.6' }}>
+                    <ul style={{ margin: 0, paddingLeft: 18, color: '#1C1C1C', lineHeight: '1.6' }}>
                       {(p.features || []).slice(0, 3).map((f, idx) => (
                         <li key={idx} style={{ fontSize: 13 }}>{f}</li>
                       ))}

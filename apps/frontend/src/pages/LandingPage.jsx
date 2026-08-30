@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { httpClient } from '../api/httpClient';
 import InsurerMarquee from '../components/common/InsurerMarquee';
+import CityHeroAnimation from '../components/common/CityHeroAnimation';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -42,6 +43,9 @@ export default function LandingPage() {
 
   return (
     <div style={{ paddingTop: 32, paddingBottom: 64 }}>
+      {/* 0. SCROLL-DRIVEN ISOMETRIC CITY HERO ANIMATION */}
+      <CityHeroAnimation />
+
       {/* 1. HERO SECTION */}
       <section className="page-container" style={{ marginBottom: 64 }}>
         <div className="hero-rounded-container">
@@ -54,7 +58,7 @@ export default function LandingPage() {
               transform: 'translateX(-50%)',
               width: 600,
               height: 300,
-              background: 'radial-gradient(ellipse at center, rgba(108, 99, 255, 0.12) 0%, rgba(21, 101, 192, 0.05) 50%, transparent 80%)',
+              background: 'radial-gradient(ellipse at center, rgba(139, 127, 168, 0.12) 0%, rgba(28, 28, 28, 0.05) 50%, transparent 80%)',
               pointerEvents: 'none',
               zIndex: 0,
             }}
@@ -68,11 +72,11 @@ export default function LandingPage() {
                 alignItems: 'center',
                 gap: 8,
                 background: '#FFFFFF',
-                border: '1px solid rgba(21, 101, 192, 0.18)',
+                border: '1px solid rgba(28, 28, 28, 0.18)',
                 padding: '6px 18px',
                 borderRadius: 9999,
                 marginBottom: 24,
-                boxShadow: '0 2px 10px rgba(11, 31, 58, 0.04)',
+                boxShadow: '0 2px 10px rgba(28, 28, 28, 0.04)',
               }}
             >
               <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--ai-accent)' }}></span>
@@ -132,8 +136,8 @@ export default function LandingPage() {
                 background: '#FFFFFF',
                 padding: '6px 8px',
                 borderRadius: 9999,
-                border: '1px solid rgba(11, 31, 58, 0.16)',
-                boxShadow: '0 8px 30px rgba(11, 31, 58, 0.08)',
+                border: '1px solid rgba(28, 28, 28, 0.16)',
+                boxShadow: '0 8px 30px rgba(28, 28, 28, 0.08)',
               }}
             >
               <input
@@ -176,7 +180,7 @@ export default function LandingPage() {
               marginTop: 56,
               padding: '36px 32px',
               borderRadius: 32,
-              background: 'linear-gradient(180deg, #0B1F3A 0%, #08162B 100%)',
+              background: 'linear-gradient(180deg, #111111 0%, #0A0A0A 100%)',
               border: '1px solid rgba(255, 255, 255, 0.12)',
             }}
           >
@@ -291,8 +295,8 @@ export default function LandingPage() {
               {/* AI Recommendation Sidebar Card */}
               <div
                 style={{
-                  background: 'linear-gradient(145deg, rgba(21, 101, 192, 0.25) 0%, rgba(108, 99, 255, 0.15) 100%)',
-                  border: '1px solid rgba(108, 99, 255, 0.35)',
+                  background: 'linear-gradient(145deg, rgba(28, 28, 28, 0.25) 0%, rgba(139, 127, 168, 0.15) 100%)',
+                  border: '1px solid rgba(139, 127, 168, 0.35)',
                   borderRadius: 20,
                   padding: '24px 20px',
                   display: 'flex',
@@ -408,11 +412,11 @@ export default function LandingPage() {
               Query live quotes across leading insurers simultaneously. Inspect breakdown of Own Damage, Third-Party Liability, Add-on covers, and GST transparently.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: '#F8FAFD', borderRadius: 10, fontSize: 13, border: '1px solid rgba(11,31,58,0.06)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: '#EBEBEB', borderRadius: 10, fontSize: 13, border: '1px solid rgba(28,28,28,0.06)' }}>
                 <span style={{ fontWeight: 600, color: 'var(--text-heading)' }}>Comprehensive Motor Shield</span>
                 <span style={{ fontWeight: 800, color: 'var(--text-heading)' }}>₹14,850 • IDV ₹8.7L</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: 'var(--bg-tinted)', borderRadius: 10, fontSize: 13, border: '1px solid rgba(21,101,192,0.2)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: 'var(--bg-tinted)', borderRadius: 10, fontSize: 13, border: '1px solid rgba(28,28,28,0.2)' }}>
                 <span style={{ fontWeight: 600, color: 'var(--blue-primary)' }}>Direct Drive Plan • <span className="badge badge-ai" style={{ fontSize: 10 }}>BEST VALUE</span></span>
                 <span style={{ fontWeight: 800, color: 'var(--blue-primary)' }}>₹13,950 • IDV ₹8.5L</span>
               </div>
@@ -433,11 +437,11 @@ export default function LandingPage() {
             </p>
             {/* Visual Workflow Diagram */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-subtle)', borderRadius: 14, padding: '16px 14px', fontSize: 12, fontWeight: 700, color: 'var(--primary-navy)' }}>
-              <div style={{ background: '#FFFFFF', padding: '8px 12px', borderRadius: 8, border: '1px solid rgba(11,31,58,0.1)' }}>Vehicle Data</div>
+              <div style={{ background: '#FFFFFF', padding: '8px 12px', borderRadius: 8, border: '1px solid rgba(28,28,28,0.1)' }}>Vehicle Data</div>
               <span style={{ color: 'var(--blue-primary)' }}>→</span>
               <div style={{ background: 'var(--primary-navy)', color: '#FFFFFF', padding: '8px 12px', borderRadius: 8 }}>Synova AI</div>
               <span style={{ color: 'var(--blue-primary)' }}>→</span>
-              <div style={{ background: '#FFFFFF', padding: '8px 12px', borderRadius: 8, border: '1px solid rgba(11,31,58,0.1)' }}>4 Insurers</div>
+              <div style={{ background: '#FFFFFF', padding: '8px 12px', borderRadius: 8, border: '1px solid rgba(28,28,28,0.1)' }}>4 Insurers</div>
               <span style={{ color: 'var(--blue-primary)' }}>→</span>
               <div style={{ background: 'var(--status-emerald-bg)', color: 'var(--status-emerald)', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--status-emerald-border)' }}>Best Quote</div>
             </div>
@@ -455,7 +459,7 @@ export default function LandingPage() {
             <p style={{ fontSize: 14.5, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 20 }}>
               Synova ranks quotes using a multi-factor score balancing price, coverage limits, cashless garage network density, and claim settlement ratios.
             </p>
-            <div style={{ background: '#F8FAFD', borderRadius: 14, padding: '16px 20px', border: '1px solid rgba(11,31,58,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ background: '#EBEBEB', borderRadius: 14, padding: '16px 20px', border: '1px solid rgba(28,28,28,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <div style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--status-emerald)' }}>✓ RECOMMENDED BY SYNOVA</div>
                 <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--primary-navy)', marginTop: 2 }}>Direct Drive Comprehensive</div>
@@ -476,7 +480,7 @@ export default function LandingPage() {
           style={{
             padding: '56px 48px',
             borderRadius: 32,
-            background: 'linear-gradient(135deg, #0B1F3A 0%, #123B66 100%)',
+            background: 'linear-gradient(135deg, #111111 0%, #111111 100%)',
           }}
         >
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
@@ -546,7 +550,7 @@ export default function LandingPage() {
             <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--blue-primary)', marginBottom: 8 }}>MOTOR COVER</div>
             <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--primary-navy)' }}>KA-01-MJ-4092</div>
             <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 4 }}>Comprehensive Shield</div>
-            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(11,31,58,0.06)', display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
+            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(28,28,28,0.06)', display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
               <span className="badge badge-active">ACTIVE</span>
               <strong style={{ color: 'var(--primary-navy)' }}>₹18,450</strong>
             </div>
@@ -556,7 +560,7 @@ export default function LandingPage() {
             <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ai-purple)', marginBottom: 8 }}>HEALTH COVER</div>
             <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--primary-navy)' }}>POL-HLT-99214</div>
             <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 4 }}>Family Floater ₹5L</div>
-            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(11,31,58,0.06)', display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
+            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(28,28,28,0.06)', display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
               <span className="badge badge-active">ACTIVE</span>
               <strong style={{ color: 'var(--primary-navy)' }}>₹12,600</strong>
             </div>
@@ -566,7 +570,7 @@ export default function LandingPage() {
             <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--dark-blue)', marginBottom: 8 }}>TERM LIFE</div>
             <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--primary-navy)' }}>POL-TRM-30041</div>
             <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 4 }}>₹1 Cr Pure Protection</div>
-            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(11,31,58,0.06)', display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
+            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(28,28,28,0.06)', display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
               <span className="badge badge-warning">42 DAYS</span>
               <strong style={{ color: 'var(--primary-navy)' }}>₹8,900</strong>
             </div>
@@ -576,7 +580,7 @@ export default function LandingPage() {
             <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--status-emerald)', marginBottom: 8 }}>TRAVEL COVER</div>
             <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--primary-navy)' }}>POL-TRV-88192</div>
             <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 4 }}>Schengen Multi-Trip</div>
-            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(11,31,58,0.06)', display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
+            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(28,28,28,0.06)', display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
               <span className="badge badge-active">ACTIVE</span>
               <strong style={{ color: 'var(--primary-navy)' }}>₹2,400</strong>
             </div>
@@ -586,7 +590,7 @@ export default function LandingPage() {
 
       {/* 6.5 ABOUT SYNOVA SECTION */}
       <section id="about" className="page-container" style={{ marginBottom: 96 }}>
-        <div style={{ background: '#FFFFFF', borderRadius: 28, padding: '48px 40px', border: '1px solid rgba(11, 31, 58, 0.08)', boxShadow: '0 16px 48px rgba(11, 31, 58, 0.04)' }}>
+        <div style={{ background: '#FFFFFF', borderRadius: 28, padding: '48px 40px', border: '1px solid rgba(28, 28, 28, 0.08)', boxShadow: '0 16px 48px rgba(28, 28, 28, 0.04)' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
             <div>
               <span className="badge badge-ai" style={{ marginBottom: 12 }}>ABOUT SYNOVA</span>
@@ -602,12 +606,12 @@ export default function LandingPage() {
                   <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--primary-navy)' }}>100%</div>
                   <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>Transparent Pricing</div>
                 </div>
-                <div style={{ width: 1, height: 40, background: 'rgba(11, 31, 58, 0.1)' }} />
+                <div style={{ width: 1, height: 40, background: 'rgba(28, 28, 28, 0.1)' }} />
                 <div>
                   <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--blue-primary)' }}>&lt; 30s</div>
                   <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>Quote Generation</div>
                 </div>
-                <div style={{ width: 1, height: 40, background: 'rgba(11, 31, 58, 0.1)' }} />
+                <div style={{ width: 1, height: 40, background: 'rgba(28, 28, 28, 0.1)' }} />
                 <div>
                   <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--status-emerald)' }}>256-bit</div>
                   <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>Encrypted Vault</div>
@@ -615,7 +619,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div style={{ background: 'var(--bg-subtle)', borderRadius: 20, padding: 32, border: '1px solid rgba(11, 31, 58, 0.08)' }}>
+            <div style={{ background: 'var(--bg-subtle)', borderRadius: 20, padding: 32, border: '1px solid rgba(28, 28, 28, 0.08)' }}>
               <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--primary-navy)', marginBottom: 16 }}>
                 Core Principles
               </h3>
@@ -652,11 +656,11 @@ export default function LandingPage() {
         <div
           style={{
             borderRadius: 32,
-            background: 'linear-gradient(135deg, #0B1F3A 0%, #1565C0 50%, #6C63FF 100%)',
+            background: 'linear-gradient(135deg, #111111 0%, #1C1C1C 50%, #6E6285 100%)',
             color: '#FFFFFF',
             padding: '64px 48px',
             textAlign: 'center',
-            boxShadow: '0 24px 60px rgba(11, 31, 58, 0.2)',
+            boxShadow: '0 24px 60px rgba(28, 28, 28, 0.2)',
           }}
         >
           <h2 style={{ fontSize: 'clamp(32px, 4.5vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 16 }}>

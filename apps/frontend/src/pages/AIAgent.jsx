@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUp, Paperclip, Sparkles, ArrowRight, ShieldCheck, CheckCircle2, Car, RefreshCw, Volume2, VolumeX, X } from 'lucide-react';
 import AIAgentHeader from '../components/ai-agent/AIAgentHeader';
+import HelixChronoMatrixBackground from '../components/common/HelixChronoMatrixBackground';
 import ConversationPanel from '../components/ai-agent/ConversationPanel';
 import UploadZone from '../components/ai-agent/UploadZone';
 import VoiceWidget from '../components/ai-agent/VoiceWidget';
@@ -168,7 +169,8 @@ export default function AIAgent() {
 
     return (
         <div className="ai-agent-page">
-            <AIAgentHeader 
+            <HelixChronoMatrixBackground />
+            <AIAgentHeader
                 onToggleSpeech={() => setSpeakingEnabled(!speakingEnabled)} 
                 speechEnabled={speakingEnabled} 
                 onResetChat={handleResetChat}

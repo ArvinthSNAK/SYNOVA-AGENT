@@ -41,7 +41,7 @@ export default function InsurerLogoBadge({ insurerName = '', size = 36, rounded 
           minHeight: size,
           borderRadius: rounded,
           background: '#FFFFFF',
-          border: showBorder ? '1px solid rgba(11, 31, 58, 0.12)' : 'none',
+          border: showBorder ? '1px solid rgba(28, 28, 28, 0.12)' : 'none',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
           display: 'flex',
           alignItems: 'center',
@@ -80,7 +80,7 @@ export default function InsurerLogoBadge({ insurerName = '', size = 36, rounded 
       case 'icici': return 'linear-gradient(135deg, #9C1D27 0%, #E65100 100%)';
       case 'tata': return 'linear-gradient(135deg, #005088 0%, #0077C8 100%)';
       case 'hdfc': return 'linear-gradient(135deg, #ED1C24 0%, #002D62 100%)';
-      case 'acko': return 'linear-gradient(135deg, #5B5FEF 0%, #3B82F6 100%)';
+      case 'acko': return 'linear-gradient(135deg, #8B7FA8 0%, #3B82F6 100%)';
       case 'bajaj': return 'linear-gradient(135deg, #005696 0%, #0088D4 100%)';
       case 'niva': return 'linear-gradient(135deg, #0079C1 0%, #78BE20 100%)';
       case 'star': return 'linear-gradient(135deg, #0B3082 0%, #FFC72C 100%)';
@@ -92,7 +92,7 @@ export default function InsurerLogoBadge({ insurerName = '', size = 36, rounded 
       case 'reliance': return 'linear-gradient(135deg, #0D47A1 0%, #D32F2F 100%)';
       case 'sompo': return 'linear-gradient(135deg, #D91E2A 0%, #FFC72C 100%)';
       case 'generali': return 'linear-gradient(135deg, #C8102E 0%, #8A001A 100%)';
-      default: return 'linear-gradient(135deg, #0B1F3A 0%, #1565C0 100%)';
+      default: return 'linear-gradient(135deg, #111111 0%, #1C1C1C 100%)';
     }
   };
 

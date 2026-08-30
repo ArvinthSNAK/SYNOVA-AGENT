@@ -244,7 +244,7 @@ export default function InsuranceVaultPage() {
           <h1 style={{ fontSize: 32, fontWeight: 900, color: '#0F172A', margin: '4px 0 0', letterSpacing: '-0.02em' }}>
             Digital Insurance Vault
           </h1>
-          <p style={{ fontSize: 14, color: '#64748B', margin: '6px 0 0' }}>
+          <p style={{ fontSize: 14, color: '#6B6B6B', margin: '6px 0 0' }}>
             Store, track, and manage all your active Motor, Health, and Term Life policies in one central hub.
           </p>
         </div>
@@ -259,15 +259,15 @@ export default function InsuranceVaultPage() {
               padding: '8px 16px',
               borderRadius: 16,
               background: '#FFFFFF',
-              border: '1.5px solid rgba(21, 101, 192, 0.2)',
+              border: '1.5px solid rgba(28, 28, 28, 0.2)',
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
             }}
           >
             <div>
-              <div style={{ fontSize: 10.5, fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: 10.5, fontWeight: 700, color: '#6B6B6B', textTransform: 'uppercase' }}>
                 Vault Balance
               </div>
-              <div style={{ fontSize: 16, fontWeight: 900, color: '#1565C0' }}>
+              <div style={{ fontSize: 16, fontWeight: 900, color: '#1C1C1C' }}>
                 ₹{Number(walletBalance).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </div>
             </div>
@@ -278,7 +278,7 @@ export default function InsuranceVaultPage() {
                 padding: '6px 12px',
                 borderRadius: 10,
                 border: 'none',
-                background: 'linear-gradient(135deg, #1565C0 0%, #0D47A1 100%)',
+                background: 'linear-gradient(135deg, #1C1C1C 0%, #0D47A1 100%)',
                 color: '#FFFFFF',
                 fontSize: 12,
                 fontWeight: 800,
@@ -406,7 +406,7 @@ export default function InsuranceVaultPage() {
             <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0F172A', margin: '0 0 8px' }}>
               No policies in this category
             </h3>
-            <p style={{ fontSize: 14, color: '#64748B', maxWidth: 460, margin: '0 auto 24px' }}>
+            <p style={{ fontSize: 14, color: '#6B6B6B', maxWidth: 460, margin: '0 auto 24px' }}>
               Explore over 40+ insurance policies across Motor, Health, and Term Life on our digital marketplace.
             </p>
             <Link
@@ -480,12 +480,12 @@ export default function InsuranceVaultPage() {
                           <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0F172A', margin: 0 }}>
                             {p.product_name || p.name || 'Comprehensive Coverage'}
                           </h3>
-                          <div style={{ fontSize: 12, color: '#64748B', fontWeight: 600, marginTop: 2 }}>{p.insurer_name}</div>
+                          <div style={{ fontSize: 12, color: '#6B6B6B', fontWeight: 600, marginTop: 2 }}>{p.insurer_name}</div>
                         </div>
                       </div>
 
                       <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontSize: 11, color: '#64748B' }}>Annual Premium</div>
+                        <div style={{ fontSize: 11, color: '#6B6B6B' }}>Annual Premium</div>
                         <div style={{ fontSize: 18, fontWeight: 900, color: '#0F172A', marginTop: 2 }}>
                           {formatCurrency(p.premium)}
                         </div>
@@ -495,12 +495,12 @@ export default function InsuranceVaultPage() {
                     {/* Meta Grid */}
                     <div style={{ background: '#F8FAFC', borderRadius: 14, padding: 14, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 12, marginBottom: 16 }}>
                       <div>
-                        <span style={{ color: '#64748B' }}>Policy Number:</span>
+                        <span style={{ color: '#6B6B6B' }}>Policy Number:</span>
                         <div style={{ fontWeight: 800, color: '#0F172A', marginTop: 2 }}>{p.policy_number}</div>
                       </div>
 
                       <div>
-                        <span style={{ color: '#64748B' }}>Coverage Cover:</span>
+                        <span style={{ color: '#6B6B6B' }}>Coverage Cover:</span>
                         <div style={{ fontWeight: 800, color: '#2563EB', marginTop: 2 }}>
                           {formatCurrency(p.coverage_amount || p.idv)}
                         </div>
@@ -508,14 +508,14 @@ export default function InsuranceVaultPage() {
 
                       {p.vehicle_registration && (
                         <div>
-                          <span style={{ color: '#64748B' }}>Vehicle:</span>
+                          <span style={{ color: '#6B6B6B' }}>Vehicle:</span>
                           <div style={{ fontWeight: 700, color: '#0F172A', marginTop: 2 }}>{p.vehicle_registration}</div>
                         </div>
                       )}
 
                       {p.end_date && (
                         <div>
-                          <span style={{ color: '#64748B' }}>Valid Till:</span>
+                          <span style={{ color: '#6B6B6B' }}>Valid Till:</span>
                           <div style={{ fontWeight: 700, color: '#0F172A', marginTop: 2 }}>
                             {new Date(p.end_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                           </div>
@@ -524,7 +524,7 @@ export default function InsuranceVaultPage() {
                     </div>
 
                     {p.notes && (
-                      <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 16px', lineHeight: 1.5 }}>
+                      <p style={{ fontSize: 12, color: '#6B6B6B', margin: '0 0 16px', lineHeight: 1.5 }}>
                         {p.notes}
                       </p>
                     )}
@@ -610,7 +610,7 @@ export default function InsuranceVaultPage() {
             <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0F172A', margin: '0 0 8px' }}>
               No Claims on Record
             </h3>
-            <p style={{ fontSize: 14, color: '#64748B', maxWidth: 460, margin: '0 auto 24px' }}>
+            <p style={{ fontSize: 14, color: '#6B6B6B', maxWidth: 460, margin: '0 auto 24px' }}>
               You have a 100% clean claim track record. Enjoy your full No Claim Bonus (NCB) benefits.
             </p>
             <button
@@ -650,10 +650,10 @@ export default function InsuranceVaultPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                     <span style={{ fontSize: 13, fontWeight: 800, color: '#2563EB' }}>{c.claim_number}</span>
                     <span style={{ color: '#E2E8F0' }}>•</span>
-                    <span style={{ fontSize: 12, color: '#64748B' }}>{c.claim_type}</span>
+                    <span style={{ fontSize: 12, color: '#6B6B6B' }}>{c.claim_type}</span>
                   </div>
                   <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>{c.description}</div>
-                  <div style={{ fontSize: 12, color: '#64748B', marginTop: 2 }}>{c.insurer_name} • Policy: {c.policy_number}</div>
+                  <div style={{ fontSize: 12, color: '#6B6B6B', marginTop: 2 }}>{c.insurer_name} • Policy: {c.policy_number}</div>
                 </div>
 
                 <div style={{ textAlign: 'right' }}>
@@ -713,7 +713,7 @@ export default function InsuranceVaultPage() {
               </h3>
               <button
                 onClick={() => setShowFNOLModal(false)}
-                style={{ background: 'none', border: 'none', fontSize: 18, color: '#64748B', cursor: 'pointer' }}
+                style={{ background: 'none', border: 'none', fontSize: 18, color: '#6B6B6B', cursor: 'pointer' }}
               >
                 ✕
               </button>
@@ -726,7 +726,7 @@ export default function InsuranceVaultPage() {
             ) : (
               <form onSubmit={handleFNOLSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>Select Policy</label>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: '#1C1C1C', display: 'block', marginBottom: 4 }}>Select Policy</label>
                   <select
                     value={fnolForm.policy_id}
                     onChange={(e) => setFnolForm({ ...fnolForm, policy_id: e.target.value })}
@@ -741,7 +741,7 @@ export default function InsuranceVaultPage() {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>Claim Type</label>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: '#1C1C1C', display: 'block', marginBottom: 4 }}>Claim Type</label>
                   <select
                     value={fnolForm.claim_type}
                     onChange={(e) => setFnolForm({ ...fnolForm, claim_type: e.target.value })}
@@ -755,7 +755,7 @@ export default function InsuranceVaultPage() {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>Incident Details / Loss Description</label>
+                  <label style={{ fontSize: 12, fontWeight: 700, color: '#1C1C1C', display: 'block', marginBottom: 4 }}>Incident Details / Loss Description</label>
                   <textarea
                     rows={3}
                     value={fnolForm.description}

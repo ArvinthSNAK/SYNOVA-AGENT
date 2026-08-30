@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { validatePassword, validateEmail } from '../utils/validators';
-import { Eye, EyeOff, Check, X, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, Check, X } from 'lucide-react';
+import OrbitingCoverageBadge from '../components/common/OrbitingCoverageBadge';
 
 export default function SignUpPage() {
   const [fullName, setFullName] = useState('');
@@ -49,37 +50,55 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="page-container" style={{ maxWidth: 500, paddingTop: 50, paddingBottom: 60 }}>
-      <div className="saas-card" style={{ padding: '38px 36px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: 14,
-              background: 'linear-gradient(135deg, #0B1F3A 0%, #1565C0 100%)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 12,
-              boxShadow: '0 8px 20px rgba(11, 31, 58, 0.15)',
-            }}
-          >
-            <ShieldCheck size={26} color="#FFFFFF" />
+    <div className="page-container" style={{ maxWidth: 980, paddingTop: 50, paddingBottom: 60 }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 0.95fr) minmax(0, 1.05fr)',
+          borderRadius: 28,
+          overflow: 'hidden',
+          boxShadow: 'var(--shadow-hover)',
+          border: '1px solid rgba(28, 28, 28, 0.06)',
+        }}
+      >
+        {/* Left: Brand Panel */}
+        <div
+          style={{
+            background: 'linear-gradient(160deg, #1C1C1C 0%, #000000 100%)',
+            padding: '48px 32px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            gap: 28,
+          }}
+        >
+          <OrbitingCoverageBadge size={280} />
+          <div>
+            <div style={{ fontSize: 26, fontWeight: 900, letterSpacing: '0.06em', color: '#FFFFFF' }}>SYNOVA</div>
+            <p style={{ marginTop: 12, fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.6)', maxWidth: 300 }}>
+              Start aggregating, comparing, and vaulting every policy you own — in one intelligent place.
+            </p>
           </div>
-          <h2 style={{ fontSize: 24, color: 'var(--primary-navy)', fontWeight: 800, margin: 0 }}>Create SYNOVA Account</h2>
-          <p style={{ fontSize: 13.5, color: 'var(--text-muted)', marginTop: 4, marginBottom: 0 }}>
-            Securely aggregate, compare, and vault your insurance policies
-          </p>
         </div>
 
-        {error && (
-          <div style={{ padding: '10px 14px', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: 10, color: '#E11D48', fontSize: 13, marginBottom: 18, fontWeight: 500 }}>
-            {error}
+        {/* Right: Form Panel */}
+        <div style={{ background: '#FFFFFF', padding: '48px 44px' }}>
+          <div style={{ marginBottom: 24 }}>
+            <h2 style={{ fontSize: 28, color: 'var(--primary-navy)', fontWeight: 800, margin: 0 }}>Create your account</h2>
+            <p style={{ fontSize: 13.5, color: 'var(--text-muted)', marginTop: 6, marginBottom: 0 }}>
+              Start aggregating, comparing, and vaulting your policies.
+            </p>
           </div>
-        )}
 
-        <form onSubmit={handleRegister}>
+          {error && (
+            <div style={{ padding: '10px 14px', background: '#FFF1F2', border: '1px solid #FECDD3', borderRadius: 10, color: '#E11D48', fontSize: 13, marginBottom: 18, fontWeight: 500 }}>
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleRegister}>
           <div style={{ marginBottom: 14 }}>
             <label style={{ display: 'block', fontSize: 13, color: 'var(--text-body)', marginBottom: 6, fontWeight: 600 }}>
               Full Name
@@ -132,7 +151,7 @@ export default function SignUpPage() {
                   transform: 'translateY(-50%)',
                   background: 'none',
                   border: 'none',
-                  color: '#94A3B8',
+                  color: '#9A9A9A',
                   cursor: 'pointer',
                   padding: 0,
                   display: 'flex',
@@ -147,7 +166,7 @@ export default function SignUpPage() {
             {password.length > 0 && (
               <div style={{ marginTop: 8 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                  <span style={{ fontSize: 11.5, color: '#64748B' }}>Password Strength:</span>
+                  <span style={{ fontSize: 11.5, color: '#6B6B6B' }}>Password Strength:</span>
                   <span style={{ fontSize: 11.5, fontWeight: 700, color: pwdValidation.strengthColor }}>
                     {pwdValidation.strength}
                   </span>
@@ -168,20 +187,20 @@ export default function SignUpPage() {
 
                 {/* Requirements Checklist */}
                 <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, fontSize: 11.5 }}>
-                  <div style={{ color: pwdValidation.requirements.minLength ? '#059669' : '#64748B', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {pwdValidation.requirements.minLength ? <Check size={13} /> : <X size={13} color="#94A3B8" />} 8+ Characters
+                  <div style={{ color: pwdValidation.requirements.minLength ? '#059669' : '#6B6B6B', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {pwdValidation.requirements.minLength ? <Check size={13} /> : <X size={13} color="#9A9A9A" />} 8+ Characters
                   </div>
-                  <div style={{ color: pwdValidation.requirements.hasUpper ? '#059669' : '#64748B', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {pwdValidation.requirements.hasUpper ? <Check size={13} /> : <X size={13} color="#94A3B8" />} Uppercase (A-Z)
+                  <div style={{ color: pwdValidation.requirements.hasUpper ? '#059669' : '#6B6B6B', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {pwdValidation.requirements.hasUpper ? <Check size={13} /> : <X size={13} color="#9A9A9A" />} Uppercase (A-Z)
                   </div>
-                  <div style={{ color: pwdValidation.requirements.hasLower ? '#059669' : '#64748B', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {pwdValidation.requirements.hasLower ? <Check size={13} /> : <X size={13} color="#94A3B8" />} Lowercase (a-z)
+                  <div style={{ color: pwdValidation.requirements.hasLower ? '#059669' : '#6B6B6B', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {pwdValidation.requirements.hasLower ? <Check size={13} /> : <X size={13} color="#9A9A9A" />} Lowercase (a-z)
                   </div>
-                  <div style={{ color: pwdValidation.requirements.hasNumber ? '#059669' : '#64748B', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {pwdValidation.requirements.hasNumber ? <Check size={13} /> : <X size={13} color="#94A3B8" />} Number (0-9)
+                  <div style={{ color: pwdValidation.requirements.hasNumber ? '#059669' : '#6B6B6B', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {pwdValidation.requirements.hasNumber ? <Check size={13} /> : <X size={13} color="#9A9A9A" />} Number (0-9)
                   </div>
-                  <div style={{ gridColumn: 'span 2', color: pwdValidation.requirements.hasSpecial ? '#059669' : '#64748B', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {pwdValidation.requirements.hasSpecial ? <Check size={13} /> : <X size={13} color="#94A3B8" />} Special Symbol (!@#$%^&*)
+                  <div style={{ gridColumn: 'span 2', color: pwdValidation.requirements.hasSpecial ? '#059669' : '#6B6B6B', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {pwdValidation.requirements.hasSpecial ? <Check size={13} /> : <X size={13} color="#9A9A9A" />} Special Symbol (!@#$%^&*)
                   </div>
                 </div>
               </div>
@@ -212,7 +231,7 @@ export default function SignUpPage() {
                   transform: 'translateY(-50%)',
                   background: 'none',
                   border: 'none',
-                  color: '#94A3B8',
+                  color: '#9A9A9A',
                   cursor: 'pointer',
                   padding: 0,
                   display: 'flex',
@@ -240,11 +259,12 @@ export default function SignUpPage() {
           </button>
         </form>
 
-        <div style={{ marginTop: 22, textAlign: 'center', fontSize: 13, color: 'var(--text-muted)' }}>
-          Already have an account?{' '}
-          <Link to="/signin" style={{ color: 'var(--blue-primary)', fontWeight: 700, textDecoration: 'none' }}>
-            Sign In
-          </Link>
+          <div style={{ marginTop: 22, textAlign: 'center', fontSize: 13, color: 'var(--text-muted)' }}>
+            Already have an account?{' '}
+            <Link to="/signin" style={{ color: 'var(--blue-primary)', fontWeight: 700, textDecoration: 'none' }}>
+              Sign In
+            </Link>
+          </div>
         </div>
       </div>
     </div>

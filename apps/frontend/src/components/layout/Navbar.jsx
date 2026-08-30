@@ -440,21 +440,22 @@ export default function Navbar() {
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: 'rgba(255, 255, 255, 0.92)',
-        backdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(11, 31, 58, 0.08)',
-        height: 76,
-        display: 'flex',
-        alignItems: 'center',
+        padding: '16px 24px 0',
       }}
     >
       <div
-        className="page-container"
         style={{
           width: '100%',
+          maxWidth: 1320,
+          margin: '0 auto',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          background: '#FFFFFF',
+          borderRadius: 28,
+          border: '1px solid rgba(28, 28, 28, 0.06)',
+          boxShadow: '0 12px 34px rgba(28, 28, 28, 0.10)',
+          padding: '14px 28px',
         }}
       >
         {/* Left: Brand Logo */}
@@ -463,17 +464,18 @@ export default function Navbar() {
         </Link>
 
         {/* Center: Comprehensive Marketplace Navigation */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <Link
             to="/policies"
+            className="nav-link"
             style={{
               fontSize: 14,
               fontWeight: 700,
-              color: (isActive('/policies') || isActive('/marketplace') || isActive('/insurance')) ? '#2563EB' : 'var(--text-body)',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
               gap: 4,
+              ...((isActive('/policies') || isActive('/marketplace') || isActive('/insurance')) && { color: 'var(--blue-primary)', background: 'var(--bg-tinted)' }),
             }}
           >
             All Policies
@@ -481,12 +483,12 @@ export default function Navbar() {
 
           <Link
             to="/new-insurance"
+            className="nav-link"
             style={{
               fontSize: 14,
               fontWeight: 600,
-              color: (isActive('/new-insurance') || isActive('/compare')) ? 'var(--blue-primary)' : 'var(--text-body)',
               textDecoration: 'none',
-              transition: 'color 0.2s ease',
+              ...((isActive('/new-insurance') || isActive('/compare')) && { color: 'var(--blue-primary)', background: 'var(--bg-tinted)' }),
             }}
           >
             Compare
@@ -494,12 +496,12 @@ export default function Navbar() {
 
           <Link
             to="/renew-insurance"
+            className="nav-link"
             style={{
               fontSize: 14,
               fontWeight: 600,
-              color: (isActive('/renew-insurance') || isActive('/renewals')) ? 'var(--blue-primary)' : 'var(--text-body)',
               textDecoration: 'none',
-              transition: 'color 0.2s ease',
+              ...((isActive('/renew-insurance') || isActive('/renewals')) && { color: 'var(--blue-primary)', background: 'var(--bg-tinted)' }),
             }}
           >
             Renewals
@@ -507,12 +509,12 @@ export default function Navbar() {
 
           <Link
             to="/insurance-vault"
+            className="nav-link"
             style={{
               fontSize: 14,
               fontWeight: 600,
-              color: (isActive('/insurance-vault') || isActive('/vault') || isActive('/claims')) ? 'var(--blue-primary)' : 'var(--text-body)',
               textDecoration: 'none',
-              transition: 'color 0.2s ease',
+              ...((isActive('/insurance-vault') || isActive('/vault') || isActive('/claims')) && { color: 'var(--blue-primary)', background: 'var(--bg-tinted)' }),
             }}
           >
             Insurance Vault
@@ -523,9 +525,9 @@ export default function Navbar() {
             style={{
               fontSize: 13.5,
               fontWeight: 700,
-              color: (isActive('/agent') || isActive('/ai-agent')) ? '#2563EB' : '#4338CA',
-              background: (isActive('/agent') || isActive('/ai-agent')) ? '#EFF6FF' : 'rgba(99, 102, 241, 0.08)',
-              border: (isActive('/agent') || isActive('/ai-agent')) ? '1px solid #BFDBFE' : '1px solid rgba(99, 102, 241, 0.15)',
+              color: (isActive('/agent') || isActive('/ai-agent')) ? 'var(--blue-primary)' : 'var(--ai-accent)',
+              background: (isActive('/agent') || isActive('/ai-agent')) ? 'var(--bg-tinted)' : 'rgba(222, 216, 237, 0.2)',
+              border: (isActive('/agent') || isActive('/ai-agent')) ? '1px solid rgba(139, 127, 168, 0.45)' : '1px solid rgba(139, 127, 168, 0.25)',
               padding: '5px 12px',
               borderRadius: 20,
               textDecoration: 'none',
@@ -534,27 +536,28 @@ export default function Navbar() {
               gap: 6,
               transition: 'all 0.2s ease',
             }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 16px rgba(222, 216, 237, 0.5)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}
           >
             <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#10B981', display: 'inline-block' }}></span>
             <span>Voice Advisor</span>
           </Link>
 
-          <button
-            type="button"
-            onClick={() => handleNavTo('how-it-works')}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              fontSize: 14,
-              fontWeight: 600,
-              color: 'var(--text-body)',
-              cursor: 'pointer',
-              padding: 0,
-              transition: 'color 0.2s ease',
-            }}
-          >
-            How It Works
-          </button>
+          {!user && (
+            <button
+              type="button"
+              onClick={() => handleNavTo('how-it-works')}
+              className="nav-link"
+              style={{
+                border: 'none',
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              How It Works
+            </button>
+          )}
         </nav>
 
         {/* Right: Actions / Auth Profile */}
@@ -574,7 +577,7 @@ export default function Navbar() {
                     alignItems: 'center',
                     gap: 8,
                     background: 'var(--bg-tinted)',
-                    border: '1px solid rgba(21, 101, 192, 0.18)',
+                    border: '1px solid rgba(28, 28, 28, 0.18)',
                     borderRadius: 9999,
                     padding: '8px 16px',
                     fontSize: 13,
@@ -599,9 +602,9 @@ export default function Navbar() {
                       right: 0,
                       width: 340,
                       background: '#FFFFFF',
-                      border: '1px solid rgba(11, 31, 58, 0.12)',
+                      border: '1px solid rgba(28, 28, 28, 0.12)',
                       borderRadius: 20,
-                      boxShadow: '0 20px 50px rgba(11, 31, 58, 0.18)',
+                      boxShadow: '0 20px 50px rgba(28, 28, 28, 0.18)',
                       padding: 22,
                       zIndex: 1000,
                     }}
@@ -615,7 +618,7 @@ export default function Navbar() {
                       </span>
                     </div>
 
-                    <div style={{ fontSize: 28, fontWeight: 900, color: '#0B1F3A', marginBottom: 16 }}>
+                    <div style={{ fontSize: 28, fontWeight: 900, color: '#111111', marginBottom: 16 }}>
                       ₹{walletBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </div>
 
@@ -646,7 +649,7 @@ export default function Navbar() {
 
                     {/* Quick Add Chips */}
                     <div style={{ marginBottom: 16 }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: '#64748B', marginBottom: 8, textTransform: 'uppercase' }}>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: '#6B6B6B', marginBottom: 8, textTransform: 'uppercase' }}>
                         Quick Top-up
                       </div>
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
@@ -665,7 +668,7 @@ export default function Navbar() {
                               background: '#F8FAFC',
                               fontSize: 12,
                               fontWeight: 700,
-                              color: '#1565C0',
+                              color: '#1C1C1C',
                               cursor: 'pointer',
                             }}
                           >
@@ -677,7 +680,7 @@ export default function Navbar() {
 
                     {/* Recent Transactions Snippet */}
                     <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 11, fontWeight: 700, color: '#64748B', marginBottom: 8, textTransform: 'uppercase' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 11, fontWeight: 700, color: '#6B6B6B', marginBottom: 8, textTransform: 'uppercase' }}>
                         <span>Recent Ledger</span>
                         <History size={13} />
                       </div>
@@ -696,7 +699,7 @@ export default function Navbar() {
                                 fontSize: 11.5,
                               }}
                             >
-                              <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 180, color: '#334155', fontWeight: 600 }}>
+                              <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 180, color: '#1C1C1C', fontWeight: 600 }}>
                                 {tx.description || 'Wallet Transaction'}
                               </div>
                               <div style={{ fontWeight: 800, color: tx.type === 'CREDIT' ? '#059669' : '#DC2626' }}>
@@ -706,7 +709,7 @@ export default function Navbar() {
                           ))}
                         </div>
                       ) : (
-                        <div style={{ fontSize: 11.5, color: '#94A3B8', textAlign: 'center', padding: '6px 0' }}>
+                        <div style={{ fontSize: 11.5, color: '#9A9A9A', textAlign: 'center', padding: '6px 0' }}>
                           No recent transactions
                         </div>
                       )}
@@ -729,7 +732,7 @@ export default function Navbar() {
                     height: 40,
                     borderRadius: '50%',
                     background: '#FFFFFF',
-                    border: '1px solid rgba(11, 31, 58, 0.12)',
+                    border: '1px solid rgba(28, 28, 28, 0.12)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -777,9 +780,9 @@ export default function Navbar() {
                       width: 360,
                       maxHeight: 440,
                       background: '#FFFFFF',
-                      border: '1px solid rgba(11, 31, 58, 0.12)',
+                      border: '1px solid rgba(28, 28, 28, 0.12)',
                       borderRadius: 18,
-                      boxShadow: '0 20px 50px rgba(11, 31, 58, 0.15)',
+                      boxShadow: '0 20px 50px rgba(28, 28, 28, 0.15)',
                       padding: 18,
                       zIndex: 1000,
                       overflowY: 'auto',
@@ -826,8 +829,8 @@ export default function Navbar() {
                               style={{
                                 padding: 12,
                                 borderRadius: 12,
-                                background: n.status === 'unread' ? 'var(--bg-tinted)' : '#F8FAFD',
-                                border: n.status === 'unread' ? '1px solid rgba(21, 101, 192, 0.2)' : '1px solid rgba(11, 31, 58, 0.05)',
+                                background: n.status === 'unread' ? 'var(--bg-tinted)' : '#EBEBEB',
+                                border: n.status === 'unread' ? '1px solid rgba(28, 28, 28, 0.2)' : '1px solid rgba(28, 28, 28, 0.05)',
                                 fontSize: 12.5,
                                 position: 'relative',
                               }}
@@ -952,10 +955,10 @@ export default function Navbar() {
             <>
               <Link
                 to="/signin"
+                className="nav-link"
                 style={{
                   fontSize: 14,
                   fontWeight: 600,
-                  color: 'var(--primary-navy)',
                   padding: '8px 16px',
                   textDecoration: 'none',
                 }}
@@ -980,7 +983,7 @@ export default function Navbar() {
             left: 0,
             width: '100vw',
             height: '100vh',
-            backgroundColor: 'rgba(11, 31, 58, 0.75)',
+            backgroundColor: 'rgba(28, 28, 28, 0.75)',
             backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
@@ -1013,7 +1016,7 @@ export default function Navbar() {
             {/* Header Banner */}
             <div
               style={{
-                background: 'linear-gradient(135deg, var(--primary-navy) 0%, #1565C0 100%)',
+                background: 'linear-gradient(135deg, var(--primary-navy) 0%, #1C1C1C 100%)',
                 color: '#FFFFFF',
                 padding: '24px 28px',
                 position: 'relative',
@@ -1072,7 +1075,7 @@ export default function Navbar() {
               {modalStep === 'details' && (
                 <div>
                   {/* Description highlights */}
-                  <div style={{ background: 'var(--bg-tinted)', borderRadius: 16, padding: '16px 20px', marginBottom: 20, border: '1px solid rgba(21, 101, 192, 0.1)' }}>
+                  <div style={{ background: 'var(--bg-tinted)', borderRadius: 16, padding: '16px 20px', marginBottom: 20, border: '1px solid rgba(28, 28, 28, 0.1)' }}>
                     <div style={{ fontSize: 13, color: 'var(--primary-navy)', lineHeight: 1.6, fontWeight: 500 }}>
                       {selectedQuote.message}
                     </div>
@@ -1080,13 +1083,13 @@ export default function Navbar() {
 
                   {/* Underwriting Metrics Grid */}
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, marginBottom: 20 }}>
-                    <div style={{ padding: 14, borderRadius: 14, background: '#F8FAFD', border: '1px solid rgba(11, 31, 58, 0.06)' }}>
+                    <div style={{ padding: 14, borderRadius: 14, background: '#EBEBEB', border: '1px solid rgba(28, 28, 28, 0.06)' }}>
                       <div style={{ fontSize: 11.5, color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Underwriting Partner</div>
                       <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--primary-navy)', marginTop: 4 }}>
                         {selectedQuote.insurer_name || 'Mock Insurer Gateway'}
                       </div>
                     </div>
-                    <div style={{ padding: 14, borderRadius: 14, background: '#F8FAFD', border: '1px solid rgba(11, 31, 58, 0.06)' }}>
+                    <div style={{ padding: 14, borderRadius: 14, background: '#EBEBEB', border: '1px solid rgba(28, 28, 28, 0.06)' }}>
                       <div style={{ fontSize: 11.5, color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Instant Premium Quote</div>
                       <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--blue-primary)', marginTop: 4 }}>
                         ₹5,780 <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-muted)' }}>/ yr (incl. GST)</span>
@@ -1142,7 +1145,7 @@ export default function Navbar() {
               {modalStep === 'payment' && (
                 <form onSubmit={handleMockPayment}>
                   {/* Order Summary Box */}
-                  <div style={{ background: '#F8FAFD', borderRadius: 16, padding: '16px 20px', marginBottom: 18, border: '1px solid rgba(11, 31, 58, 0.08)' }}>
+                  <div style={{ background: '#EBEBEB', borderRadius: 16, padding: '16px 20px', marginBottom: 18, border: '1px solid rgba(28, 28, 28, 0.08)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--text-muted)', marginBottom: 6 }}>
                       <span>Base OD Premium</span>
                       <span>₹4,899</span>
@@ -1304,7 +1307,7 @@ export default function Navbar() {
 
                   {/* Sandbox Banner */}
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 20, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                    <Shield size={13} color="#64748B" /> Sandbox Mock Payment Gateway • Instant Policy Issuance
+                    <Shield size={13} color="#6B6B6B" /> Sandbox Mock Payment Gateway • Instant Policy Issuance
                   </div>
 
                   {/* Action Buttons */}
@@ -1361,7 +1364,7 @@ export default function Navbar() {
                   </p>
 
                   {/* Digital Policy Card Receipt */}
-                  <div style={{ background: '#F8FAFD', borderRadius: 16, padding: '18px 20px', textAlign: 'left', border: '1px solid rgba(11, 31, 58, 0.08)', marginBottom: 24 }}>
+                  <div style={{ background: '#EBEBEB', borderRadius: 16, padding: '18px 20px', textAlign: 'left', border: '1px solid rgba(28, 28, 28, 0.08)', marginBottom: 24 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                       <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Policy Number:</span>
                       <strong style={{ fontSize: 13, color: 'var(--primary-navy)', letterSpacing: '0.5px' }}>{issuedPolicy.policy_number}</strong>

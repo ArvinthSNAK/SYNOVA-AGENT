@@ -136,11 +136,11 @@ export default function InsurerMarquee() {
             alignItems: 'center',
             gap: 8,
             background: '#FFFFFF',
-            border: '1px solid rgba(21, 101, 192, 0.16)',
+            border: '1px solid rgba(28, 28, 28, 0.16)',
             padding: '5px 16px',
             borderRadius: 9999,
             marginBottom: 10,
-            boxShadow: '0 2px 8px rgba(11, 31, 58, 0.04)',
+            boxShadow: '0 2px 8px rgba(28, 28, 28, 0.04)',
           }}
         >
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--status-emerald)' }}></span>

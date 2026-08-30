@@ -28,7 +28,7 @@ export function downloadPolicyPdf(policy) {
   const ncb = policy.ncb_percent || 20;
 
   // 1. Top Deep Navy Header Banner
-  doc.setFillColor(11, 31, 58); // #0B1F3A
+  doc.setFillColor(11, 31, 58); // #111111
   doc.rect(0, 0, pageWidth, 38, 'F');
 
   // Decorative Accent Bar

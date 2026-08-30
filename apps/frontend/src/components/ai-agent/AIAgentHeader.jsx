@@ -40,7 +40,7 @@ export default function AIAgentHeader({ onToggleSpeech, speechEnabled, onResetCh
                     }}
                     title="Start fresh conversation"
                 >
-                    <RotateCcw size={14} color="#94A3B8" />
+                    <RotateCcw size={14} color="#9A9A9A" />
                     <span>New Chat</span>
                 </button>
                 <button
@@ -61,7 +61,7 @@ export default function AIAgentHeader({ onToggleSpeech, speechEnabled, onResetCh
                     }}
                     title={speechEnabled ? 'Voice output enabled' : 'Voice output muted'}
                 >
-                    {speechEnabled ? <Volume2 size={16} color="#60A5FA" /> : <VolumeX size={16} color="#94A3B8" />}
+                    {speechEnabled ? <Volume2 size={16} color="#60A5FA" /> : <VolumeX size={16} color="#9A9A9A" />}
                     <span>{speechEnabled ? 'Voice Active' : 'Voice Muted'}</span>
                 </button>
                 <span className="ai-online"><i /> Online (Port 8011)</span>

@@ -60,10 +60,10 @@ export default function NewInsurancePage() {
   }, [recommendation, comparisonResults]);
 
   const mockInsurers = [
-    { code: 'insurer_a', label: '1', port: 9001, url: getInsurerPortalUrl('insurer_a', 9001), color: '#1565C0' },
-    { code: 'insurer_b', label: '2', port: 9002, url: getInsurerPortalUrl('insurer_b', 9002), color: '#5B5FEF' },
-    { code: 'insurer_c', label: '3', port: 9003, url: getInsurerPortalUrl('insurer_c', 9003), color: '#0B1F3A' },
-    { code: 'insurer_d', label: '4', port: 9004, url: getInsurerPortalUrl('insurer_d', 9004), color: '#123B66' },
+    { code: 'insurer_a', label: '1', port: 9001, url: getInsurerPortalUrl('insurer_a', 9001), color: '#1C1C1C' },
+    { code: 'insurer_b', label: '2', port: 9002, url: getInsurerPortalUrl('insurer_b', 9002), color: '#8B7FA8' },
+    { code: 'insurer_c', label: '3', port: 9003, url: getInsurerPortalUrl('insurer_c', 9003), color: '#111111' },
+    { code: 'insurer_d', label: '4', port: 9004, url: getInsurerPortalUrl('insurer_d', 9004), color: '#111111' },
   ];
 
   const handleInputChange = (e) => {
@@ -530,7 +530,7 @@ export default function NewInsurancePage() {
                         borderRadius: 9999,
                         fontSize: 12,
                         fontWeight: 600,
-                        border: isChecked ? '1px solid var(--blue-primary)' : '1px solid rgba(11, 31, 58, 0.15)',
+                        border: isChecked ? '1px solid var(--blue-primary)' : '1px solid rgba(28, 28, 28, 0.15)',
                         background: isChecked ? 'var(--bg-tinted)' : '#FFFFFF',
                         color: isChecked ? 'var(--blue-primary)' : 'var(--text-body)',
                         cursor: 'pointer',
@@ -593,7 +593,7 @@ export default function NewInsurancePage() {
                 style={{
                   padding: '10px 14px',
                   background: 'var(--bg-tinted)',
-                  border: '1px solid rgba(21, 101, 192, 0.2)',
+                  border: '1px solid rgba(28, 28, 28, 0.2)',
                   borderRadius: 10,
                   color: 'var(--blue-primary)',
                   fontSize: 12.5,
@@ -605,7 +605,7 @@ export default function NewInsurancePage() {
               </div>
             )}
 
-            <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(11,31,58,0.1)', background: '#fff', height: 420 }}>
+            <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(28,28,28,0.1)', background: '#fff', height: 420 }}>
               <iframe
                 src={iframeSrc}
                 title="Quotation Portal Viewport"
@@ -640,12 +640,12 @@ export default function NewInsurancePage() {
           ref={resultsRef}
           id="quote-recommendation-section"
           style={{
-            background: 'linear-gradient(135deg, #0B1F3A 0%, #1565C0 100%)',
+            background: 'linear-gradient(135deg, #111111 0%, #1C1C1C 100%)',
             color: '#FFFFFF',
             borderRadius: 24,
             padding: '32px 36px',
             marginBottom: 36,
-            boxShadow: '0 20px 50px rgba(11, 31, 58, 0.18)',
+            boxShadow: '0 20px 50px rgba(28, 28, 28, 0.18)',
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 20 }}>
@@ -700,7 +700,7 @@ export default function NewInsurancePage() {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5, textAlign: 'left' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(11,31,58,0.1)', color: 'var(--text-muted)', textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.04em' }}>
+                <tr style={{ borderBottom: '1px solid rgba(28,28,28,0.1)', color: 'var(--text-muted)', textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.04em' }}>
                   <th style={{ padding: '12px 14px' }}>Plan & Insurer</th>
                   <th style={{ padding: '12px 14px' }}>Insured Value (IDV)</th>
                   <th style={{ padding: '12px 14px' }}>Own Damage</th>
@@ -767,7 +767,7 @@ export default function NewInsurancePage() {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(11, 31, 58, 0.65)',
+            background: 'rgba(28, 28, 28, 0.65)',
             backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',

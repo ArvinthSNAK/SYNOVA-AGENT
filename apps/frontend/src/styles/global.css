@@ -1,32 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Synova Premium AI SaaS Palette */
-  --primary-navy: #0B1F3A;
-  --dark-blue: #123B66;
-  --blue-primary: #1565C0;
-  --blue-medium: #1976D2;
-  --blue-bright: #2196F3;
+  /* Brand palette (sourced from readmec.md) */
+  --primary-navy: #111111;
+  --dark-blue: #111111;
+  --blue-primary: #6E6285;
+  --blue-medium: #5B5171;
+  --blue-bright: #8B7FA8;
 
-  /* AI Accent Colors */
-  --ai-purple: #5B5FEF;
-  --ai-accent: #6C63FF;
-  --ai-glow: rgba(108, 99, 255, 0.2);
+  /* AI Accent Colors (derived from brand primary #DED8ED for usable contrast) */
+  --ai-purple: #8B7FA8;
+  --ai-accent: #6E6285;
+  --ai-glow: rgba(222, 216, 237, 0.35);
 
   /* Light Backgrounds */
-  --bg-main: #F8FAFD;
-  --bg-subtle: #F5F8FC;
-  --bg-tinted: #EEF5FF;
+  --bg-main: #EBEBEB;
+  --bg-subtle: #F2F2F2;
+  --bg-tinted: #DED8ED;
   --bg-card: #FFFFFF;
-  --bg-dark-card: #0B1F3A;
+  --bg-dark-card: #111111;
 
   /* Typography Colors */
-  --text-heading: #0B1F3A;
-  --text-body: #334155;
-  --text-muted: #64748B;
-  --text-dim: #94A3B8;
+  --text-heading: #1C1C1C;
+  --text-body: #1C1C1C;
+  --text-muted: #6B6B6B;
+  --text-dim: #9A9A9A;
   --text-on-dark: #FFFFFF;
-  --text-on-dark-muted: #94A3B8;
+  --text-on-dark-muted: rgba(255, 255, 255, 0.6);
 
   /* Status Colors */
   --status-emerald: #10B981;
@@ -40,32 +40,33 @@
   --status-rose-border: #FECACA;
 
   /* Borders & Shadows */
-  --border-subtle: rgba(11, 31, 58, 0.08);
-  --border-medium: rgba(11, 31, 58, 0.14);
-  --border-active: #1565C0;
+  --border-subtle: rgba(28, 28, 28, 0.08);
+  --border-medium: rgba(28, 28, 28, 0.14);
+  --border-active: #111111;
   --border-dark-card: rgba(255, 255, 255, 0.1);
 
-  --radius-hero: 36px;
-  --radius-xl: 28px;
-  --radius-lg: 20px;
-  --radius-md: 14px;
-  --radius-sm: 8px;
-  --radius-pill: 9999px;
+  /* Brand spacing.borderRadius = 0px, except buttonPrimary = 11.25px */
+  --radius-hero: 0px;
+  --radius-xl: 0px;
+  --radius-lg: 0px;
+  --radius-md: 0px;
+  --radius-sm: 0px;
+  --radius-pill: 11.25px;
 
-  --shadow-soft: 0 20px 60px rgba(11, 31, 58, 0.07);
-  --shadow-card: 0 8px 30px rgba(11, 31, 58, 0.04), 0 1px 3px rgba(11, 31, 58, 0.02);
-  --shadow-hover: 0 24px 60px rgba(11, 31, 58, 0.12), 0 4px 12px rgba(21, 101, 192, 0.08);
+  --shadow-soft: 0 20px 60px rgba(28, 28, 28, 0.07);
+  --shadow-card: 0 8px 30px rgba(28, 28, 28, 0.04), 0 1px 3px rgba(28, 28, 28, 0.02);
+  --shadow-hover: 0 20px 50px rgba(28, 28, 28, 0.10), 0 6px 20px rgba(222, 216, 237, 0.45);
   --shadow-dark: 0 25px 70px rgba(0, 0, 0, 0.35);
 
   /* Gradients */
-  --gradient-navy-blue: linear-gradient(135deg, #0B1F3A 0%, #1565C0 100%);
-  --gradient-blue-ai: linear-gradient(135deg, #1565C0 0%, #6C63FF 100%);
-  --gradient-light-bg: linear-gradient(135deg, #EEF5FF 0%, #F8FAFD 100%);
-  --gradient-hero-glow: radial-gradient(circle at 50% 0%, rgba(108, 99, 255, 0.08) 0%, rgba(21, 101, 192, 0.04) 40%, transparent 70%);
+  --gradient-navy-blue: linear-gradient(135deg, #111111 0%, #454545 100%);
+  --gradient-blue-ai: linear-gradient(135deg, #111111 0%, #8B7FA8 100%);
+  --gradient-light-bg: linear-gradient(135deg, #EBEBEB 0%, #F5F5F5 100%);
+  --gradient-hero-glow: radial-gradient(circle at 50% 0%, rgba(222, 216, 237, 0.18) 0%, rgba(17, 17, 17, 0.04) 40%, transparent 70%);
 
-  /* Fonts */
-  --font-heading: 'Plus Jakarta Sans', 'Outfit', sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Fonts (EuclidCircular per readmec.md, with web-safe fallbacks since no font file is bundled) */
+  --font-heading: 'EuclidCircular', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'EuclidCircular', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 * {
@@ -82,6 +83,7 @@ body {
   font-family: var(--font-body);
   background-color: var(--bg-main);
   color: var(--text-body);
+  font-size: 11.25px;
   min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -100,9 +102,33 @@ h6 {
   color: var(--text-heading);
 }
 
+/* Brand typography scale (readmec.md) — applies to bare heading tags;
+   component-specific classes with their own font-size still take precedence. */
+h1 {
+  font-size: 45px;
+}
+
+h2 {
+  font-size: 33.75px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Navbar link hover treatment (theme lavender) */
+.nav-link {
+  color: var(--text-body);
+  padding: 7px 11px;
+  border-radius: 9999px;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--blue-primary);
+  background-color: var(--bg-tinted);
+  transform: translateY(-1px);
 }
 
 /* Gradient Text Effect */
@@ -150,7 +176,7 @@ a {
 .saas-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
-  border-color: rgba(21, 101, 192, 0.22);
+  border-color: rgba(139, 127, 168, 0.35);
 }
 
 /* Dark Navy Product Preview Section */
@@ -168,14 +194,14 @@ a {
 .btn-pill-primary {
   background: var(--primary-navy);
   color: #FFFFFF;
-  border: 1px solid var(--primary-navy);
+  border: 1px solid #000000;
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: 14px;
   padding: 12px 26px;
   border-radius: var(--radius-pill);
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(11, 31, 58, 0.15);
+  box-shadow: none;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -186,8 +212,8 @@ a {
 .btn-pill-primary:hover {
   background: var(--blue-primary);
   border-color: var(--blue-primary);
-  transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.28);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 26px rgba(222, 216, 237, 0.4);
 }
 
 .btn-pill-secondary {
@@ -205,14 +231,15 @@ a {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 2px 8px rgba(11, 31, 58, 0.04);
+  box-shadow: 0 2px 8px rgba(28, 28, 28, 0.04);
 }
 
 .btn-pill-secondary:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-tinted);
   border-color: var(--blue-primary);
   color: var(--blue-primary);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(222, 216, 237, 0.45);
 }
 
 .btn-pill-ai {
@@ -225,7 +252,7 @@ a {
   padding: 12px 26px;
   border-radius: var(--radius-pill);
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(108, 99, 255, 0.35);
+  box-shadow: 0 4px 20px rgba(139, 127, 168, 0.35);
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
@@ -235,21 +262,21 @@ a {
 
 .btn-pill-ai:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(108, 99, 255, 0.5);
+  box-shadow: 0 10px 30px rgba(222, 216, 237, 0.55);
 }
 
 /* Backward-compatible button aliases */
 .btn-primary {
   background: var(--primary-navy);
   color: #FFFFFF;
-  border: 1px solid var(--primary-navy);
+  border: 1px solid #000000;
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: 14px;
   padding: 11px 22px;
   border-radius: var(--radius-pill);
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(11, 31, 58, 0.12);
+  box-shadow: none;
   transition: all 0.22s ease;
   display: inline-flex;
   align-items: center;
@@ -260,8 +287,8 @@ a {
 .btn-primary:hover {
   background: var(--blue-primary);
   border-color: var(--blue-primary);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(222, 216, 237, 0.4);
 }
 
 .btn-secondary {
@@ -282,9 +309,11 @@ a {
 }
 
 .btn-secondary:hover {
-  background: var(--bg-subtle);
+  background: var(--bg-tinted);
   border-color: var(--blue-primary);
   color: var(--blue-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(222, 216, 237, 0.45);
 }
 
 /* Glass Card Alias */
@@ -300,14 +329,14 @@ a {
 .glass-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
-  border-color: rgba(21, 101, 192, 0.2);
+  border-color: rgba(139, 127, 168, 0.3);
 }
 
 /* Modern Clean Input Fields */
 .input-field {
   width: 100%;
   background: #FFFFFF;
-  border: 1px solid rgba(11, 31, 58, 0.16);
+  border: 1px solid rgba(28, 28, 28, 0.16);
   border-radius: var(--radius-md);
   padding: 12px 16px;
   color: var(--text-heading);
@@ -319,7 +348,7 @@ a {
 .input-field:focus {
   outline: none;
   border-color: var(--blue-primary);
-  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.12);
+  box-shadow: 0 0 0 3px rgba(222, 216, 237, 0.45);
   background: #FFFFFF;
 }
 
@@ -358,15 +387,15 @@ a {
 }
 
 .badge-ai {
-  background: rgba(108, 99, 255, 0.1);
+  background: rgba(222, 216, 237, 0.35);
   color: var(--ai-accent);
-  border: 1px solid rgba(108, 99, 255, 0.25);
+  border: 1px solid rgba(139, 127, 168, 0.35);
 }
 
 .badge-blue {
   background: var(--bg-tinted);
   color: var(--blue-primary);
-  border: 1px solid rgba(21, 101, 192, 0.2);
+  border: 1px solid rgba(139, 127, 168, 0.3);
 }
 
 /* Feature Step Counter */
@@ -440,6 +469,31 @@ a {
   }
 }
 
+/* Scroll-driven Isometric City Hero Animation */
+.city-hero-track {
+  height: 380vh;
+  position: relative;
+}
+
+.city-hero-viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.city-hero-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.city-hero-canvas.in {
+  opacity: 1;
+}
+
 /* Insurer Infinite Marquee Carousel Styles */
 .marquee-wrapper {
   position: relative;
@@ -497,8 +551,8 @@ a {
   align-items: center;
   gap: 14px;
   background: #FFFFFF;
-  border: 1px solid rgba(11, 31, 58, 0.08);
-  box-shadow: 0 4px 18px rgba(11, 31, 58, 0.04);
+  border: 1px solid rgba(28, 28, 28, 0.08);
+  box-shadow: 0 4px 18px rgba(28, 28, 28, 0.04);
   border-radius: 16px;
   padding: 12px 20px;
   min-width: 250px;
@@ -509,21 +563,38 @@ a {
 
 .insurer-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(21, 101, 192, 0.3);
-  box-shadow: 0 12px 30px rgba(21, 101, 192, 0.12);
+  border-color: rgba(139, 127, 168, 0.4);
+  box-shadow: 0 12px 30px rgba(222, 216, 237, 0.4);
 }
 
 /* ==========================================================================
    AI VOICE AGENT & CONVERSATIONAL ADVISOR STYLES
    ========================================================================== */
 .ai-agent-page {
+  position: relative;
   min-height: 100vh;
   color: #fff;
-  background: radial-gradient(circle at 76% 8%, rgba(108, 99, 255, .24), transparent 28%), radial-gradient(circle at 22% 90%, rgba(21, 101, 192, .28), transparent 32%), #071a32;
+  background: #071a32;
   overflow: hidden;
 }
 
+/* Ambient animated helix background layer (Voice Advisor page) */
+.helix-matrix-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.helix-matrix-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .ai-agent-header {
+  position: relative;
+  z-index: 1;
   height: 76px;
   padding: 0 5vw;
   display: flex;
@@ -566,7 +637,7 @@ a {
   color: #fff;
   border-radius: 11px;
   background: var(--gradient-blue-ai);
-  box-shadow: 0 0 24px rgba(108, 99, 255, .4);
+  box-shadow: 0 0 24px rgba(139, 127, 168, .4);
 }
 
 .ai-brand-name {
@@ -605,6 +676,8 @@ a {
 }
 
 .ai-agent-main {
+  position: relative;
+  z-index: 1;
   width: min(1050px, 94vw);
   height: calc(100vh - 76px);
   min-height: 0;
@@ -674,7 +747,7 @@ a {
 
 .welcome-orbit:after {
   inset: 25px;
-  background: rgba(108, 99, 255, .18);
+  background: rgba(139, 127, 168, .18);
   border: 0;
   filter: blur(10px);
 }
@@ -846,7 +919,7 @@ a {
   color: rgba(255, 255, 255, .82);
   border: 1px solid rgba(157, 167, 255, .32);
   border-radius: 17px 17px 5px 17px;
-  background: rgba(108, 99, 255, .14);
+  background: rgba(139, 127, 168, .14);
 }
 
 .voice-message-label,
@@ -1017,7 +1090,7 @@ a {
   place-items: center;
   color: #aeb5ff;
   border-radius: 10px;
-  background: rgba(108, 99, 255, .18);
+  background: rgba(139, 127, 168, .18);
 }
 
 .streaming-response {
@@ -1488,7 +1561,7 @@ a {
   45% {
     opacity: 1;
     transform: scale(1.04);
-    text-shadow: 0 0 12px rgba(108, 99, 255, .4);
+    text-shadow: 0 0 12px rgba(139, 127, 168, .4);
   }
 
   100% {

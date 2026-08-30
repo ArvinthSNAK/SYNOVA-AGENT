@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormalEulerAiLogo from './FormalEulerAiLogo';
+import InteractiveOwlIcon from './InteractiveOwlIcon';
 
 export default function AiAssistantModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -96,14 +97,14 @@ export default function AiAssistantModal() {
             padding: '12px 22px',
             fontSize: 14,
             fontWeight: 800,
-            boxShadow: '0 8px 30px rgba(37, 99, 235, 0.45)',
+            boxShadow: '0 8px 30px rgba(139, 127, 168, 0.45)',
             border: '1px solid rgba(255, 255, 255, 0.25)',
             display: 'inline-flex',
             alignItems: 'center',
             gap: 10,
           }}
         >
-          <FormalEulerAiLogo size={20} color="#FFFFFF" glowColor="#93C5FD" />
+          <InteractiveOwlIcon size={40} />
           <span>Ask Euler</span>
         </button>
       </div>
@@ -119,8 +120,8 @@ export default function AiAssistantModal() {
             height: 540,
             background: '#FFFFFF',
             borderRadius: 24,
-            border: '1px solid rgba(11, 31, 58, 0.12)',
-            boxShadow: '0 24px 70px rgba(11, 31, 58, 0.18)',
+            border: '1px solid rgba(28, 28, 28, 0.12)',
+            boxShadow: '0 24px 70px rgba(28, 28, 28, 0.18)',
             zIndex: 1000,
             display: 'flex',
             flexDirection: 'column',
@@ -131,7 +132,7 @@ export default function AiAssistantModal() {
           <div
             style={{
               padding: '18px 20px',
-              background: 'linear-gradient(135deg, #0B1F3A 0%, #1565C0 100%)',
+              background: 'linear-gradient(135deg, #111111 0%, #1C1C1C 100%)',
               color: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
@@ -152,7 +153,7 @@ export default function AiAssistantModal() {
                   border: '1px solid rgba(255, 255, 255, 0.25)',
                 }}
               >
-                <FormalEulerAiLogo size={24} color="#FFFFFF" glowColor="#93C5FD" />
+                <FormalEulerAiLogo size={24} color="#FFFFFF" glowColor="#8B7FA8" />
               </div>
               <div>
                 <div style={{ fontWeight: 800, fontSize: 15.5, letterSpacing: '-0.01em' }}>Euler AI Copilot</div>
@@ -186,7 +187,7 @@ export default function AiAssistantModal() {
               display: 'flex',
               flexDirection: 'column',
               gap: 14,
-              background: '#F8FAFD',
+              background: '#EBEBEB',
             }}
           >
             {messages.map((m) => (
@@ -201,7 +202,7 @@ export default function AiAssistantModal() {
               >
                 {m.sender === 'ai' && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                    <FormalEulerAiLogo size={15} color="var(--ai-accent)" glowColor="#38BDF8" />
+                    <FormalEulerAiLogo size={15} color="var(--ai-accent)" glowColor="#8B7FA8" />
                     <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--ai-accent)' }}>Euler AI</span>
                   </div>
                 )}
@@ -213,8 +214,8 @@ export default function AiAssistantModal() {
                     color: m.sender === 'user' ? '#FFFFFF' : 'var(--text-heading)',
                     fontSize: 13.5,
                     lineHeight: 1.55,
-                    boxShadow: '0 2px 8px rgba(11, 31, 58, 0.04)',
-                    border: m.sender === 'user' ? 'none' : '1px solid rgba(11, 31, 58, 0.08)',
+                    boxShadow: '0 2px 8px rgba(28, 28, 28, 0.04)',
+                    border: m.sender === 'user' ? 'none' : '1px solid rgba(28, 28, 28, 0.08)',
                   }}
                 >
                   {m.text}
@@ -234,7 +235,7 @@ export default function AiAssistantModal() {
 
             {isTyping && (
               <div style={{ alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#FFFFFF', borderRadius: 14, fontSize: 12, color: 'var(--text-muted)' }}>
-                <FormalEulerAiLogo size={16} color="var(--ai-accent)" glowColor="#38BDF8" />
+                <FormalEulerAiLogo size={16} color="var(--ai-accent)" glowColor="#8B7FA8" />
                 <span>Euler is analyzing policies...</span>
               </div>
             )}
@@ -242,7 +243,7 @@ export default function AiAssistantModal() {
           </div>
 
           {/* Suggested Prompts */}
-          <div style={{ padding: '10px 14px', background: '#FFFFFF', borderTop: '1px solid rgba(11, 31, 58, 0.06)', display: 'flex', gap: 6, overflowX: 'auto', whiteSpace: 'nowrap' }}>
+          <div style={{ padding: '10px 14px', background: '#FFFFFF', borderTop: '1px solid rgba(28, 28, 28, 0.06)', display: 'flex', gap: 6, overflowX: 'auto', whiteSpace: 'nowrap' }}>
             {suggestedPrompts.map((p, idx) => (
               <button
                 key={idx}
@@ -256,7 +257,7 @@ export default function AiAssistantModal() {
                 }}
                 style={{
                   background: 'var(--bg-tinted)',
-                  border: '1px solid rgba(21, 101, 192, 0.15)',
+                  border: '1px solid rgba(28, 28, 28, 0.15)',
                   borderRadius: 9999,
                   padding: '6px 12px',
                   fontSize: 11.5,
@@ -279,7 +280,7 @@ export default function AiAssistantModal() {
             style={{
               padding: '12px 14px',
               background: '#FFFFFF',
-              borderTop: '1px solid rgba(11, 31, 58, 0.08)',
+              borderTop: '1px solid rgba(28, 28, 28, 0.08)',
               display: 'flex',
               gap: 8,
             }}

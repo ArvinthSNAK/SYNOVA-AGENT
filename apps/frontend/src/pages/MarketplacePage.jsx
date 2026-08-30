@@ -174,11 +174,11 @@ export default function MarketplacePage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFD', paddingBottom: 100 }}>
+    <div style={{ minHeight: '100vh', background: '#EBEBEB', paddingBottom: 100 }}>
       {/* Hero Marketplace Header */}
       <div
         style={{
-          background: 'linear-gradient(135deg, #0B1F3A 0%, #123B66 50%, #08162B 100%)',
+          background: 'linear-gradient(135deg, #111111 0%, #111111 50%, #0A0A0A 100%)',
           color: '#FFFFFF',
           padding: '64px 24px 84px',
           textAlign: 'center',
@@ -257,7 +257,7 @@ export default function MarketplacePage() {
                   borderRadius: '50%',
                   width: 28,
                   height: 28,
-                  color: '#64748B',
+                  color: '#6B6B6B',
                   cursor: 'pointer',
                   marginRight: 8,
                   display: 'flex',
@@ -274,7 +274,7 @@ export default function MarketplacePage() {
               type="submit"
               disabled={nlSearching}
               style={{
-                background: 'linear-gradient(135deg, #1565C0 0%, #0D47A1 100%)',
+                background: 'linear-gradient(135deg, #1C1C1C 0%, #0D47A1 100%)',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: 14,
@@ -282,7 +282,7 @@ export default function MarketplacePage() {
                 fontWeight: 800,
                 fontSize: 14,
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(21, 101, 192, 0.4)',
+                boxShadow: '0 4px 14px rgba(28, 28, 28, 0.4)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
@@ -351,14 +351,14 @@ export default function MarketplacePage() {
               id: 'all',
               name: 'All Categories',
               tagline: 'Explore 40+ motor, health, and term life policies',
-              icon: <LayoutGrid size={24} color="#1565C0" />,
+              icon: <LayoutGrid size={24} color="#1C1C1C" />,
               count: (categories[0]?.product_count || 10) + (categories[1]?.product_count || 16) + (categories[2]?.product_count || 15),
             },
             {
               id: 'motor',
               name: 'Motor Insurance',
               tagline: 'Comprehensive zero-dep & roadside car/bike protection',
-              icon: <Car size={24} color="#1565C0" />,
+              icon: <Car size={24} color="#1C1C1C" />,
               count: categories.find((c) => c.id === 'motor')?.product_count || 10,
             },
             {
@@ -387,11 +387,11 @@ export default function MarketplacePage() {
                 style={{
                   background: isSelected ? '#FFFFFF' : '#FFFFFF',
                   color: '#0F172A',
-                  border: isSelected ? '2px solid #1565C0' : '1px solid rgba(11, 31, 58, 0.1)',
+                  border: isSelected ? '2px solid #1C1C1C' : '1px solid rgba(28, 28, 28, 0.1)',
                   borderRadius: 20,
                   padding: '22px 20px',
                   cursor: 'pointer',
-                  boxShadow: isSelected ? '0 12px 30px rgba(21, 101, 192, 0.15), 0 0 0 3px rgba(21, 101, 192, 0.1)' : '0 4px 15px rgba(0, 0, 0, 0.04)',
+                  boxShadow: isSelected ? '0 12px 30px rgba(28, 28, 28, 0.15), 0 0 0 3px rgba(28, 28, 28, 0.1)' : '0 4px 15px rgba(0, 0, 0, 0.04)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 16,
@@ -401,7 +401,7 @@ export default function MarketplacePage() {
                 }}
               >
                 {isSelected && (
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: '#1565C0' }} />
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: '#1C1C1C' }} />
                 )}
                 <div
                   style={{
@@ -421,10 +421,10 @@ export default function MarketplacePage() {
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: isSelected ? '#0B1F3A' : '#1E293B' }}>{cat.name}</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: isSelected ? '#111111' : '#1E293B' }}>{cat.name}</div>
                     <span
                       style={{
-                        background: isSelected ? '#1565C0' : '#F1F5F9',
+                        background: isSelected ? '#1C1C1C' : '#F1F5F9',
                         color: isSelected ? '#FFFFFF' : '#475569',
                         padding: '3px 10px',
                         borderRadius: 12,
@@ -435,7 +435,7 @@ export default function MarketplacePage() {
                       {cat.count} Plans
                     </span>
                   </div>
-                  <div style={{ fontSize: 12, color: '#64748B', marginTop: 4, lineHeight: 1.4 }}>
+                  <div style={{ fontSize: 12, color: '#6B6B6B', marginTop: 4, lineHeight: 1.4 }}>
                     {cat.tagline}
                   </div>
                 </div>
@@ -451,7 +451,7 @@ export default function MarketplacePage() {
             borderRadius: 18,
             padding: '16px 24px',
             boxShadow: '0 4px 18px rgba(0, 0, 0, 0.04)',
-            border: '1px solid rgba(11, 31, 58, 0.1)',
+            border: '1px solid rgba(28, 28, 28, 0.1)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -461,7 +461,7 @@ export default function MarketplacePage() {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 13, fontWeight: 800, color: '#0B1F3A' }}>Quick Filters:</span>
+            <span style={{ fontSize: 13, fontWeight: 800, color: '#111111' }}>Quick Filters:</span>
 
             {/* Maternity Toggle */}
             <label
@@ -471,9 +471,9 @@ export default function MarketplacePage() {
                 gap: 6,
                 padding: '7px 16px',
                 borderRadius: 20,
-                border: maternityOnly ? '1.5px solid #1565C0' : '1px solid #CBD5E1',
+                border: maternityOnly ? '1.5px solid #1C1C1C' : '1px solid #CBD5E1',
                 background: maternityOnly ? '#EFF6FF' : '#F8FAFC',
-                color: maternityOnly ? '#1565C0' : '#334155',
+                color: maternityOnly ? '#1C1C1C' : '#1C1C1C',
                 fontSize: 12.5,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -497,9 +497,9 @@ export default function MarketplacePage() {
                 gap: 6,
                 padding: '7px 16px',
                 borderRadius: 20,
-                border: opdOnly ? '1.5px solid #1565C0' : '1px solid #CBD5E1',
+                border: opdOnly ? '1.5px solid #1C1C1C' : '1px solid #CBD5E1',
                 background: opdOnly ? '#EFF6FF' : '#F8FAFC',
-                color: opdOnly ? '#1565C0' : '#334155',
+                color: opdOnly ? '#1C1C1C' : '#1C1C1C',
                 fontSize: 12.5,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -523,9 +523,9 @@ export default function MarketplacePage() {
                 gap: 6,
                 padding: '7px 16px',
                 borderRadius: 20,
-                border: criticalIllnessOnly ? '1.5px solid #1565C0' : '1px solid #CBD5E1',
+                border: criticalIllnessOnly ? '1.5px solid #1C1C1C' : '1px solid #CBD5E1',
                 background: criticalIllnessOnly ? '#EFF6FF' : '#F8FAFC',
-                color: criticalIllnessOnly ? '#1565C0' : '#334155',
+                color: criticalIllnessOnly ? '#1C1C1C' : '#1C1C1C',
                 fontSize: 12.5,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -544,7 +544,7 @@ export default function MarketplacePage() {
 
           {/* Sorting Dropdown */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 13, fontWeight: 800, color: '#0B1F3A' }}>Sort By:</span>
+            <span style={{ fontSize: 13, fontWeight: 800, color: '#111111' }}>Sort By:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -573,9 +573,9 @@ export default function MarketplacePage() {
 
         {/* Loading / Error States */}
         {loading && (
-          <div style={{ textAlign: 'center', padding: '80px 0', color: '#64748B', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ width: 48, height: 48, borderRadius: '50%', border: '3px solid #E2E8F0', borderTopColor: '#1565C0', animation: 'spin 0.8s linear infinite', marginBottom: 16 }} />
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#0B1F3A' }}>Loading Verified Insurer Policies...</div>
+          <div style={{ textAlign: 'center', padding: '80px 0', color: '#6B6B6B', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ width: 48, height: 48, borderRadius: '50%', border: '3px solid #E2E8F0', borderTopColor: '#1C1C1C', animation: 'spin 0.8s linear infinite', marginBottom: 16 }} />
+            <div style={{ fontSize: 16, fontWeight: 800, color: '#111111' }}>Loading Verified Insurer Policies...</div>
           </div>
         )}
 
@@ -604,7 +604,7 @@ export default function MarketplacePage() {
                   style={{
                     background: '#FFFFFF',
                     borderRadius: 22,
-                    border: '1px solid rgba(11, 31, 58, 0.1)',
+                    border: '1px solid rgba(28, 28, 28, 0.1)',
                     padding: 24,
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)',
                     display: 'flex',
@@ -641,7 +641,7 @@ export default function MarketplacePage() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                         <InsurerLogoBadge insurerName={p.insurer_name} size={42} rounded={10} />
                         <div>
-                          <div style={{ fontSize: 13.5, color: '#0B1F3A', fontWeight: 800, lineHeight: 1.2 }}>
+                          <div style={{ fontSize: 13.5, color: '#111111', fontWeight: 800, lineHeight: 1.2 }}>
                             {p.insurer_name}
                           </div>
                           <div style={{ fontSize: 11.5, color: '#D97706', fontWeight: 800, marginTop: 2 }}>
@@ -695,16 +695,16 @@ export default function MarketplacePage() {
                       }}
                     >
                       <div>
-                        <div style={{ fontSize: 11.5, color: '#64748B', fontWeight: 700 }}>Coverage Limit</div>
-                        <div style={{ fontSize: 17, fontWeight: 900, color: '#0B1F3A', marginTop: 2 }}>
+                        <div style={{ fontSize: 11.5, color: '#6B6B6B', fontWeight: 700 }}>Coverage Limit</div>
+                        <div style={{ fontSize: 17, fontWeight: 900, color: '#111111', marginTop: 2 }}>
                           {formatCurrency(p.coverage_amount)}
                         </div>
                       </div>
                       <div>
-                        <div style={{ fontSize: 11.5, color: '#64748B', fontWeight: 700 }}>Starting Premium</div>
-                        <div style={{ fontSize: 17, fontWeight: 900, color: '#1565C0', marginTop: 2 }}>
+                        <div style={{ fontSize: 11.5, color: '#6B6B6B', fontWeight: 700 }}>Starting Premium</div>
+                        <div style={{ fontSize: 17, fontWeight: 900, color: '#1C1C1C', marginTop: 2 }}>
                           {formatCurrency(p.premium)}
-                          <span style={{ fontSize: 11.5, color: '#64748B', fontWeight: 600 }}>/{p.premium_frequency || 'mo'}</span>
+                          <span style={{ fontSize: 11.5, color: '#6B6B6B', fontWeight: 600 }}>/{p.premium_frequency || 'mo'}</span>
                         </div>
                       </div>
                     </div>
@@ -712,7 +712,7 @@ export default function MarketplacePage() {
                     {/* Features List */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 20 }}>
                       {(p.features || []).slice(0, 3).map((feat, idx) => (
-                        <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, color: '#334155', fontWeight: 500 }}>
+                        <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, color: '#1C1C1C', fontWeight: 500 }}>
                           <span style={{ color: '#059669', fontWeight: 900 }}>✓</span>
                           <span>{feat}</span>
                         </div>
@@ -737,7 +737,7 @@ export default function MarketplacePage() {
                         borderRadius: 10,
                         border: '1px solid #CBD5E1',
                         background: isCompared ? '#EFF6FF' : '#FFFFFF',
-                        color: isCompared ? '#1565C0' : '#475569',
+                        color: isCompared ? '#1C1C1C' : '#475569',
                         fontSize: 12.5,
                         fontWeight: 700,
                         cursor: 'pointer',
@@ -769,12 +769,12 @@ export default function MarketplacePage() {
                         padding: '10px 18px',
                         borderRadius: 10,
                         border: 'none',
-                        background: 'linear-gradient(135deg, #1565C0 0%, #0D47A1 100%)',
+                        background: 'linear-gradient(135deg, #1C1C1C 0%, #0D47A1 100%)',
                         color: '#FFFFFF',
                         fontSize: 13,
                         fontWeight: 800,
                         cursor: 'pointer',
-                        boxShadow: '0 2px 8px rgba(21, 101, 192, 0.3)',
+                        boxShadow: '0 2px 8px rgba(28, 28, 28, 0.3)',
                       }}
                     >
                       Buy Now ➔
@@ -789,11 +789,11 @@ export default function MarketplacePage() {
         {/* Empty State */}
         {!loading && !error && products.length === 0 && (
           <div style={{ textAlign: 'center', padding: '80px 0', background: '#FFFFFF', borderRadius: 24, border: '1px solid #E2E8F0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#F1F5F9', color: '#64748B', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+            <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#F1F5F9', color: '#6B6B6B', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
               <Search size={32} />
             </div>
             <h3 style={{ fontSize: 18, fontWeight: 800, color: '#0F172A', margin: 0 }}>No matching policies found</h3>
-            <p style={{ fontSize: 14, color: '#64748B', margin: '6px 0 20px' }}>Try resetting your filters or search terms.</p>
+            <p style={{ fontSize: 14, color: '#6B6B6B', margin: '6px 0 20px' }}>Try resetting your filters or search terms.</p>
             <button
               onClick={() => {
                 setSelectedCategory('all');
@@ -803,7 +803,7 @@ export default function MarketplacePage() {
                 padding: '10px 20px',
                 borderRadius: 10,
                 border: 'none',
-                background: '#1565C0',
+                background: '#1C1C1C',
                 color: '#FFFFFF',
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -871,7 +871,7 @@ export default function MarketplacePage() {
                   Same Category Only
                 </span>
               </div>
-              <div style={{ fontSize: 11.5, color: '#94A3B8', marginTop: 2 }}>
+              <div style={{ fontSize: 11.5, color: '#9A9A9A', marginTop: 2 }}>
                 {comparedProducts.length === 1
                   ? `Select 1 more ${getCategoryTitle(getProductCategory(comparedProducts[0]))} to compare`
                   : `Side-by-side specs enabled for ${getCategoryTitle(getProductCategory(comparedProducts[0]))}`}
@@ -903,7 +903,7 @@ export default function MarketplacePage() {
               disabled={comparedProducts.length < 2}
               onClick={() => setShowComparisonModal(true)}
               style={{
-                background: comparedProducts.length >= 2 ? '#2563EB' : '#334155',
+                background: comparedProducts.length >= 2 ? '#2563EB' : '#1C1C1C',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: 10,
@@ -967,7 +967,7 @@ export default function MarketplacePage() {
                 <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0F172A', margin: 0 }}>
                   Cross-Category Comparison Not Allowed
                 </h3>
-                <div style={{ fontSize: 12, color: '#64748B', marginTop: 2 }}>
+                <div style={{ fontSize: 12, color: '#6B6B6B', marginTop: 2 }}>
                   Insurance Class Isolation Rule
                 </div>
               </div>
@@ -980,7 +980,7 @@ export default function MarketplacePage() {
                 borderRadius: 12,
                 padding: '14px 16px',
                 fontSize: 13.5,
-                color: '#334155',
+                color: '#1C1C1C',
                 lineHeight: 1.6,
                 marginBottom: 20,
               }}

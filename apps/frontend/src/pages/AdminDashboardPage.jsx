@@ -728,14 +728,14 @@ export default function AdminDashboardPage() {
           textAlign: align,
           transition: 'all 0.15s ease',
           color: isSorted ? 'var(--blue-primary)' : 'var(--text-muted)',
-          background: isSorted ? 'rgba(21, 101, 192, 0.04)' : 'transparent',
+          background: isSorted ? 'rgba(28, 28, 28, 0.04)' : 'transparent',
           borderBottom: isSorted ? '2px solid var(--blue-primary)' : '1px solid var(--border-color)',
         }}
         title={`Click to sort by ${label} (${isSorted && currentOrder === 'asc' ? 'Descending' : 'Ascending'})`}
       >
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, justifyContent: align === 'right' ? 'flex-end' : 'flex-start' }}>
           <span style={{ fontWeight: isSorted ? 700 : 600 }}>{label}</span>
-          <span style={{ fontSize: 11, color: isSorted ? 'var(--blue-primary)' : '#94A3B8', fontWeight: isSorted ? 800 : 400 }}>
+          <span style={{ fontSize: 11, color: isSorted ? 'var(--blue-primary)' : '#9A9A9A', fontWeight: isSorted ? 800 : 400 }}>
             {isSorted ? (currentOrder === 'asc' ? ' ▲' : ' ▼') : ' ↕'}
           </span>
         </div>
@@ -964,7 +964,7 @@ export default function AdminDashboardPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--bg-tinted)', border: '1px solid rgba(21, 101, 192, 0.2)', padding: '4px 12px', borderRadius: 9999, marginBottom: 8 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--bg-tinted)', border: '1px solid rgba(28, 28, 28, 0.2)', padding: '4px 12px', borderRadius: 9999, marginBottom: 8 }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--blue-primary)' }}>ADMINISTRATION CONSOLE</span>
           </div>
           <h1 style={{ fontSize: 28, color: 'var(--primary-navy)', margin: 0 }}>SYNOVA Executive Command Center</h1>
@@ -974,7 +974,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Tab Switcher */}
-        <div style={{ display: 'flex', background: '#FFFFFF', padding: 4, borderRadius: 9999, border: '1px solid rgba(11, 31, 58, 0.1)', gap: 4, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+        <div style={{ display: 'flex', background: '#FFFFFF', padding: 4, borderRadius: 9999, border: '1px solid rgba(28, 28, 28, 0.1)', gap: 4, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
           {['claims', 'policies', 'users', 'insurers', 'products'].map((tab) => (
             <button
               key={tab}
@@ -1092,7 +1092,7 @@ export default function AdminDashboardPage() {
                     style={{
                       background: isSelected ? 'var(--primary-navy)' : '#FFFFFF',
                       color: isSelected ? '#FFFFFF' : 'var(--text-heading)',
-                      border: isSelected ? '1px solid var(--primary-navy)' : '1px solid rgba(11,31,58,0.15)',
+                      border: isSelected ? '1px solid var(--primary-navy)' : '1px solid rgba(28,28,28,0.15)',
                       padding: '6px 12px',
                       borderRadius: 9999,
                       fontSize: 11.5,
@@ -1102,7 +1102,7 @@ export default function AdminDashboardPage() {
                       alignItems: 'center',
                       gap: 6,
                       transition: 'all 0.15s ease',
-                      boxShadow: isSelected ? '0 2px 6px rgba(11,31,58,0.15)' : 'none',
+                      boxShadow: isSelected ? '0 2px 6px rgba(28,28,28,0.15)' : 'none',
                     }}
                   >
                     <span>{label}</span>
@@ -1537,7 +1537,7 @@ export default function AdminDashboardPage() {
               </form>
 
               {publishResult && (
-                <div style={{ marginTop: 16, padding: 14, background: 'var(--bg-tinted)', border: '1px solid rgba(21, 101, 192, 0.2)', borderRadius: 12, color: 'var(--blue-primary)', fontSize: 12.5, fontWeight: 600 }}>
+                <div style={{ marginTop: 16, padding: 14, background: 'var(--bg-tinted)', border: '1px solid rgba(28, 28, 28, 0.2)', borderRadius: 12, color: 'var(--blue-primary)', fontSize: 12.5, fontWeight: 600 }}>
                   ✓ {publishResult.message}
                 </div>
               )}
@@ -1581,8 +1581,8 @@ export default function AdminDashboardPage() {
                     style={{
                       padding: 16,
                       borderRadius: 14,
-                      background: p.active ? '#F8FAFD' : '#F1F5F9',
-                      border: p.active ? '1px solid rgba(11,31,58,0.08)' : '1px dashed #CBD5E1',
+                      background: p.active ? '#EBEBEB' : '#F1F5F9',
+                      border: p.active ? '1px solid rgba(28,28,28,0.08)' : '1px dashed #CBD5E1',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',

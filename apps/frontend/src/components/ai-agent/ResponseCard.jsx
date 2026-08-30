@@ -85,7 +85,7 @@ export default function ResponseCard({
                             borderRadius: 20,
                             border: '1px solid #E2E8F0',
                             background: '#F8FAFC',
-                            color: '#334155',
+                            color: '#1C1C1C',
                             fontSize: 12.5,
                             fontWeight: 600,
                             cursor: 'pointer',
@@ -102,7 +102,7 @@ export default function ResponseCard({
                             borderRadius: 20,
                             border: '1px solid #E2E8F0',
                             background: '#F8FAFC',
-                            color: '#334155',
+                            color: '#1C1C1C',
                             fontSize: 12.5,
                             fontWeight: 600,
                             cursor: 'pointer',
@@ -177,31 +177,31 @@ export default function ResponseCard({
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10, marginBottom: 14 }}>
                         {autofillData?.vehicle_registration && (
                             <div style={{ padding: '8px 10px', background: '#FFFFFF', borderRadius: 8, border: '1px solid #E2E8F0' }}>
-                                <small style={{ color: '#64748B', display: 'block', fontSize: 10, fontWeight: 600 }}>REGISTRATION</small>
+                                <small style={{ color: '#6B6B6B', display: 'block', fontSize: 10, fontWeight: 600 }}>REGISTRATION</small>
                                 <strong style={{ color: '#1E293B', fontSize: 12.5 }}>{autofillData.vehicle_registration}</strong>
                             </div>
                         )}
                         {autofillData?.vehicle_make && (
                             <div style={{ padding: '8px 10px', background: '#FFFFFF', borderRadius: 8, border: '1px solid #E2E8F0' }}>
-                                <small style={{ color: '#64748B', display: 'block', fontSize: 10, fontWeight: 600 }}>MAKE & MODEL</small>
+                                <small style={{ color: '#6B6B6B', display: 'block', fontSize: 10, fontWeight: 600 }}>MAKE & MODEL</small>
                                 <strong style={{ color: '#1E293B', fontSize: 12.5 }}>{autofillData.vehicle_make} {autofillData.vehicle_model}</strong>
                             </div>
                         )}
                         {autofillData?.idv && (
                             <div style={{ padding: '8px 10px', background: '#FFFFFF', borderRadius: 8, border: '1px solid #E2E8F0' }}>
-                                <small style={{ color: '#64748B', display: 'block', fontSize: 10, fontWeight: 600 }}>INSURED VALUE (IDV)</small>
+                                <small style={{ color: '#6B6B6B', display: 'block', fontSize: 10, fontWeight: 600 }}>INSURED VALUE (IDV)</small>
                                 <strong style={{ color: '#059669', fontSize: 12.5 }}>₹{parseInt(autofillData.idv, 10).toLocaleString('en-IN')}</strong>
                             </div>
                         )}
                         {autofillData?.ncb_percent !== undefined && (
                             <div style={{ padding: '8px 10px', background: '#FFFFFF', borderRadius: 8, border: '1px solid #E2E8F0' }}>
-                                <small style={{ color: '#64748B', display: 'block', fontSize: 10, fontWeight: 600 }}>NCB DISCOUNT</small>
+                                <small style={{ color: '#6B6B6B', display: 'block', fontSize: 10, fontWeight: 600 }}>NCB DISCOUNT</small>
                                 <strong style={{ color: '#2563EB', fontSize: 12.5 }}>{autofillData.ncb_percent}%</strong>
                             </div>
                         )}
                         {autofillData?.previous_insurer && (
                             <div style={{ padding: '8px 10px', background: '#FFFFFF', borderRadius: 8, border: '1px solid #E2E8F0' }}>
-                                <small style={{ color: '#64748B', display: 'block', fontSize: 10, fontWeight: 600 }}>PREVIOUS INSURER</small>
+                                <small style={{ color: '#6B6B6B', display: 'block', fontSize: 10, fontWeight: 600 }}>PREVIOUS INSURER</small>
                                 <strong style={{ color: '#1E293B', fontSize: 12.5 }}>{autofillData.previous_insurer}</strong>
                             </div>
                         )}

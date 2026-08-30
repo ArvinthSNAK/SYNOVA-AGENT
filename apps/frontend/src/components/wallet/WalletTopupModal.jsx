@@ -140,7 +140,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(11, 31, 58, 0.7)',
+        background: 'rgba(28, 28, 28, 0.7)',
         backdropFilter: 'blur(8px)',
         display: 'flex',
         alignItems: 'center',
@@ -166,7 +166,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
         <div
           style={{
             padding: '20px 24px',
-            background: 'linear-gradient(135deg, #0B1F3A 0%, #1565C0 100%)',
+            background: 'linear-gradient(135deg, #111111 0%, #1C1C1C 100%)',
             color: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
@@ -238,7 +238,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                   padding: '4px 16px',
                 }}
               >
-                <span style={{ fontSize: 24, fontWeight: 900, color: '#0B1F3A', marginRight: 8 }}>₹</span>
+                <span style={{ fontSize: 24, fontWeight: 900, color: '#111111', marginRight: 8 }}>₹</span>
                 <input
                   type="number"
                   value={customAmount}
@@ -253,7 +253,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                     padding: '12px 0',
                     fontSize: 22,
                     fontWeight: 800,
-                    color: '#0B1F3A',
+                    color: '#111111',
                     border: 'none',
                     outline: 'none',
                     background: 'transparent',
@@ -270,7 +270,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
 
             {/* Quick Amounts */}
             <div style={{ marginBottom: 24 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: '#64748B', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#6B6B6B', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 Quick Selection
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
@@ -284,9 +284,9 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                       style={{
                         padding: '10px 12px',
                         borderRadius: 12,
-                        border: isSelected ? '2px solid #1565C0' : '1px solid #E2E8F0',
+                        border: isSelected ? '2px solid #1C1C1C' : '1px solid #E2E8F0',
                         background: isSelected ? '#EFF6FF' : '#FFFFFF',
-                        color: isSelected ? '#1565C0' : '#1E293B',
+                        color: isSelected ? '#1C1C1C' : '#1E293B',
                         fontSize: 14,
                         fontWeight: 800,
                         cursor: 'pointer',
@@ -314,9 +314,9 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 <span>GST (18%)</span>
                 <span style={{ fontWeight: 700, color: '#059669' }}>₹0.00</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, fontWeight: 900, color: '#0B1F3A' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, fontWeight: 900, color: '#111111' }}>
                 <span>Total Amount Payable</span>
-                <span style={{ color: '#1565C0' }}>₹{amount.toLocaleString('en-IN')}</span>
+                <span style={{ color: '#1C1C1C' }}>₹{amount.toLocaleString('en-IN')}</span>
               </div>
             </div>
 
@@ -367,7 +367,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 </button>
                 <span style={{ fontSize: 14, fontWeight: 800, color: '#0F172A' }}>Select Payment Method</span>
               </div>
-              <div style={{ fontSize: 16, fontWeight: 900, color: '#1565C0' }}>
+              <div style={{ fontSize: 16, fontWeight: 900, color: '#1C1C1C' }}>
                 ₹{amount.toLocaleString('en-IN')}
               </div>
             </div>
@@ -380,9 +380,9 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 style={{
                   padding: '12px 8px',
                   borderRadius: 12,
-                  border: paymentMethod === 'upi' ? '2px solid #1565C0' : '1px solid #E2E8F0',
+                  border: paymentMethod === 'upi' ? '2px solid #1C1C1C' : '1px solid #E2E8F0',
                   background: paymentMethod === 'upi' ? '#EFF6FF' : '#FFFFFF',
-                  color: paymentMethod === 'upi' ? '#1565C0' : '#475569',
+                  color: paymentMethod === 'upi' ? '#1C1C1C' : '#475569',
                   fontSize: 12.5,
                   fontWeight: 800,
                   display: 'flex',
@@ -402,9 +402,9 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 style={{
                   padding: '12px 8px',
                   borderRadius: 12,
-                  border: paymentMethod === 'card' ? '2px solid #1565C0' : '1px solid #E2E8F0',
+                  border: paymentMethod === 'card' ? '2px solid #1C1C1C' : '1px solid #E2E8F0',
                   background: paymentMethod === 'card' ? '#EFF6FF' : '#FFFFFF',
-                  color: paymentMethod === 'card' ? '#1565C0' : '#475569',
+                  color: paymentMethod === 'card' ? '#1C1C1C' : '#475569',
                   fontSize: 12.5,
                   fontWeight: 800,
                   display: 'flex',
@@ -424,9 +424,9 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 style={{
                   padding: '12px 8px',
                   borderRadius: 12,
-                  border: paymentMethod === 'netbanking' ? '2px solid #1565C0' : '1px solid #E2E8F0',
+                  border: paymentMethod === 'netbanking' ? '2px solid #1C1C1C' : '1px solid #E2E8F0',
                   background: paymentMethod === 'netbanking' ? '#EFF6FF' : '#FFFFFF',
-                  color: paymentMethod === 'netbanking' ? '#1565C0' : '#475569',
+                  color: paymentMethod === 'netbanking' ? '#1C1C1C' : '#475569',
                   fontSize: 12.5,
                   fontWeight: 800,
                   display: 'flex',
@@ -449,40 +449,40 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                     <svg width="140" height="140" viewBox="0 0 100 100">
                       <rect width="100" height="100" fill="#FFFFFF" />
                       {/* Outer Position Markers */}
-                      <rect x="10" y="10" width="24" height="24" rx="4" fill="#0B1F3A" />
+                      <rect x="10" y="10" width="24" height="24" rx="4" fill="#111111" />
                       <rect x="14" y="14" width="16" height="16" rx="2" fill="#FFFFFF" />
-                      <rect x="18" y="18" width="8" height="8" rx="1" fill="#1565C0" />
+                      <rect x="18" y="18" width="8" height="8" rx="1" fill="#1C1C1C" />
 
-                      <rect x="66" y="10" width="24" height="24" rx="4" fill="#0B1F3A" />
+                      <rect x="66" y="10" width="24" height="24" rx="4" fill="#111111" />
                       <rect x="70" y="14" width="16" height="16" rx="2" fill="#FFFFFF" />
-                      <rect x="74" y="18" width="8" height="8" rx="1" fill="#1565C0" />
+                      <rect x="74" y="18" width="8" height="8" rx="1" fill="#1C1C1C" />
 
-                      <rect x="10" y="66" width="24" height="24" rx="4" fill="#0B1F3A" />
+                      <rect x="10" y="66" width="24" height="24" rx="4" fill="#111111" />
                       <rect x="14" y="70" width="16" height="16" rx="2" fill="#FFFFFF" />
-                      <rect x="18" y="74" width="8" height="8" rx="1" fill="#1565C0" />
+                      <rect x="18" y="74" width="8" height="8" rx="1" fill="#1C1C1C" />
 
                       {/* Random Matrix Modules */}
-                      <rect x="42" y="12" width="6" height="6" fill="#0B1F3A" />
-                      <rect x="52" y="18" width="6" height="6" fill="#1565C0" />
-                      <rect x="40" y="30" width="6" height="6" fill="#0B1F3A" />
-                      <rect x="54" y="32" width="6" height="6" fill="#0B1F3A" />
-                      <rect x="12" y="44" width="6" height="6" fill="#1565C0" />
-                      <rect x="24" y="52" width="6" height="6" fill="#0B1F3A" />
-                      <rect x="44" y="48" width="12" height="12" rx="2" fill="#1565C0" />
-                      <rect x="68" y="42" width="6" height="6" fill="#0B1F3A" />
-                      <rect x="80" y="50" width="6" height="6" fill="#1565C0" />
-                      <rect x="42" y="70" width="6" height="6" fill="#0B1F3A" />
-                      <rect x="54" y="76" width="6" height="6" fill="#1565C0" />
-                      <rect x="70" y="72" width="6" height="6" fill="#0B1F3A" />
-                      <rect x="82" y="82" width="6" height="6" fill="#1565C0" />
+                      <rect x="42" y="12" width="6" height="6" fill="#111111" />
+                      <rect x="52" y="18" width="6" height="6" fill="#1C1C1C" />
+                      <rect x="40" y="30" width="6" height="6" fill="#111111" />
+                      <rect x="54" y="32" width="6" height="6" fill="#111111" />
+                      <rect x="12" y="44" width="6" height="6" fill="#1C1C1C" />
+                      <rect x="24" y="52" width="6" height="6" fill="#111111" />
+                      <rect x="44" y="48" width="12" height="12" rx="2" fill="#1C1C1C" />
+                      <rect x="68" y="42" width="6" height="6" fill="#111111" />
+                      <rect x="80" y="50" width="6" height="6" fill="#1C1C1C" />
+                      <rect x="42" y="70" width="6" height="6" fill="#111111" />
+                      <rect x="54" y="76" width="6" height="6" fill="#1C1C1C" />
+                      <rect x="70" y="72" width="6" height="6" fill="#111111" />
+                      <rect x="82" y="82" width="6" height="6" fill="#1C1C1C" />
                     </svg>
                   </div>
-                  <div style={{ fontSize: 12, color: '#64748B', marginTop: 8, fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: '#6B6B6B', marginTop: 8, fontWeight: 600 }}>
                     Scan with Google Pay, PhonePe, Paytm or any UPI App
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '14px 0', color: '#94A3B8', fontSize: 12, fontWeight: 700 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '14px 0', color: '#9A9A9A', fontSize: 12, fontWeight: 700 }}>
                   <div style={{ flex: 1, height: 1, background: '#E2E8F0' }} />
                   <span>OR PAY VIA UPI ID</span>
                   <div style={{ flex: 1, height: 1, background: '#E2E8F0' }} />
@@ -571,9 +571,9 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                       style={{
                         padding: '10px 12px',
                         borderRadius: 10,
-                        border: selectedBank === b.name ? '2px solid #1565C0' : '1px solid #CBD5E1',
+                        border: selectedBank === b.name ? '2px solid #1C1C1C' : '1px solid #CBD5E1',
                         background: selectedBank === b.name ? '#EFF6FF' : '#FFFFFF',
-                        color: selectedBank === b.name ? '#1565C0' : '#1E293B',
+                        color: selectedBank === b.name ? '#1C1C1C' : '#1E293B',
                         fontSize: 12.5,
                         fontWeight: 700,
                         cursor: 'pointer',
@@ -588,7 +588,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
             )}
 
             {/* Security Guarantee */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 12, color: '#64748B', marginBottom: 18 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 12, color: '#6B6B6B', marginBottom: 18 }}>
               <Lock size={14} color="#059669" />
               <span>256-bit Bank Grade SSL Encryption • RBI Compliant</span>
             </div>
@@ -625,15 +625,15 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 height: 64,
                 borderRadius: '50%',
                 border: '4px solid #E2E8F0',
-                borderTopColor: '#1565C0',
+                borderTopColor: '#1C1C1C',
                 animation: 'spin 0.8s linear infinite',
                 margin: '0 auto 24px',
               }}
             />
-            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#0B1F3A', margin: '0 0 8px' }}>
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#111111', margin: '0 0 8px' }}>
               Authorizing Payment...
             </h3>
-            <p style={{ fontSize: 14, color: '#64748B', maxWidth: 360, margin: '0 auto', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 14, color: '#6B6B6B', maxWidth: 360, margin: '0 auto', lineHeight: 1.5 }}>
               Connecting to secure banking gateway. Please do not close or refresh this window.
             </p>
           </div>
@@ -660,10 +660,10 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
               <Check size={36} strokeWidth={3} />
             </div>
 
-            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#0B1F3A', margin: '0 0 6px' }}>
+            <h3 style={{ fontSize: 22, fontWeight: 900, color: '#111111', margin: '0 0 6px' }}>
               Funds Added Successfully!
             </h3>
-            <p style={{ fontSize: 14, color: '#64748B', margin: '0 0 24px' }}>
+            <p style={{ fontSize: 14, color: '#6B6B6B', margin: '0 0 24px' }}>
               ₹{amount.toLocaleString('en-IN')} has been credited to your Insurance Vault wallet.
             </p>
 
@@ -678,23 +678,23 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 marginBottom: 24,
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: '#64748B', marginBottom: 8 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: '#6B6B6B', marginBottom: 8 }}>
                 <span>Transaction Ref ID</span>
-                <span style={{ fontWeight: 700, color: '#0B1F3A' }}>{txnId}</span>
+                <span style={{ fontWeight: 700, color: '#111111' }}>{txnId}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: '#64748B', marginBottom: 8 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: '#6B6B6B', marginBottom: 8 }}>
                 <span>Payment Mode</span>
-                <span style={{ fontWeight: 700, color: '#0B1F3A' }}>
+                <span style={{ fontWeight: 700, color: '#111111' }}>
                   {paymentMethod === 'upi' ? 'UPI Instant Transfer' : (paymentMethod === 'card' ? 'Debit/Credit Card' : `NetBanking (${selectedBank})`)}
                 </span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: '#64748B', marginBottom: 12, paddingBottom: 8, borderBottom: '1px solid #E2E8F0' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: '#6B6B6B', marginBottom: 12, paddingBottom: 8, borderBottom: '1px solid #E2E8F0' }}>
                 <span>Amount Paid</span>
                 <span style={{ fontWeight: 800, color: '#059669' }}>+ ₹{amount.toLocaleString('en-IN')}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, fontWeight: 900, color: '#0B1F3A' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, fontWeight: 900, color: '#111111' }}>
                 <span>Updated Vault Balance</span>
-                <span style={{ color: '#1565C0' }}>₹{newBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                <span style={{ color: '#1C1C1C' }}>₹{newBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
               </div>
             </div>
 
