@@ -18,7 +18,7 @@
   --bg-subtle: #F2F2F2;
   --bg-tinted: #DED8ED;
   --bg-card: #FFFFFF;
-  --bg-dark-card: #111111;
+  --bg-dark-card: #5B5171;
 
   /* Typography Colors */
   --text-heading: #1C1C1C;
@@ -42,7 +42,7 @@
   /* Borders & Shadows */
   --border-subtle: rgba(28, 28, 28, 0.08);
   --border-medium: rgba(28, 28, 28, 0.14);
-  --border-active: #111111;
+  --border-active: #6E6285;
   --border-dark-card: rgba(255, 255, 255, 0.1);
 
   /* Brand spacing.borderRadius = 0px, except buttonPrimary = 11.25px */
@@ -192,9 +192,9 @@ a {
 
 /* Pill Buttons */
 .btn-pill-primary {
-  background: var(--primary-navy);
+  background: var(--blue-primary);
   color: #FFFFFF;
-  border: 1px solid #000000;
+  border: 1px solid var(--blue-primary);
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: 14px;
@@ -210,8 +210,8 @@ a {
 }
 
 .btn-pill-primary:hover {
-  background: var(--blue-primary);
-  border-color: var(--blue-primary);
+  background: var(--blue-medium);
+  border-color: var(--blue-medium);
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 10px 26px rgba(222, 216, 237, 0.4);
 }
@@ -267,9 +267,9 @@ a {
 
 /* Backward-compatible button aliases */
 .btn-primary {
-  background: var(--primary-navy);
+  background: var(--blue-primary);
   color: #FFFFFF;
-  border: 1px solid #000000;
+  border: 1px solid var(--blue-primary);
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: 14px;
@@ -285,8 +285,8 @@ a {
 }
 
 .btn-primary:hover {
-  background: var(--blue-primary);
-  border-color: var(--blue-primary);
+  background: var(--blue-medium);
+  border-color: var(--blue-medium);
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(222, 216, 237, 0.4);
 }
@@ -469,29 +469,19 @@ a {
   }
 }
 
-/* Scroll-driven Isometric City Hero Animation */
-.city-hero-track {
-  height: 380vh;
+/* Landing Page Hero Video */
+.landing-hero-video-viewport {
   position: relative;
-}
-
-.city-hero-viewport {
-  position: sticky;
-  top: 0;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
 }
 
-.city-hero-canvas {
+.landing-hero-video {
   display: block;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-.city-hero-canvas.in {
-  opacity: 1;
+  object-fit: cover;
 }
 
 /* Insurer Infinite Marquee Carousel Styles */

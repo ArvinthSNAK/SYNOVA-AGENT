@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import InsurerLogoBadge from '../common/InsurerLogoBadge';
 import { Scale, Info, ShieldCheck, Car, HeartPulse, Shield, AlertTriangle } from 'lucide-react';
 
@@ -205,7 +205,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                         marginTop: 12,
                         width: '100%',
                         padding: '8px 16px',
-                        background: '#111111',
+                        background: 'var(--blue-primary)',
                         color: '#DED8ED',
                         border: 'none',
                         borderRadius: 10,

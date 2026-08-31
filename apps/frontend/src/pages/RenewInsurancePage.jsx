@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { httpClient } from '../api/httpClient';
@@ -490,7 +490,7 @@ export default function RenewInsurancePage() {
           border-radius: 10px;
         }
         .horizontal-quotes-scroll::-webkit-scrollbar-thumb {
-          background: #111111;
+          background: #6E6285;
           border-radius: 10px;
         }
         .horizontal-quotes-scroll::-webkit-scrollbar-thumb:hover {
@@ -973,7 +973,7 @@ export default function RenewInsurancePage() {
                       width: 52,
                       height: 52,
                       borderRadius: 14,
-                      background: '#111111',
+                      background: 'var(--blue-primary)',
                       color: '#DED8ED',
                       display: 'flex',
                       alignItems: 'center',
@@ -1022,7 +1022,7 @@ export default function RenewInsurancePage() {
                         {file.name}
                       </span>
                     </div>
-                    <span style={{ fontSize: 11, background: '#111111', color: '#DED8ED', padding: '2px 8px', borderRadius: 8 }}>
+                    <span style={{ fontSize: 11, background: 'var(--blue-primary)', color: '#DED8ED', padding: '2px 8px', borderRadius: 8 }}>
                       Parsed
                     </span>
                   </div>
@@ -1062,7 +1062,7 @@ export default function RenewInsurancePage() {
                     padding: '18px 24px',
                     borderRadius: 16,
                     border: '1px solid rgba(222, 216, 237, 0.45)',
-                    background: 'linear-gradient(135deg, #111111 0%, #2A2A2A 100%)',
+                    background: 'linear-gradient(135deg, #6E6285 0%, #5B5171 100%)',
                     color: '#DED8ED',
                     fontWeight: 900,
                     fontSize: 16,
@@ -1118,7 +1118,7 @@ export default function RenewInsurancePage() {
                     width: 44,
                     height: 44,
                     borderRadius: 12,
-                    background: '#111111',
+                    background: 'var(--blue-primary)',
                     color: '#DED8ED',
                     display: 'flex',
                     alignItems: 'center',
@@ -1180,7 +1180,7 @@ export default function RenewInsurancePage() {
                   </h2>
                   <span
                     style={{
-                      background: '#111111',
+                      background: 'var(--blue-primary)',
                       color: '#DED8ED',
                       fontSize: 12,
                       fontWeight: 800,
@@ -1272,7 +1272,7 @@ export default function RenewInsurancePage() {
                       height: 38,
                       borderRadius: 12,
                       border: '1.5px solid #111111',
-                      background: '#111111',
+                      background: 'var(--blue-primary)',
                       color: '#DED8ED',
                       cursor: 'pointer',
                       display: 'flex',
@@ -1349,7 +1349,7 @@ export default function RenewInsurancePage() {
                         position: 'absolute',
                         top: 0,
                         right: 0,
-                        background: '#111111',
+                        background: 'var(--blue-primary)',
                         color: '#DED8ED',
                         padding: '4px 14px',
                         borderBottomLeftRadius: 14,
@@ -1445,7 +1445,7 @@ export default function RenewInsurancePage() {
                           padding: '12px 18px',
                           borderRadius: 14,
                           border: 'none',
-                          background: '#111111',
+                          background: 'var(--blue-primary)',
                           color: '#FFFFFF',
                           fontSize: 13.5,
                           fontWeight: 800,
@@ -1549,7 +1549,7 @@ export default function RenewInsurancePage() {
                     padding: '12px 20px',
                     borderRadius: 14,
                     border: 'none',
-                    background: '#111111',
+                    background: 'var(--blue-primary)',
                     color: '#FFFFFF',
                     fontWeight: 800,
                     fontSize: 14,

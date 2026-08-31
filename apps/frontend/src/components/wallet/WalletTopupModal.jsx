@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { 
   ShieldCheck, 
@@ -166,7 +166,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
         <div
           style={{
             padding: '20px 24px',
-            background: 'linear-gradient(135deg, #111111 0%, #2A2A2A 100%)',
+            background: 'linear-gradient(135deg, #6E6285 0%, #5B5171 100%)',
             color: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',

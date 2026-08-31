@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import InsurerLogoBadge from '../common/InsurerLogoBadge';
 import { Car, HeartPulse, Shield, CreditCard, Zap, Building2, Plus, Check, ArrowRight } from 'lucide-react';
 
@@ -385,7 +385,7 @@ export default function PolicyDetailsModal({ product, onClose, onBuyNow, onCompa
                 padding: '14px 28px',
                 borderRadius: 14,
                 border: 'none',
-                background: '#111111',
+                background: 'var(--blue-primary)',
                 color: '#FFFFFF',
                 fontSize: 15,
                 fontWeight: 800,

@@ -201,7 +201,7 @@ export default function AiAssistantModal() {
           <div
             style={{
               padding: '16px 20px',
-              background: 'linear-gradient(135deg, #111111 0%, #1C1C1C 100%)',
+              background: 'linear-gradient(135deg, #6E6285 0%, #5B5171 100%)',
               color: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',

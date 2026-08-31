@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { httpClient } from '../api/httpClient';
 import { useAuth } from '../context/AuthContext';
@@ -490,7 +490,7 @@ export default function MarketplacePage() {
                 }}
               >
                 {isSelected && (
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: '#111111' }} />
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'var(--blue-primary)' }} />
                 )}
                 <div
                   style={{
@@ -893,7 +893,7 @@ export default function MarketplacePage() {
                         padding: '10px 18px',
                         borderRadius: 12,
                         border: 'none',
-                        background: '#111111',
+                        background: 'var(--blue-primary)',
                         color: '#FFFFFF',
                         fontSize: 13,
                         fontWeight: 800,
@@ -928,7 +928,7 @@ export default function MarketplacePage() {
                 padding: '10px 20px',
                 borderRadius: 10,
                 border: 'none',
-                background: '#111111',
+                background: 'var(--blue-primary)',
                 color: '#DED8ED',
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -948,7 +948,7 @@ export default function MarketplacePage() {
             bottom: 24,
             left: '50%',
             transform: 'translateX(-50%)',
-            background: '#111111',
+            background: 'var(--blue-primary)',
             color: '#FFFFFF',
             borderRadius: 20,
             padding: '14px 24px',
@@ -1139,7 +1139,7 @@ export default function MarketplacePage() {
                   padding: '10px 18px',
                   borderRadius: 10,
                   border: 'none',
-                  background: '#111111',
+                  background: 'var(--blue-primary)',
                   color: '#DED8ED',
                   fontWeight: 800,
                   fontSize: 13,

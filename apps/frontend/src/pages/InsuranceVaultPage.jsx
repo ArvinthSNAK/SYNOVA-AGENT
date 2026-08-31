@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { httpClient } from '../api/httpClient';
@@ -325,7 +325,7 @@ export default function InsuranceVaultPage() {
                   padding: '7px 14px',
                   borderRadius: 10,
                   border: 'none',
-                  background: '#111111',
+                  background: 'var(--blue-primary)',
                   color: '#DED8ED',
                   fontSize: 12,
                   fontWeight: 800,
@@ -349,7 +349,7 @@ export default function InsuranceVaultPage() {
                 padding: '12px 22px',
                 borderRadius: 14,
                 border: '1px solid rgba(222, 216, 237, 0.45)',
-                background: 'linear-gradient(135deg, #111111 0%, #2A2A2A 100%)',
+                background: 'linear-gradient(135deg, #6E6285 0%, #5B5171 100%)',
                 color: '#DED8ED',
                 fontWeight: 800,
                 fontSize: 13.5,
@@ -490,7 +490,7 @@ export default function InsuranceVaultPage() {
                   width: 64,
                   height: 64,
                   borderRadius: 20,
-                  background: '#111111',
+                  background: 'var(--blue-primary)',
                   color: '#DED8ED',
                   display: 'flex',
                   alignItems: 'center',
@@ -512,7 +512,7 @@ export default function InsuranceVaultPage() {
                 style={{
                   padding: '12px 24px',
                   borderRadius: 14,
-                  background: '#111111',
+                  background: 'var(--blue-primary)',
                   color: '#DED8ED',
                   fontWeight: 800,
                   fontSize: 14,
@@ -705,7 +705,7 @@ export default function InsuranceVaultPage() {
                           padding: '11px 18px',
                           borderRadius: 12,
                           border: 'none',
-                          background: '#111111',
+                          background: 'var(--blue-primary)',
                           color: '#DED8ED',
                           fontSize: 12.5,
                           fontWeight: 800,
@@ -750,7 +750,7 @@ export default function InsuranceVaultPage() {
                   width: 64,
                   height: 64,
                   borderRadius: 20,
-                  background: '#111111',
+                  background: 'var(--blue-primary)',
                   color: '#DED8ED',
                   display: 'flex',
                   alignItems: 'center',
@@ -773,7 +773,7 @@ export default function InsuranceVaultPage() {
                   padding: '12px 24px',
                   borderRadius: 14,
                   border: 'none',
-                  background: '#111111',
+                  background: 'var(--blue-primary)',
                   color: '#DED8ED',
                   fontWeight: 800,
                   fontSize: 14,
@@ -933,7 +933,7 @@ export default function InsuranceVaultPage() {
                       padding: '14px 20px',
                       borderRadius: 14,
                       border: '1px solid rgba(222, 216, 237, 0.45)',
-                      background: 'linear-gradient(135deg, #111111 0%, #2A2A2A 100%)',
+                      background: 'linear-gradient(135deg, #6E6285 0%, #5B5171 100%)',
                       color: '#DED8ED',
                       fontWeight: 800,
                       fontSize: 14.5,

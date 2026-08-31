@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import InsurerLogoBadge from '../components/common/InsurerLogoBadge';
@@ -369,7 +369,7 @@ export default function NewInsurancePage() {
           border-radius: 10px;
         }
         .horizontal-quotes-scroll::-webkit-scrollbar-thumb {
-          background: #111111;
+          background: #6E6285;
           border-radius: 10px;
         }
         .horizontal-quotes-scroll::-webkit-scrollbar-thumb:hover {
@@ -403,7 +403,7 @@ export default function NewInsurancePage() {
                   width: 36,
                   height: 36,
                   borderRadius: 10,
-                  background: '#111111',
+                  background: 'var(--blue-primary)',
                   color: '#DED8ED',
                   display: 'flex',
                   alignItems: 'center',
@@ -454,7 +454,7 @@ export default function NewInsurancePage() {
                 padding: '10px 16px',
                 borderRadius: 12,
                 border: 'none',
-                background: '#111111',
+                background: 'var(--blue-primary)',
                 color: '#DED8ED',
                 fontWeight: 800,
                 fontSize: 13,
@@ -913,7 +913,7 @@ export default function NewInsurancePage() {
                   padding: '18px 28px',
                   borderRadius: 16,
                   border: '1px solid rgba(222, 216, 237, 0.45)',
-                  background: 'linear-gradient(135deg, #111111 0%, #2A2A2A 100%)',
+                  background: 'linear-gradient(135deg, #6E6285 0%, #5B5171 100%)',
                   color: '#DED8ED',
                   fontWeight: 900,
                   fontSize: 15.5,
@@ -968,7 +968,7 @@ export default function NewInsurancePage() {
                     width: 44,
                     height: 44,
                     borderRadius: 12,
-                    background: '#111111',
+                    background: 'var(--blue-primary)',
                     color: '#DED8ED',
                     display: 'flex',
                     alignItems: 'center',
@@ -1030,7 +1030,7 @@ export default function NewInsurancePage() {
                   </h2>
                   <span
                     style={{
-                      background: '#111111',
+                      background: 'var(--blue-primary)',
                       color: '#DED8ED',
                       fontSize: 12,
                       fontWeight: 800,
@@ -1122,7 +1122,7 @@ export default function NewInsurancePage() {
                       height: 38,
                       borderRadius: 12,
                       border: '1.5px solid #111111',
-                      background: '#111111',
+                      background: 'var(--blue-primary)',
                       color: '#DED8ED',
                       cursor: 'pointer',
                       display: 'flex',
@@ -1199,7 +1199,7 @@ export default function NewInsurancePage() {
                         position: 'absolute',
                         top: 0,
                         right: 0,
-                        background: '#111111',
+                        background: 'var(--blue-primary)',
                         color: '#DED8ED',
                         padding: '4px 14px',
                         borderBottomLeftRadius: 14,
@@ -1295,7 +1295,7 @@ export default function NewInsurancePage() {
                           padding: '12px 18px',
                           borderRadius: 14,
                           border: 'none',
-                          background: '#111111',
+                          background: 'var(--blue-primary)',
                           color: '#FFFFFF',
                           fontSize: 13.5,
                           fontWeight: 800,
@@ -1399,7 +1399,7 @@ export default function NewInsurancePage() {
                     padding: '12px 20px',
                     borderRadius: 14,
                     border: 'none',
-                    background: '#111111',
+                    background: 'var(--blue-primary)',
                     color: '#FFFFFF',
                     fontWeight: 800,
                     fontSize: 14,

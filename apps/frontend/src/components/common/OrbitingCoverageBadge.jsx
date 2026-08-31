@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react';
+﻿import React, { useEffect, useState, memo } from 'react';
 import { Shield, Car, HeartPulse, Plane, Home, Users } from 'lucide-react';
 
 /**
@@ -158,7 +158,7 @@ export default function OrbitingCoverageBadge({ size = 300, showCenter = true })
             width: 80,
             height: 80,
             borderRadius: 20,
-            background: 'linear-gradient(135deg, #1C1C1C 0%, #000000 100%)',
+            background: 'linear-gradient(135deg, #5B5171 0%, #3D3550 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

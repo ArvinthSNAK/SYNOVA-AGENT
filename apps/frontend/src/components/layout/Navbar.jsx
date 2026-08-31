@@ -1016,7 +1016,7 @@ export default function Navbar() {
             {/* Header Banner */}
             <div
               style={{
-                background: 'linear-gradient(135deg, var(--primary-navy) 0%, #1C1C1C 100%)',
+                background: 'linear-gradient(135deg, #6E6285 0%, #5B5171 100%)',
                 color: '#FFFFFF',
                 padding: '24px 28px',
                 position: 'relative',

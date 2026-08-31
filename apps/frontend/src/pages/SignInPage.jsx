@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { validateEmail } from '../utils/validators';
@@ -64,7 +64,7 @@ export default function SignInPage() {
         {/* Left: Brand Panel */}
         <div
           style={{
-            background: 'linear-gradient(160deg, #1C1C1C 0%, #000000 100%)',
+            background: 'linear-gradient(160deg, #5B5171 0%, #3D3550 100%)',
             padding: '48px 32px',
             display: 'flex',
             flexDirection: 'column',

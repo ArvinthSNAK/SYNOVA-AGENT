@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { httpClient } from '../api/httpClient';
 import InsurerMarquee from '../components/common/InsurerMarquee';
-import CityHeroAnimation from '../components/common/CityHeroAnimation';
+import LandingHeroVideo from '../components/common/LandingHeroVideo';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -43,8 +43,8 @@ export default function LandingPage() {
 
   return (
     <div style={{ paddingTop: 32, paddingBottom: 64 }}>
-      {/* 0. SCROLL-DRIVEN ISOMETRIC CITY HERO ANIMATION */}
-      <CityHeroAnimation />
+      {/* 0. LANDING HERO VIDEO */}
+      <LandingHeroVideo />
 
       {/* 1. HERO SECTION */}
       <section className="page-container" style={{ marginBottom: 64 }}>
@@ -180,7 +180,7 @@ export default function LandingPage() {
               marginTop: 56,
               padding: '36px 32px',
               borderRadius: 32,
-              background: 'linear-gradient(180deg, #111111 0%, #0A0A0A 100%)',
+              background: 'linear-gradient(180deg, #5B5171 0%, #3D3550 100%)',
               border: '1px solid rgba(255, 255, 255, 0.12)',
             }}
           >
@@ -480,7 +480,7 @@ export default function LandingPage() {
           style={{
             padding: '56px 48px',
             borderRadius: 32,
-            background: 'linear-gradient(135deg, #111111 0%, #111111 100%)',
+            background: 'linear-gradient(135deg, #6E6285 0%, #5B5171 100%)',
           }}
         >
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
@@ -588,75 +588,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 6.5 ABOUT SYNOVA SECTION */}
-      <section id="about" className="page-container" style={{ marginBottom: 96 }}>
-        <div style={{ background: '#FFFFFF', borderRadius: 28, padding: '48px 40px', border: '1px solid rgba(28, 28, 28, 0.08)', boxShadow: '0 16px 48px rgba(28, 28, 28, 0.04)' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
-            <div>
-              <span className="badge badge-ai" style={{ marginBottom: 12 }}>ABOUT SYNOVA</span>
-              <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 38px)', fontWeight: 800, color: 'var(--primary-navy)', letterSpacing: '-0.03em', lineHeight: 1.2 }}>
-                Pioneering Autonomous Insurance Intelligence
-              </h2>
-              <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.7, marginTop: 16 }}>
-                Synova was built to eliminate policy opacity and bring mathematical precision to consumer insurance. By orchestrating real-time gateway scrapers, neural vision OCR parsers, and multi-insurer ranking algorithms, Synova empowers policyholders to effortlessly secure optimal coverage at true market rates.
-              </p>
-
-              <div style={{ display: 'flex', gap: 24, marginTop: 28 }}>
-                <div>
-                  <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--primary-navy)' }}>100%</div>
-                  <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>Transparent Pricing</div>
-                </div>
-                <div style={{ width: 1, height: 40, background: 'rgba(28, 28, 28, 0.1)' }} />
-                <div>
-                  <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--blue-primary)' }}>&lt; 30s</div>
-                  <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>Quote Generation</div>
-                </div>
-                <div style={{ width: 1, height: 40, background: 'rgba(28, 28, 28, 0.1)' }} />
-                <div>
-                  <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--status-emerald)' }}>256-bit</div>
-                  <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>Encrypted Vault</div>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ background: 'var(--bg-subtle)', borderRadius: 20, padding: 32, border: '1px solid rgba(28, 28, 28, 0.08)' }}>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--primary-navy)', marginBottom: 16 }}>
-                Core Principles
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <div style={{ display: 'flex', gap: 12 }}>
-                  <span style={{ color: 'var(--status-emerald)', fontWeight: 800, fontSize: 16 }}>✓</span>
-                  <div>
-                    <strong style={{ fontSize: 14, color: 'var(--primary-navy)' }}>Zero Bias Aggregation</strong>
-                    <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>Objective ranking based solely on coverage limits, IDV values, and premium calculations.</div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: 12 }}>
-                  <span style={{ color: 'var(--status-emerald)', fontWeight: 800, fontSize: 16 }}>✓</span>
-                  <div>
-                    <strong style={{ fontSize: 14, color: 'var(--primary-navy)' }}>IRDAI Standard Adherence</strong>
-                    <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>Strict regulatory compliance across all Own-Damage and Third-Party liability frameworks.</div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: 12 }}>
-                  <span style={{ color: 'var(--status-emerald)', fontWeight: 800, fontSize: 16 }}>✓</span>
-                  <div>
-                    <strong style={{ fontSize: 14, color: 'var(--primary-navy)' }}>Instant Digital Dispatch</strong>
-                    <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>Direct API gateway communication for instant digital policy delivery and FNOL claim tracking.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 7. FINAL CTA SECTION (Large Rounded Gradient Container) */}
       <section className="page-container" style={{ marginBottom: 32 }}>
         <div
           style={{
             borderRadius: 32,
-            background: 'linear-gradient(135deg, #111111 0%, #1C1C1C 50%, #6E6285 100%)',
+            background: 'linear-gradient(135deg, #5B5171 0%, #6E6285 50%, #8B7FA8 100%)',
             color: '#FFFFFF',
             padding: '64px 48px',
             textAlign: 'center',

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Lock, LogIn, Sparkles, ShieldCheck } from 'lucide-react';
@@ -83,7 +83,7 @@ export default function ProtectedRoute({ children, actionName = 'access this fea
 
           <span
             style={{
-              background: '#111111',
+              background: 'var(--blue-primary)',
               color: '#DED8ED',
               padding: '4px 14px',
               borderRadius: 20,
@@ -129,7 +129,7 @@ export default function ProtectedRoute({ children, actionName = 'access this fea
                 width: '100%',
                 padding: '14px 20px',
                 borderRadius: 14,
-                background: '#111111',
+                background: 'var(--blue-primary)',
                 color: '#FFFFFF',
                 fontSize: 14.5,
                 fontWeight: 800,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { httpClient } from '../../api/httpClient';
 import { useAuth } from '../../context/AuthContext';
@@ -416,7 +416,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
               style={{
                 width: `${(step / 10) * 100}%`,
                 height: '100%',
-                background: '#111111',
+                background: 'var(--blue-primary)',
                 transition: 'width 0.3s ease',
               }}
             />
@@ -1372,7 +1372,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                     padding: '14px 28px',
                     borderRadius: 14,
                     border: 'none',
-                    background: '#111111',
+                    background: 'var(--blue-primary)',
                     color: '#FFFFFF',
                     fontWeight: 800,
                     fontSize: 14.5,
@@ -1432,7 +1432,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   padding: '12px 26px',
                   borderRadius: 14,
                   border: 'none',
-                  background: '#111111',
+                  background: 'var(--blue-primary)',
                   color: '#DED8ED',
                   fontWeight: 800,
                   fontSize: 14,
@@ -1452,7 +1452,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   padding: '12px 28px',
                   borderRadius: 14,
                   border: 'none',
-                  background: '#111111',
+                  background: 'var(--blue-primary)',
                   color: '#DED8ED',
                   fontWeight: 800,
                   fontSize: 15,
