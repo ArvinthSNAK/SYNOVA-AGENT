@@ -1204,7 +1204,7 @@ export default function AdminDashboardPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
             <div>
               <h2 style={{ fontSize: 18, color: 'var(--text-heading)', margin: 0 }}>System-Wide Policies Directory</h2>
-              <p style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2, margin: 0 }}>Live tracking of all active and expired vehicle policies across all 4 insurer networks.</p>
+              <p style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2, margin: 0 }}>Live tracking of all active and expired vehicle policies across insurer networks.</p>
             </div>
 
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>

@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Request, Form, Depends
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from jinja2 import Environment, FileSystemLoader
 from sqlalchemy.orm import Session
 from pathlib import Path
+from typing import Optional
+import seed_data
 
 from app.db import get_db
 from app.models import Product, AddOn
@@ -21,6 +23,11 @@ _jinja_env = Environment(
 templates = Jinja2Templates(env=_jinja_env)
 
 
+@router.get("/")
+def root_redirect():
+    return RedirectResponse(url="/quote")
+
+
 @router.get("/health")
 def health_check():
     return {"status": "ok", "insurer": "ICICI Lombard", "gateway": "insurer_a"}
@@ -29,6 +36,12 @@ def health_check():
 @router.get("/quote", response_class=HTMLResponse)
 def show_quote_form(request: Request, db: Session = Depends(get_db)):
     products = db.query(Product).filter(Product.active == True).all()
+    if not products:
+        try:
+            seed_data.seed_data()
+            products = db.query(Product).filter(Product.active == True).all()
+        except Exception:
+            pass
     return templates.TemplateResponse(
         request=request,
         name="quote_form.html",
@@ -49,19 +62,29 @@ def get_addons_for_product(product_id: int, request: Request, db: Session = Depe
 @router.post("/quote", response_class=HTMLResponse)
 def submit_quote(
     request: Request,
-    product_id: int = Form(...),
-    customer_name: str = Form(...),
-    vehicle_registration: str = Form(...),
-    idv: float = Form(...),
+    product_id: Optional[int] = Form(None),
+    customer_name: str = Form("Hariharan Murugesan"),
+    vehicle_registration: str = Form("KA-01-MJ-4092"),
+    idv: float = Form(650000.0),
     vehicle_age_years: int = Form(0),
-    ncb_percent: float = Form(0),
+    ncb_percent: float = Form(0.0),
     addon_ids: list[int] = Form(default=[]),
     db: Session = Depends(get_db),
 ):
+    if not product_id:
+        prod = db.query(Product).filter(Product.active == True).first()
+        if not prod:
+            try:
+                seed_data.seed_data()
+                prod = db.query(Product).filter(Product.active == True).first()
+            except Exception:
+                pass
+        product_id = prod.id if prod else 1
+
     context = {
-        "idv": idv,
-        "vehicle_age_years": vehicle_age_years,
-        "ncb_percent": ncb_percent,
+        "idv": float(idv or 650000.0),
+        "vehicle_age_years": int(vehicle_age_years or 0),
+        "ncb_percent": float(ncb_percent or 0.0),
     }
 
     try:
@@ -85,6 +108,7 @@ def submit_quote(
             "result": result,
         },
     )
+
 
 
 import urllib.request

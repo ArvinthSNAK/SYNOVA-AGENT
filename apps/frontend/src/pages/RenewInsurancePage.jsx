@@ -34,29 +34,30 @@ export default function RenewInsurancePage() {
   const queryParams = new URLSearchParams(location.search);
   const storedVoiceAutofill = JSON.parse(sessionStorage.getItem('synova_voice_autofill') || '{}');
 
-  const initialReg = queryParams.get('reg') || storedVoiceAutofill.vehicle_registration || 'KA-01-MJ-4092';
-  const initialPolicy = queryParams.get('policy') || storedVoiceAutofill.policy_number || 'POL-SYN-88219';
-  const initialInsurer = queryParams.get('insurer') || storedVoiceAutofill.previous_insurer || 'ICICI Lombard General Insurance';
-  const initialMake = queryParams.get('make') || storedVoiceAutofill.vehicle_make || 'Hyundai';
-  const initialModel = queryParams.get('model') || storedVoiceAutofill.vehicle_model || 'Creta SX';
-  const initialIdv = queryParams.get('idv') || storedVoiceAutofill.idv || 620000;
-  const initialNcb = queryParams.get('ncb') || storedVoiceAutofill.ncb_percent || 25;
-  const initialAge = queryParams.get('age') || storedVoiceAutofill.vehicle_age_years || 2;
+  const initialReg = queryParams.get('reg') || storedVoiceAutofill.vehicle_registration || '';
+  const initialPolicy = queryParams.get('policy') || storedVoiceAutofill.policy_number || '';
+  const initialInsurer = queryParams.get('insurer') || storedVoiceAutofill.previous_insurer || '';
+  const initialMake = queryParams.get('make') || storedVoiceAutofill.vehicle_make || '';
+  const initialModel = queryParams.get('model') || storedVoiceAutofill.vehicle_model || '';
+  const initialIdv = queryParams.get('idv') || storedVoiceAutofill.idv || '';
+  const initialNcb = queryParams.get('ncb') || storedVoiceAutofill.ncb_percent || '';
+  const initialAge = queryParams.get('age') || storedVoiceAutofill.vehicle_age_years || '';
   const isAutofilled = queryParams.get('autofill') === 'true' || Boolean(storedVoiceAutofill.policy_number || storedVoiceAutofill.vehicle_registration);
 
   const [formData, setFormData] = useState({
-    customer_name: user?.name || user?.full_name || 'Hariharan Murugesan',
+    customer_name: user?.name || user?.full_name || '',
     policy_number: initialPolicy,
     previous_insurer: initialInsurer,
     vehicle_registration: initialReg,
     vehicle_make: initialMake,
     vehicle_model: initialModel,
-    vehicle_age_years: Number(initialAge) || 2,
-    idv: Number(initialIdv) || 620000,
-    ncb_percent: Number(initialNcb) || 25,
+    vehicle_age_years: initialAge !== '' ? Number(initialAge) : '',
+    idv: initialIdv !== '' ? Number(initialIdv) : '',
+    ncb_percent: initialNcb !== '' ? Number(initialNcb) : '',
     engine_capacity_cc: 1497,
-    selected_addons: ['Zero Depreciation', 'Engine Protection', 'Roadside Assistance'],
+    selected_addons: [],
   });
+
 
   const [validationErrors, setValidationErrors] = useState({});
   const [file, setFile] = useState(null);
@@ -114,20 +115,8 @@ export default function RenewInsurancePage() {
     });
   };
 
-<<<<<<< HEAD
-  const mockInsurers = [
-    { code: 'insurer_a', label: '1', port: 9001, url: getInsurerPortalUrl('insurer_a', 9001), color: '#1C1C1C' },
-    { code: 'insurer_b', label: '2', port: 9002, url: getInsurerPortalUrl('insurer_b', 9002), color: '#8B7FA8' },
-    { code: 'insurer_c', label: '3', port: 9003, url: getInsurerPortalUrl('insurer_c', 9003), color: '#111111' },
-    { code: 'insurer_d', label: '4', port: 9004, url: getInsurerPortalUrl('insurer_d', 9004), color: '#111111' },
-  ];
-
-  const applyExtractedFields = (data, sourceLabel) => {
-    let cleanNcb = '';
-=======
   const applyExtractedFields = (data, fileName) => {
     let cleanNcb = 25;
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
     const rawNcb = data.ncb !== undefined && data.ncb !== null ? data.ncb : data.ncb_percent;
     if (rawNcb !== undefined && rawNcb !== null && rawNcb !== '') {
       if (typeof rawNcb === 'string') {
@@ -242,11 +231,11 @@ export default function RenewInsurancePage() {
       autofill: 'true',
       submit: 'true',
       product_id: '1',
-      customer_name: formData.customer_name || 'Hariharan Murugesan',
-      vehicle_registration: formData.vehicle_registration || 'KA-01-MJ-4092',
-      idv: formData.idv || '620000',
-      vehicle_age_years: formData.vehicle_age_years || '2',
-      ncb_percent: formData.ncb_percent || '25',
+      customer_name: formData.customer_name || user?.name || user?.full_name || '',
+      vehicle_registration: formData.vehicle_registration || '',
+      idv: formData.idv ? String(formData.idv) : '620000',
+      vehicle_age_years: formData.vehicle_age_years !== '' ? String(formData.vehicle_age_years) : '2',
+      ncb_percent: formData.ncb_percent !== '' ? String(formData.ncb_percent) : '25',
     });
     return getInsurerAutofillUrl(code, port, params);
   };
@@ -266,7 +255,7 @@ export default function RenewInsurancePage() {
 
     // Step 1: Insurer A
     setActiveStepIndex(1);
-    setAutomationStep('[1/4] ICICI Lombard (:9001) — Transferring renewal NCB & computing quote...');
+    setAutomationStep('ICICI Lombard (:9001) — Transferring renewal NCB & computing quote...');
 
     // Step 2: Insurer B
     setTimeout(() => {
@@ -275,7 +264,7 @@ export default function RenewInsurancePage() {
         automationTab.location.href = urlB;
       }
       setActiveStepIndex(2);
-      setAutomationStep('[2/4] ACKO General (:9002) — Autofilling renewal risk profile & querying quote...');
+      setAutomationStep('ACKO General (:9002) — Autofilling renewal risk profile & querying quote...');
     }, 2800);
 
     // Step 3: Insurer C
@@ -285,7 +274,7 @@ export default function RenewInsurancePage() {
         automationTab.location.href = urlC;
       }
       setActiveStepIndex(3);
-      setAutomationStep('[3/4] TATA AIG Assurance (:9003) — Submitting NCB transfer certificate terms...');
+      setAutomationStep('TATA AIG Assurance (:9003) — Submitting NCB transfer certificate terms...');
     }, 5600);
 
     // Step 4: Insurer D
@@ -295,7 +284,7 @@ export default function RenewInsurancePage() {
         automationTab.location.href = urlD;
       }
       setActiveStepIndex(4);
-      setAutomationStep('[4/4] HDFC ERGO General (:9004) — Extracting final actuarial renewal terms...');
+      setAutomationStep('HDFC ERGO General (:9004) — Extracting final actuarial renewal terms...');
     }, 8400);
 
     // Step 5: Close tab and reveal horizontal cards
@@ -537,56 +526,11 @@ export default function RenewInsurancePage() {
           </h1>
           <p style={{ fontSize: 14.5, color: '#666666', maxWidth: 660, margin: '0 auto', lineHeight: 1.5 }}>
             {hasResults
-              ? 'Below are the competitive renewal quotations retrieved across all 4 underwriter portals. Scroll horizontally to review all plans.'
-              : 'Upload your expiring policy PDF on the right or enter parameters on the left, then click Compare to query all 4 insurer portals in real time.'}
+              ? 'Below are the competitive renewal quotations retrieved across underwriter portals. Scroll horizontally to review all plans.'
+              : 'Upload your expiring policy PDF on the right or enter parameters on the left, then click Compare to query multiple insurer portals in real time.'}
           </p>
         </div>
 
-<<<<<<< HEAD
-      <div className="grid-2" style={{ gap: 28, alignItems: 'start', marginBottom: 40 }}>
-        {/* Left Column: Document Upload & Extracted Parameters */}
-        <div>
-          {/* Upload Dropzone Card */}
-          <div className="saas-card" style={{ padding: 28, marginBottom: 24 }}>
-            <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--primary-navy)', marginBottom: 14 }}>
-              1. Upload Previous Policy Document (PDF / Image)
-            </h2>
-
-            <div
-              style={{
-                border: '2px dashed rgba(28, 28, 28, 0.35)',
-                borderRadius: 'var(--radius-md)',
-                padding: '28px 20px',
-                textAlign: 'center',
-                background: 'var(--bg-tinted)',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <input
-                type="file"
-                id="policy-file-upload"
-                onChange={handleFileUpload}
-                accept=".pdf,.png,.jpg,.jpeg"
-                style={{ display: 'none' }}
-              />
-              <label htmlFor="policy-file-upload" style={{ cursor: 'pointer' }}>
-                <div style={{ width: 44, height: 44, margin: '0 auto 10px', borderRadius: '50%', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(28,28,28,0.06)' }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue-primary)" strokeWidth="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                    <polyline points="14 2 14 8 20 8" />
-                    <line x1="12" y1="18" x2="12" y2="12" />
-                    <line x1="9" y1="15" x2="15" y2="15" />
-                  </svg>
-                </div>
-                <div style={{ fontSize: 14.5, fontWeight: 700, color: 'var(--primary-navy)' }}>
-                  {file ? file.name : 'Click to Upload Existing Policy PDF / Image'}
-                </div>
-                <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 4 }}>
-                  Automated OCR extracts Policy #, Vehicle Reg, IDV, and NCB%
-                </div>
-              </label>
-=======
         {/* Live Multi-Insurer Automation Progress HUD Modal */}
         {loading && (
           <div
@@ -622,7 +566,6 @@ export default function RenewInsurancePage() {
               >
                 Auto-closing tab upon finish
               </span>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
             </div>
 
             <p style={{ fontSize: 13, color: '#555555', margin: '0 0 16px', lineHeight: 1.5 }}>
@@ -1096,82 +1039,6 @@ export default function RenewInsurancePage() {
               <div
                 className="anim-fade-in-right stagger-2"
                 style={{
-<<<<<<< HEAD
-                  padding: '10px 14px',
-                  background: 'var(--bg-tinted)',
-                  border: '1px solid rgba(28, 28, 28, 0.2)',
-                  borderRadius: 10,
-                  color: 'var(--blue-primary)',
-                  fontSize: 12.5,
-                  fontWeight: 600,
-                  marginBottom: 12,
-                }}
-              >
-                {automationStep}
-              </div>
-            )}
-
-            <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(28,28,28,0.1)', background: '#fff', height: 460 }}>
-              <iframe
-                src={iframeSrc}
-                title="Renewal Portal Viewport"
-                style={{ width: '100%', height: '100%', border: 'none' }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Renewal Confirmation Success Banner */}
-      {renewSuccess && (
-        <div className="saas-card" style={{ marginBottom: 32, padding: 24, borderLeft: '4px solid var(--status-emerald)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--status-emerald)' }}>✓ RENEWAL SWITCH CONFIRMED</div>
-              <h3 style={{ fontSize: 20, color: 'var(--primary-navy)', margin: '4px 0 6px' }}>Policy Successfully Renewed & Stored in Vault</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-                Renewal Reference: <strong>{renewSuccess.id || 'REN-SYN-88192'}</strong> • Annual Savings Secured: ₹{Number(renewSuccess.savings || 2470).toLocaleString()}
-              </p>
-            </div>
-            <button onClick={() => window.location.href = '/insurance-vault'} className="btn-pill-primary" style={{ padding: '10px 20px', fontSize: 13 }}>
-              Open Policy Vault →
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Renewal AI Recommendation Highlight */}
-      {recommendation && recommendation.recommended_quote && (
-        <div
-          ref={resultsRef}
-          id="renewal-recommendation-section"
-          style={{
-            background: 'linear-gradient(135deg, #111111 0%, #1C1C1C 100%)',
-            color: '#FFFFFF',
-            borderRadius: 24,
-            padding: '32px 36px',
-            marginBottom: 36,
-            boxShadow: '0 20px 50px rgba(28, 28, 28, 0.18)',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 20 }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
-              <InsurerLogoBadge
-                insurerName={recommendation.recommended_quote.insurer_name}
-                size={54}
-                rounded={14}
-                style={{ marginTop: 6 }}
-              />
-              <div>
-                <span className="badge" style={{ background: 'rgba(255,255,255,0.15)', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.25)', marginBottom: 10 }}>
-                  MAX RENEWAL SAVINGS
-                </span>
-                <h2 style={{ fontSize: 26, color: '#FFFFFF', margin: '6px 0' }}>
-                  {recommendation.recommended_quote.product_name}
-                </h2>
-                <div style={{ fontSize: 14, color: 'var(--text-on-dark-muted)', fontWeight: 600 }}>
-                  {recommendation.recommended_quote.insurer_name}
-=======
                   background: 'rgba(255, 255, 255, 0.75)',
                   backdropFilter: 'blur(20px)',
                   borderRadius: 24,
@@ -1182,8 +1049,7 @@ export default function RenewInsurancePage() {
                 }}
               >
                 <div style={{ fontSize: 13, color: '#555555', marginBottom: 14 }}>
-                  Ready to trigger live renewal scraping across 4 official mock gateways?
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
+                  Ready to trigger live renewal scraping across official underwriter gateways?
                 </div>
 
                 <button
@@ -1330,34 +1196,6 @@ export default function RenewInsurancePage() {
                 </p>
               </div>
 
-<<<<<<< HEAD
-          <div className="grid-2">
-            {comparisonResults.map((q, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: q.is_recommended ? 'var(--bg-tinted)' : '#EBEBEB',
-                  border: q.is_recommended ? '2px solid var(--blue-primary)' : '1px solid rgba(28,28,28,0.1)',
-                  borderRadius: 16,
-                  padding: 22,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <InsurerLogoBadge insurerName={q.insurer_name} size={42} rounded={10} />
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--primary-navy)' }}>{q.insurer_name}</span>
-                      {q.badge && <span className="badge badge-ai" style={{ fontSize: 10 }}>{q.badge}</span>}
-                    </div>
-                    <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 3 }}>{q.product_name}</div>
-                    <div style={{ fontSize: 12, color: 'var(--status-emerald)', fontWeight: 600, marginTop: 6 }}>
-                      {q.savings > 0 ? `✓ Save ₹${q.savings.toLocaleString()} over current` : 'Standard Renewal Rate'}
-                    </div>
-                  </div>
-=======
               {/* Sorting & Scroll Navigation Buttons */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 {/* Sort Order Toggles */}
@@ -1397,7 +1235,6 @@ export default function RenewInsurancePage() {
                   >
                     Low to High
                   </button>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
 
                 {/* Horizontal Scroll Controls */}
@@ -1451,23 +1288,6 @@ export default function RenewInsurancePage() {
               </div>
             </div>
 
-<<<<<<< HEAD
-      {/* Renewal Confirmation Modal */}
-      {renewSuccess && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(28, 28, 28, 0.65)',
-            backdropFilter: 'blur(8px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: 20,
-          }}
-        >
-=======
             {/* Horizontal Scroll Track */}
             <div
               ref={scrollTrackRef}
@@ -1651,7 +1471,6 @@ export default function RenewInsurancePage() {
 
         {/* Policy Issuance Confirmation Modal */}
         {purchaseSuccess && (
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
           <div
             style={{
               position: 'fixed',

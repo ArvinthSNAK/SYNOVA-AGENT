@@ -1,15 +1,14 @@
 from app.db import SessionLocal, Base, engine
 from app.models import Product, PricingRule, AddOn
 
-Base.metadata.create_all(bind=engine)
-
-db = SessionLocal()
-
-try:
-    existing = db.query(Product).filter(Product.name == "Comprehensive Motor Cover").first()
-    if existing:
-        print("Product already seeded, skipping.")
-    else:
+def seed_data():
+    Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
+    try:
+        existing = db.query(Product).filter(Product.name == "Comprehensive Motor Cover").first()
+        if existing:
+            return
+        
         product = Product(
             name="Comprehensive Motor Cover",
             insurance_type="motor",
@@ -81,6 +80,8 @@ try:
 
         db.commit()
         print(f"Seeded product '{product.name}' (id={product.id}) with {len(rules)} pricing rules and {len(addons)} add-ons.")
+    finally:
+        db.close()
 
-finally:
-    db.close()
+if __name__ == "__main__":
+    seed_data()

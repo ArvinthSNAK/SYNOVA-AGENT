@@ -26,10 +26,10 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
   const [selectedBank, setSelectedBank] = useState('HDFC Bank');
   
   // Card details
-  const [cardNumber, setCardNumber] = useState('4532 •••• •••• 8821');
-  const [cardExpiry, setCardExpiry] = useState('08/29');
-  const [cardCvv, setCardCvv] = useState('•••');
-  const [cardName, setCardName] = useState('Hariharan M');
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardExpiry, setCardExpiry] = useState('');
+  const [cardCvv, setCardCvv] = useState('');
+  const [cardName, setCardName] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -166,11 +166,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
         <div
           style={{
             padding: '20px 24px',
-<<<<<<< HEAD
-            background: 'linear-gradient(135deg, #111111 0%, #1C1C1C 100%)',
-=======
             background: 'linear-gradient(135deg, #111111 0%, #2A2A2A 100%)',
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
             color: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
@@ -320,11 +316,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, fontWeight: 900, color: '#111111' }}>
                 <span>Total Amount Payable</span>
-<<<<<<< HEAD
-                <span style={{ color: '#1C1C1C' }}>₹{amount.toLocaleString('en-IN')}</span>
-=======
                 <span style={{ color: '#111111' }}>₹{amount.toLocaleString('en-IN')}</span>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
               </div>
             </div>
 
@@ -375,11 +367,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
                 </button>
                 <span style={{ fontSize: 14, fontWeight: 800, color: '#0F172A' }}>Select Payment Method</span>
               </div>
-<<<<<<< HEAD
-              <div style={{ fontSize: 16, fontWeight: 900, color: '#1C1C1C' }}>
-=======
               <div style={{ fontSize: 16, fontWeight: 900, color: '#111111' }}>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 ₹{amount.toLocaleString('en-IN')}
               </div>
             </div>
@@ -706,11 +694,7 @@ export default function WalletTopupModal({ isOpen, onClose, currentBalance = 0, 
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, fontWeight: 900, color: '#111111' }}>
                 <span>Updated Vault Balance</span>
-<<<<<<< HEAD
-                <span style={{ color: '#1C1C1C' }}>₹{newBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
-=======
                 <span style={{ color: '#111111' }}>₹{newBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
               </div>
             </div>
 

@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class CreateOrderRequest(BaseModel):
-    product_id: int
+    product_id: Optional[Any] = 1
     amount: float
     customer_id: Optional[int] = 1
     payment_method: Optional[str] = "upi"

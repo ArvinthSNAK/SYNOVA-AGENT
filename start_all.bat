@@ -2,6 +2,8 @@
 echo ========================================================
 echo   Starting SYNOVA Autonomous AI Insurance Platform
 echo ========================================================
+echo Initializing and seeding backend and mock insurer databases...
+python -c "import sys, subprocess; subprocess.run(['python', '-m', 'seed_data'], cwd='apps/backend'); subprocess.run(['python', '-m', 'seed_data'], cwd='apps/mock-insurers/insurer-a'); subprocess.run(['python', '-m', 'seed_data'], cwd='apps/mock-insurers/insurer-b'); subprocess.run(['python', '-m', 'seed_data'], cwd='apps/mock-insurers/insurer-c'); subprocess.run(['python', '-m', 'seed_data'], cwd='apps/mock-insurers/insurer-d')"
 
 REM 1. Main Backend API (Port 8000)
 start "SYNOVA Backend (8000)" cmd /k "cd apps\backend && uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload"
@@ -24,11 +26,15 @@ start "Insurer D - HDFC ERGO (9004)" cmd /k "cd apps\mock-insurers\insurer-d && 
 REM 7. Realtime AI Voice Agent / Advisor (Port 8011)
 start "SYNOVA Voice Agent (8011)" cmd /k "cd apps\synova-voice-agent && uvicorn app.main:app --host 127.0.0.1 --port 8011 --reload"
 
-REM 8. Frontend Vite Dev Server (Port 5173)
+REM 8. Chatbot Service (Port 8002)
+start "SYNOVA Chatbot Service (8002)" cmd /k "cd apps\chatbot-service && uvicorn app.main:app --host 127.0.0.1 --port 8002 --reload"
+
+REM 9. Frontend Vite Dev Server (Port 5173)
 start "SYNOVA Frontend (5173)" cmd /k "cd apps\frontend && npm run dev"
 
-echo All 8 services started in separate windows!
+echo All 9 services started in separate windows!
 echo Frontend Web App:     http://localhost:5173
 echo Realtime Voice Agent: http://localhost:8011
 echo Backend API:          http://localhost:8000/docs
 echo Automation Service:   http://localhost:8001/docs
+echo Chatbot Service:      http://localhost:8002/docs

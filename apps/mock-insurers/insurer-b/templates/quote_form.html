@@ -192,11 +192,11 @@
                 </div>
                 <div>
                     <label>Vehicle Age (Yrs)</label>
-                    <input type="number" name="vehicle_age_years" id="vehicle_age_years" value="2" required>
+                    <input type="number" name="vehicle_age_years" id="vehicle_age_years" placeholder="e.g. 2" required>
                 </div>
                 <div>
                     <label>NCB (%)</label>
-                    <input type="number" name="ncb_percent" id="ncb_percent" step="0.01" value="20" required>
+                    <input type="number" name="ncb_percent" id="ncb_percent" step="0.01" placeholder="e.g. 20" required>
                 </div>
             </div>
 
@@ -211,11 +211,11 @@
                 const banner = document.getElementById('autofill-banner');
                 if (banner) banner.style.display = 'block';
 
-                const cust = params.get('customer_name') || 'Priya Sharma';
-                const reg = params.get('vehicle_registration') || 'DL-08-BQ-1190';
-                const idvVal = params.get('idv') || '480000';
-                const age = params.get('vehicle_age_years') || '2';
-                const ncb = params.get('ncb_percent') || '20';
+                const cust = params.get('customer_name') || '';
+                const reg = params.get('vehicle_registration') || '';
+                const idvVal = params.get('idv') || '';
+                const age = params.get('vehicle_age_years') || '';
+                const ncb = params.get('ncb_percent') || '';
 
                 function typeInto(el, text, speed, callback) {
                     if (!el) { if (callback) callback(); return; }
@@ -247,8 +247,15 @@
                                 const pid = params.get('product_id');
                                 if (pid && pSelect.querySelector('option[value="' + pid + '"]')) {
                                     pSelect.value = pid;
-                                } else if (!pSelect.value && pSelect.options.length > 0) {
+                                } else if (pSelect.options.length > 0) {
                                     pSelect.selectedIndex = 0;
+                                } else {
+                                    const opt = document.createElement('option');
+                                    opt.value = pid || '1';
+                                    opt.textContent = 'Comprehensive Plan';
+                                    opt.selected = true;
+                                    pSelect.appendChild(opt);
+                                    pSelect.value = opt.value;
                                 }
                             }
 

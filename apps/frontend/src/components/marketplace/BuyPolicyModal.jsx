@@ -24,7 +24,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
   const [paymentAgreed, setPaymentAgreed] = useState(false);
 
   // Vault Wallet Balance
-  const uKey = user ? (user.id || user.email) : 'guest';
+  const uKey = user?.id ? `user_${user.id}` : (user?.email ? `user_${encodeURIComponent(user.email)}` : 'guest');
   const [vaultBalance, setVaultBalance] = useState(() => {
     const stored = localStorage.getItem(`synova_wallet_balance_${uKey}`);
     if (stored !== null) return parseFloat(stored);
@@ -54,51 +54,51 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
   // Form State
   const [formData, setFormData] = useState({
     // Proposer Details
-    fullName: user?.name || 'Hariharan Murugesan',
-    email: user?.email || 'hariharan@synova.ai',
-    phone: '9876543210',
-    dob: '1995-06-15',
-    panNumber: 'ABCDE1234F',
-    address: '142, Indiranagar 100ft Road, Bengaluru, Karnataka - 560038',
+    fullName: user?.name || user?.full_name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    dob: '',
+    panNumber: '',
+    address: '',
 
     // Category Details
     // Health
-    planType: 'Family Floater',
-    memberCount: '2',
-    adultsCount: '2',
+    planType: 'Individual',
+    memberCount: '1',
+    adultsCount: '1',
     childrenCount: '0',
     hasPreExisting: 'no',
-    sumInsured: product?.coverage_amount || 1000000,
+    sumInsured: product?.coverage_amount || 500000,
 
     // Motor
-    vehicleRegistration: 'KA-01-MJ-8821',
-    vehicleMake: 'Hyundai',
-    vehicleModel: 'Creta 1.5 SX',
-    registrationYear: '2023',
+    vehicleRegistration: '',
+    vehicleMake: '',
+    vehicleModel: '',
+    registrationYear: '',
     fuelType: 'Petrol',
 
     // Term Life
     lifeCover: 10000000,
     coverAge: '65',
     tobaccoUser: 'no',
-    incomeRange: '15-25LPA',
-    occupation: 'Salaried Professional',
+    incomeRange: '',
+    occupation: '',
 
     // Nominee Details
-    nomineeName: 'Priya Murugesan',
-    nomineeRelation: 'Spouse',
-    nomineeDob: '1996-08-20',
+    nomineeName: '',
+    nomineeRelation: '',
+    nomineeDob: '',
 
     // Add-ons / Riders
     selectedAddons: [],
 
     // KYC
     kycDocumentType: 'Aadhaar Card / PAN',
-    kycVerified: true,
+    kycVerified: false,
 
     // Payment Method - defaults to 'wallet' for seamless instant checkout
     paymentMethod: 'wallet',
-    upiId: 'hariharan@okhdfcbank',
+    upiId: '',
   });
 
   // Server-side Payment State
@@ -235,16 +235,16 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
 
     try {
       const res = await httpClient.post('/payments/create-order', {
-        product_id: product.id,
+        product_id: product?.id || 1,
         amount: premiums.total,
         customer_id: user?.id || 1,
         payment_method: formData.paymentMethod,
         application_data: {
           ...formData,
-          product_name: product.name,
-          insurer_name: product.insurer_name,
-          category: product.category || product.insurance_type,
-          coverage_amount: formData.sumInsured || product.coverage_amount || 1000000,
+          product_name: product?.name || product?.product_name || 'Comprehensive Policy',
+          insurer_name: product?.insurer_name || 'ICICI Lombard General',
+          category: product?.category || product?.insurance_type || 'motor',
+          coverage_amount: formData.sumInsured || product?.coverage_amount || 1000000,
         },
       });
 
@@ -290,9 +290,9 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
         end_date: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().substring(0, 10),
         created_at: new Date().toISOString(),
         payment_method: formData.paymentMethod === 'wallet' ? 'Insurance Vault Balance' : (formData.paymentMethod === 'upi' ? 'Instant UPI' : 'Card/NetBanking'),
-        holder_name: formData.fullName || 'Hariharan Murugesan',
-        proposer_name: formData.fullName || 'Hariharan Murugesan',
-        customer_name: formData.fullName || 'Hariharan Murugesan',
+        holder_name: formData.fullName || user?.name || user?.full_name || '',
+        proposer_name: formData.fullName || user?.name || user?.full_name || '',
+        customer_name: formData.fullName || user?.name || user?.full_name || '',
         notes: `Digitally issued via Synova Marketplace. Order: ${paymentOrder.order_id}`,
       };
 
@@ -319,24 +319,12 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
       }
 
       // Persist strictly to this user's isolated vault storage
-      const keysToSave = uKey === 'guest'
-        ? ['synova_vault_policies_guest']
-        : [
-            `synova_vault_policies_${uKey}`,
-            `synova_vault_policies_user_${uKey}`,
-            user?.id ? `synova_vault_policies_${user.id}` : null,
-            user?.id ? `synova_vault_policies_user_${user.id}` : null,
-            user?.email ? `synova_vault_policies_${user.email}` : null,
-            user?.email ? `synova_vault_policies_user_${user.email}` : null,
-          ].filter(Boolean);
-
-      for (const k of keysToSave) {
-        try {
-          const existing = JSON.parse(localStorage.getItem(k) || '[]');
-          const filtered = Array.isArray(existing) ? existing.filter((p) => p.policy_number !== savedPolicy.policy_number) : [];
-          localStorage.setItem(k, JSON.stringify([savedPolicy, ...filtered]));
-        } catch (e) {}
-      }
+      const vaultKey = `synova_vault_policies_${uKey}`;
+      try {
+        const existing = JSON.parse(localStorage.getItem(vaultKey) || '[]');
+        const filtered = Array.isArray(existing) ? existing.filter((p) => p.policy_number !== savedPolicy.policy_number) : [];
+        localStorage.setItem(vaultKey, JSON.stringify([savedPolicy, ...filtered]));
+      } catch (e) {}
 
       // Dispatch global purchase events so Insurance Vault updates instantly
       window.dispatchEvent(new CustomEvent('synova_policy_purchased', { detail: savedPolicy }));
@@ -510,15 +498,9 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   )}
                 </select>
 
-<<<<<<< HEAD
-                <div style={{ marginTop: 12, padding: '10px 14px', background: '#F8FAFC', borderRadius: 12, border: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12.5 }}>
-                  <span style={{ color: '#6B6B6B' }}>Net Payable (incl. Base + 18% GST):</span>
-                  <strong style={{ color: '#059669', fontSize: 14 }}>{formatCurrency(premiums.total)}</strong>
-=======
                 <div style={{ marginTop: 12, padding: '10px 14px', background: '#DED8ED', borderRadius: 12, border: '1px solid #111111', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12.5 }}>
                   <span style={{ color: '#111111', fontWeight: 700 }}>Net Payable (incl. Base + 18% GST):</span>
                   <strong style={{ color: '#111111', fontSize: 15, fontWeight: 900 }}>{formatCurrency(premiums.total)}</strong>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
               </div>
             </div>
@@ -980,21 +962,12 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
               <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 16, padding: 18 }}>
                 <h4 style={{ fontSize: 14, fontWeight: 800, margin: '0 0 12px', color: '#0F172A', textTransform: 'uppercase' }}>Summary</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 13 }}>
-<<<<<<< HEAD
-                  <div><span style={{ color: '#6B6B6B' }}>Insurer:</span> <strong>{product.insurer_name}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Plan:</span> <strong>{product.name}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Proposer:</span> <strong>{formData.fullName}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Nominee:</span> <strong>{formData.nomineeName} ({formData.nomineeRelation})</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Coverage:</span> <strong style={{ color: '#2563EB' }}>{formatCurrency(formData.sumInsured)}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Tenure:</span> <strong>1 Year (Renewable)</strong></div>
-=======
                   <div><span style={{ color: '#64748B' }}>Insurer:</span> <strong>{product.insurer_name}</strong></div>
                   <div><span style={{ color: '#64748B' }}>Plan:</span> <strong>{product.name}</strong></div>
                   <div><span style={{ color: '#64748B' }}>Proposer:</span> <strong>{formData.fullName}</strong></div>
                   <div><span style={{ color: '#64748B' }}>Nominee:</span> <strong>{formData.nomineeName} ({formData.nomineeRelation})</strong></div>
                   <div><span style={{ color: '#666666' }}>Coverage:</span> <strong style={{ color: '#111111', fontWeight: 800 }}>{formatCurrency(formData.sumInsured)}</strong></div>
                   <div><span style={{ color: '#64748B' }}>Tenure:</span> <strong>1 Year (Renewable)</strong></div>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
               </div>
             </div>
@@ -1087,11 +1060,7 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                         )}
                         <div>{m.icon}</div>
                         <div style={{ fontWeight: 800 }}>{m.label}</div>
-<<<<<<< HEAD
-                        <div style={{ fontSize: 10.5, color: isSelected ? '#2563EB' : '#9A9A9A' }}>{m.sub}</div>
-=======
                         <div style={{ fontSize: 10.5, color: isSelected ? '#111111' : '#666666' }}>{m.sub}</div>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                       </button>
                     );
                   })}
@@ -1362,15 +1331,6 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                 Your payment has been verified server-side. Your digital policy certificate is active and saved in your Insurance Vault.
               </p>
 
-<<<<<<< HEAD
-              <div style={{ padding: 18, background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 16, textAlign: 'left', maxWidth: 450, margin: '0 auto 24px' }}>
-                <div style={{ fontSize: 12, color: '#6B6B6B' }}>Policy Number</div>
-                <div style={{ fontSize: 18, fontWeight: 900, color: '#2563EB', marginTop: 2 }}>{issuedPolicy.policy_number}</div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 12, fontSize: 13 }}>
-                  <div><span style={{ color: '#6B6B6B' }}>Insurer:</span> <strong>{issuedPolicy.insurer_name}</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Status:</span> <strong style={{ color: '#059669' }}>ACTIVE</strong></div>
-                  <div><span style={{ color: '#6B6B6B' }}>Coverage:</span> <strong>{formatCurrency(issuedPolicy.coverage_amount)}</strong></div>
-=======
               <div style={{ padding: 18, background: '#EBEBEB', border: '1px solid rgba(17, 17, 17, 0.08)', borderRadius: 16, textAlign: 'left', maxWidth: 450, margin: '0 auto 24px' }}>
                 <div style={{ fontSize: 12, color: '#666666', fontWeight: 700 }}>Policy Number</div>
                 <div style={{ fontSize: 18, fontWeight: 900, color: '#111111', marginTop: 2 }}>{issuedPolicy.policy_number}</div>
@@ -1378,7 +1338,6 @@ export default function BuyPolicyModal({ product, onClose, onSuccess }) {
                   <div><span style={{ color: '#666666' }}>Insurer:</span> <strong style={{ color: '#1C1C1C' }}>{issuedPolicy.insurer_name}</strong></div>
                   <div><span style={{ color: '#666666' }}>Status:</span> <strong style={{ color: '#111111' }}>ACTIVE</strong></div>
                   <div><span style={{ color: '#666666' }}>Coverage:</span> <strong style={{ color: '#1C1C1C' }}>{formatCurrency(issuedPolicy.coverage_amount)}</strong></div>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                 </div>
               </div>
 

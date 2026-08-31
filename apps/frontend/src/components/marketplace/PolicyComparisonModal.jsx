@@ -97,11 +97,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                 {categoryTitle}
               </span>
             </div>
-<<<<<<< HEAD
-            <p style={{ fontSize: 13, color: '#6B6B6B', margin: '4px 0 0' }}>
-=======
             <p style={{ fontSize: 13, color: '#666666', margin: '4px 0 0' }}>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
               Compare coverage, premium, insurer credibility, and category-specific policy benefits.
             </p>
           </div>
@@ -119,11 +115,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
               justifyContent: 'center',
               cursor: 'pointer',
               fontSize: 18,
-<<<<<<< HEAD
-              color: '#6B6B6B',
-=======
               color: '#1C1C1C',
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
             }}
           >
             ✕
@@ -162,17 +154,10 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                     textAlign: 'left',
                     padding: '16px 20px',
                     width: 220,
-<<<<<<< HEAD
-                    background: '#F8FAFC',
-                    borderBottom: '2px solid #E2E8F0',
-                    color: '#6B6B6B',
-                    fontWeight: 700,
-=======
                     background: '#EBEBEB',
                     borderBottom: '2px solid rgba(17, 17, 17, 0.12)',
                     color: '#1C1C1C',
                     fontWeight: 800,
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                   }}
                 >
                   Feature / Parameter
@@ -198,11 +183,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                           style={{
                             border: 'none',
                             background: 'none',
-<<<<<<< HEAD
-                            color: '#9A9A9A',
-=======
                             color: '#666666',
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                             cursor: 'pointer',
                             fontSize: 14,
                           }}
@@ -216,11 +197,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                     </div>
                     <div style={{ fontSize: 18, fontWeight: 900, color: '#111111', marginTop: 8 }}>
                       {formatCurrency(p.premium)}
-<<<<<<< HEAD
-                      <span style={{ fontSize: 12, color: '#6B6B6B', fontWeight: 500 }}>/{p.premium_frequency || 'yr'}</span>
-=======
                       <span style={{ fontSize: 12, color: '#666666', fontWeight: 600 }}>/{p.premium_frequency || 'yr'}</span>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                     </div>
                     <button
                       onClick={() => onBuyNow && onBuyNow(p)}
@@ -263,17 +240,10 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                   Claim Settlement & Rating
                 </td>
                 {products.map((p) => (
-<<<<<<< HEAD
-                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0' }}>
-                    <span style={{ color: '#F59E0B', fontWeight: 700 }}>★ {p.rating || 4.8}</span>
-                    <span style={{ color: '#6B6B6B', margin: '0 6px' }}>•</span>
-                    <span style={{ color: '#10B981', fontWeight: 700 }}>{p.claim_settlement_ratio || '98.4%'} CSR</span>
-=======
                   <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid rgba(17, 17, 17, 0.08)', color: '#1C1C1C' }}>
                     <span style={{ color: '#111111', fontWeight: 800 }}>★ {p.rating || 4.8}</span>
                     <span style={{ color: '#A0A0A0', margin: '0 6px' }}>•</span>
                     <span style={{ color: '#111111', fontWeight: 800 }}>{p.claim_settlement_ratio || '98.4%'} CSR</span>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                   </td>
                 ))}
               </tr>
@@ -347,11 +317,7 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                       p.maternity_covered ? (
                         <span style={{ color: '#111111', fontWeight: 800 }}>✓ Covered from Day 1</span>
                       ) : (
-<<<<<<< HEAD
-                        <span style={{ color: '#9A9A9A' }}>✕ Not Covered</span>
-=======
                         <span style={{ color: '#888888' }}>✕ Not Covered</span>
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                       )
                     )}
                   </td>
@@ -364,15 +330,9 @@ export default function PolicyComparisonModal({ products, onClose, onRemove, onB
                   Key Policy Benefits
                 </td>
                 {products.map((p) => (
-<<<<<<< HEAD
-                  <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid #E2E8F0', verticalAlign: 'top' }}>
-                    <ul style={{ margin: 0, paddingLeft: 18, color: '#1C1C1C', lineHeight: '1.6' }}>
-                      {(p.features || []).slice(0, 3).map((f, idx) => (
-=======
                   <td key={p.id} style={{ padding: '14px 20px', borderBottom: '1px solid rgba(17, 17, 17, 0.08)', verticalAlign: 'top' }}>
                     <ul style={{ margin: 0, paddingLeft: 18, color: '#1C1C1C', lineHeight: '1.6' }}>
                       {parseFeatureList(p.features).slice(0, 3).map((f, idx) => (
->>>>>>> 2fd0876d819724e2b20ebe3348b1334f621a7794
                         <li key={idx} style={{ fontSize: 13 }}>{f}</li>
                       ))}
                     </ul>

@@ -2,6 +2,23 @@
 #   SYNOVA AI Insurance Platform - Startup Script (PowerShell)
 # ========================================================
 
+Write-Host "⚙️ Initializing & Seeding Backend and Mock Insurers Databases..." -ForegroundColor Cyan
+& python -c "
+import sys
+for folder in ['apps/backend', 'apps/mock-insurers/insurer-a', 'apps/mock-insurers/insurer-b', 'apps/mock-insurers/insurer-c', 'apps/mock-insurers/insurer-d']:
+    sys.path.insert(0, folder)
+    try:
+        import seed_data
+        if hasattr(seed_data, 'seed_database'):
+            seed_data.seed_database(force=False)
+        elif hasattr(seed_data, 'seed_data'):
+            seed_data.seed_data()
+    except Exception as e:
+        print(f'Seed {folder}: {e}')
+    if folder in sys.path:
+        sys.path.remove(folder)
+"
+
 Write-Host "⚙️ Launching All SYNOVA Services..." -ForegroundColor Cyan
 
 # 1. Main Backend API (Port 8000)

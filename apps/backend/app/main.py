@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -6,11 +7,24 @@ from app.db.postgres.session import engine
 from app.db.postgres.base import Base
 from app.api.v1.router import router as api_v1_router
 from app.api.v1.routes.document_routes import router as document_router
+from seed_data import seed_database
 
 # Ensure all database tables exist on startup
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="SYNOVA AI Insurance Agent - Backend API")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Automatically seed insurance catalog and mock data if empty
+    try:
+        seed_database(force=False)
+    except Exception as e:
+        print(f"[WARN] Startup seed failed or skipped: {e}")
+    yield
+
+app = FastAPI(
+    title="SYNOVA AI Insurance Agent - Backend API",
+    lifespan=lifespan
+)
 
 app.add_middleware(
     CORSMiddleware,
